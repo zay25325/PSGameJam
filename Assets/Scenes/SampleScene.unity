@@ -3933,7 +3933,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   intentMap: {fileID: 896470625}
-  intentTile: {fileID: 11400000, guid: d797ae4139c956b46878c6b500b5e020, type: 2}
+  intentTile: {fileID: 11400000, guid: f6b39f2db923566458cc593c9297acc2, type: 2}
 --- !u!4 &1543065071
 Transform:
   m_ObjectHideFlags: 0
