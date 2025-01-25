@@ -24,6 +24,12 @@ public class TileManager : MonoBehaviour
         UpdateIntentGlow();
     }
 
+    public void ClearShapes() // This is just for testing and probably shouldn't be used. maybe after ever turn though
+    {
+        shapes.Clear();
+        intentMap.ClearAllTiles();
+    }
+
     public void AddShape(AttackShape shape)
     {
         shapes.Add(shape);
@@ -40,7 +46,8 @@ public class TileManager : MonoBehaviour
 
     private void UpdateIntentGlow()
     {
-        float alpha = (Mathf.Sin(Time.realtimeSinceStartup) + 1) / 2;
+        float glowRate = 2;
+        float alpha = (Mathf.Sin(Time.realtimeSinceStartup * glowRate) + 1) / 2;
         alpha = alpha * .8f + .1f;
         intentMap.color = new Color(intentMap.color.r, intentMap.color.g, intentMap.color.b, alpha);
     }

@@ -12,4 +12,6 @@ public class AttackTile
         Position = pos;
         Damage = damage;
     }
+
+    public AttackTile(AttackTile tile) : this(tile.Position, tile.Damage) { }
 }
