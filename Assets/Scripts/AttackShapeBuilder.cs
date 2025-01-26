@@ -1,6 +1,14 @@
+/*
+File : AttackShapeBuilder.cs
+Project : PROG3126 - Hackathon
+Programmer: Isaiah Bartlett
+First Version: 1/24/2025
+*/
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static AttackShape;
 
 public static class AttackShapeBuilder
 {

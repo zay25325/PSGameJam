@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &781472387558508245
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 781472387558508250}
+  - component: {fileID: 781472387558508251}
+  - component: {fileID: 781472387558508248}
+  m_Layer: 0
+  m_Name: Tile Effect Lib
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &781472387558508250
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781472387558508245}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &781472387558508251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781472387558508245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7651143b0ea729542ab0fcedc7d1c317, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wheel: {fileID: 896547381940865544, guid: 5199b4f67a5d28c498326378aaf7b1f1, type: 3}
+  Arcane: {fileID: 3414715208031389999, guid: db64bc6e265e6a549bb89af7685c7419, type: 3}
+  BoltFlame: {fileID: 3345738200997808134, guid: 2c02b73661e5c4d439fa59103ed2d7b0, type: 3}
+  Claw: {fileID: 6843368664443492816, guid: 7147084cf0a84634b8f44ef1539590da, type: 3}
+  Flame: {fileID: 3272683891558314828, guid: c86bd8b247e2970458056e6b9ed1e0ac, type: 3}
+  FlamingGround: {fileID: 4529080390746981715, guid: 746337f49667f51408e1d82e74edd2ef, type: 3}
+  Lightning: {fileID: 7730640213374474667, guid: 7590a3bef7857fb478526539268fcfa7, type: 3}
+  Orb: {fileID: 7406332369157749400, guid: 58f966d39e4ca794e8d2e49d7ab37af2, type: 3}
+  SpinDark: {fileID: 4330920906162917084, guid: a796b06d7cafad441901fc6f857e8779, type: 3}
+  SpiralPoison: {fileID: 6279865818993250096, guid: 1b30f2e52c052e641b60977de04310fd, type: 3}
+--- !u!114 &781472387558508248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781472387558508245}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63abb6938a1498343af325248f3de543, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
