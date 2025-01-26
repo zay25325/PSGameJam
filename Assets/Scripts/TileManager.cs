@@ -1,3 +1,10 @@
+/*
+File : TileManager.cs
+Project : PROG3126 - Hackathon
+Programmer: Isaiah Bartlett
+First Version: 1/24/2025
+*/
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,14 +15,20 @@ public class TileManager : MonoBehaviour
     [SerializeField] Tilemap intentMap;
     [SerializeField] Tile intentTile;
 
-    List<AttackShape> shapes = new List<AttackShape>();
+    List<MoveAction> moves = new List<MoveAction>();
+    List<AttackShape> attacks = new List<AttackShape>();
+    List<CharacterInfo> characters = new List<CharacterInfo>();
 
     public static TileManager Instance;
-
 
     void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        characters.AddRange(GetComponentsInChildren<CharacterInfo>());
     }
 
     // Update is called once per frame
@@ -26,13 +39,14 @@ public class TileManager : MonoBehaviour
 
     public void ClearShapes() // This is just for testing and probably shouldn't be used. maybe after ever turn though
     {
-        shapes.Clear();
+        moves.Clear();
+        attacks.Clear();
         intentMap.ClearAllTiles();
     }
 
     public void AddShape(AttackShape shape)
     {
-        shapes.Add(shape);
+        attacks.Add(shape);
         UpdateIntentShape(shape);
     }
 
@@ -50,5 +64,70 @@ public class TileManager : MonoBehaviour
         float alpha = (Mathf.Sin(Time.realtimeSinceStartup * glowRate) + 1) / 2;
         alpha = alpha * .8f + .1f;
         intentMap.color = new Color(intentMap.color.r, intentMap.color.g, intentMap.color.b, alpha);
+    }
+
+    public void EndTurn()
+    {
+        foreach(MoveAction move in moves)
+        {
+            move.Character.transform.position = TileToPosition(move.MoveTo);
+        }
+
+        Dictionary<Vector2Int, CharacterInfo> tileToCharacter = new Dictionary<Vector2Int, CharacterInfo>();
+        foreach (CharacterInfo character in characters)
+        {
+            Vector2Int pos = PositionToTile(character.transform.position);
+            tileToCharacter.Add(pos, character);
+        }
+
+        foreach(AttackShape attack in attacks)
+        {
+            ProcessAttack(attack, tileToCharacter);
+        }
+
+        ClearShapes();
+    }
+
+    public void AddPlayerAttack(AttackShape attack)
+    {
+        attacks.Insert(0, attack);
+    }
+
+    public void AddPlayerMove(MoveAction move)
+    {
+        moves.Insert(0, move);
+    }
+
+    private void ProcessAttack(AttackShape attack, Dictionary<Vector2Int, CharacterInfo> tileToCharacter)
+    {
+        int timesActivated = 0;
+        foreach (AttackTile tile in attack.AttackTiles)
+        {
+            AnimateTile(TileEffectLibrary.Instance.TileEffects[attack.TileAnimation], tile);
+            if (tileToCharacter.ContainsKey(tile.Position))
+            {
+                tileToCharacter[tile.Position].HP -= tile.Damage;
+                if (timesActivated < attack.ActivationCount && attack.ChainAttack != null)
+                {
+                    timesActivated++;
+                    ProcessAttack(AttackShapeBuilder.AttackAt(attack.ChainAttack, attack.AttackDirection, tile.Position), tileToCharacter);
+                }
+            }
+        }
+    }
+
+    private void AnimateTile(GameObject tileEffect, AttackTile tile)
+    {
+        GameObject go = GameObject.Instantiate(tileEffect, null);
+        go.transform.position = TileToPosition(tile.Position);
+    }
+
+    private Vector2Int PositionToTile(Vector3 pos)
+    {
+        return new Vector2Int(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y));
+    }
+    private Vector3 TileToPosition(Vector2Int tilePos)
+    {
+        return new Vector3(tilePos.x + .5f, tilePos.y + .5f, 0);
     }
 }

@@ -1,3 +1,10 @@
+/*
+File : TileEffectLibrary.cs
+Project : PROG3126 - Hackathon
+Programmer: Isaiah Bartlett
+First Version: 1/24/2025
+*/
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,6 +44,7 @@ public class TileEffectLibrary : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            GameObject.DontDestroyOnLoad(gameObject);
             TileEffects = new Dictionary<TileEffectKey, GameObject>()
             {
                 {TileEffectKey.Wheel, wheel },

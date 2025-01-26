@@ -5,7 +5,6 @@ using static AttackShapeBuilder;
 
 public class DemoPlayer : MonoBehaviour
 {
-
     int index = 0;
 
     // Start is called before the first frame update
@@ -18,13 +17,25 @@ public class DemoPlayer : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.W))
+        {
             transform.position += new Vector3(0, 1);
+            TileManager.Instance.EndTurn();
+        }
         if (Input.GetKeyDown(KeyCode.S))
+        {
             transform.position += new Vector3(0, -1);
+            TileManager.Instance.EndTurn();
+        }
         if (Input.GetKeyDown(KeyCode.D))
+        {
             transform.position += new Vector3(1, 0);
+            TileManager.Instance.EndTurn();
+        }
         if (Input.GetKeyDown(KeyCode.A))
+        {
             transform.position += new Vector3(-1, 0);
+            TileManager.Instance.EndTurn();
+        }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
             index = 0;
@@ -55,12 +66,12 @@ public class DemoPlayer : MonoBehaviour
             }
 
             //Debug.Log(direction);
+            AttackShape attack = AttackShapeBuilder.AttackAt(AttackShape.AttackDictionary[AttackShape.AttackKeys.Cleave],
+                direction, new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.y)));
+            attack.ChainAttack = AttackShape.AttackDictionary[AttackShape.AttackKeys.XLightning];
 
-            TileManager.Instance.ClearShapes();
-            TileManager.Instance.AddShape(
-                AttackShapeBuilder.AttackAt(AttackShape.AttackDictionary[AttackShape.AttackKeys.Cleave],
-                direction, new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.y)))
-                );
+            TileManager.Instance.AddPlayerAttack(attack);
+            TileManager.Instance.EndTurn();
         }
     }
 }
