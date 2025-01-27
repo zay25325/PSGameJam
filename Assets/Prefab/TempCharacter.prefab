@@ -201,6 +201,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4322d8a91a9a60048a5e0db6b784c94d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveTileGO: {fileID: 9157116040052730811, guid: 8ca7403c5667d3940b7310ab0df43f0f, type: 3}
+  character: {fileID: 3485550871168179863}
 --- !u!114 &3485550871168179863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,6 +215,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb5950ce49ed08348b6770d1efe7b3dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHP: 10
+  hp: 10
+  speed: 3
+  attacks: 
+  ai: {fileID: 0}
   OnHPChanged:
     m_PersistentCalls:
       m_Calls: []

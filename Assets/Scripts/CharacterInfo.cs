@@ -15,6 +15,9 @@ public class CharacterInfo : MonoBehaviour
     [SerializeField] int maxHP = 10;
     [SerializeField] int hp = 10;
     [SerializeField] int speed = 3;
+    [SerializeField] List<AttackShape.AttackKeys> attacks = new List<AttackShape.AttackKeys>();
+    //[SerializeField] EnemyAI ai = null;
+
 
     [HideInInspector] public UnityEvent OnHPChanged = new UnityEvent();
 
@@ -39,4 +42,6 @@ public class CharacterInfo : MonoBehaviour
     }
 
     public int Speed { get => speed; set => speed = value; }
+    public List<AttackShape.AttackKeys> Attacks { get => attacks; set => attacks = value; }
+    //public EnemyAI AI { get => ai; set => ai = value; }
 }

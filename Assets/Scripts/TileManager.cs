@@ -9,15 +9,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using static AttackShapeBuilder;
 
 public class TileManager : MonoBehaviour
 {
     [SerializeField] Tilemap intentMap;
+    [SerializeField] Tilemap wallMap;
     [SerializeField] Tile intentTile;
 
-    List<MoveAction> moves = new List<MoveAction>();
-    List<AttackShape> attacks = new List<AttackShape>();
-    List<CharacterInfo> characters = new List<CharacterInfo>();
+    public List<MoveAction> Moves = new List<MoveAction>();
+    public List<AttackShape> Attacks = new List<AttackShape>();
+    public List<CharacterInfo> Characters = new List<CharacterInfo>();
 
     public static TileManager Instance;
 
@@ -28,7 +30,7 @@ public class TileManager : MonoBehaviour
 
     private void Start()
     {
-        characters.AddRange(GetComponentsInChildren<CharacterInfo>());
+        Characters.AddRange(GetComponentsInChildren<CharacterInfo>());
     }
 
     // Update is called once per frame
@@ -39,14 +41,14 @@ public class TileManager : MonoBehaviour
 
     public void ClearShapes() // This is just for testing and probably shouldn't be used. maybe after ever turn though
     {
-        moves.Clear();
-        attacks.Clear();
+        Moves.Clear();
+        Attacks.Clear();
         intentMap.ClearAllTiles();
     }
 
     public void AddShape(AttackShape shape)
     {
-        attacks.Add(shape);
+        Attacks.Add(shape);
         UpdateIntentShape(shape);
     }
 
@@ -68,19 +70,19 @@ public class TileManager : MonoBehaviour
 
     public void EndTurn()
     {
-        foreach(MoveAction move in moves)
+        foreach(MoveAction move in Moves)
         {
             move.Character.transform.position = TileToPosition(move.MoveTo);
         }
 
         Dictionary<Vector2Int, CharacterInfo> tileToCharacter = new Dictionary<Vector2Int, CharacterInfo>();
-        foreach (CharacterInfo character in characters)
+        foreach (CharacterInfo character in Characters)
         {
             Vector2Int pos = PositionToTile(character.transform.position);
             tileToCharacter.Add(pos, character);
         }
 
-        foreach(AttackShape attack in attacks)
+        foreach(AttackShape attack in Attacks)
         {
             ProcessAttack(attack, tileToCharacter);
         }
@@ -88,14 +90,15 @@ public class TileManager : MonoBehaviour
         ClearShapes();
     }
 
-    public void AddPlayerAttack(AttackShape attack)
+    public void AddPlayerAttack(AttackShape attack, Direction direction, Vector3 position)
     {
-        attacks.Insert(0, attack);
+        Attacks.Insert(0, AttackShapeBuilder.AttackAt(attack,
+                direction, new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.y))));
     }
 
     public void AddPlayerMove(MoveAction move)
     {
-        moves.Insert(0, move);
+        Moves.Insert(0, move);
     }
 
     private void ProcessAttack(AttackShape attack, Dictionary<Vector2Int, CharacterInfo> tileToCharacter)
@@ -122,11 +125,29 @@ public class TileManager : MonoBehaviour
         go.transform.position = TileToPosition(tile.Position);
     }
 
-    private Vector2Int PositionToTile(Vector3 pos)
+    public bool IsTileOccupied(Vector2Int pos)
+    {
+        if (wallMap.HasTile((Vector3Int)pos))
+        {
+            return true;
+        }
+
+        for (int i = 0; i < Characters.Count; i++)
+        {
+            if (PositionToTile(Characters[i].transform.position) == pos)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static Vector2Int PositionToTile(Vector3 pos)
     {
         return new Vector2Int(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y));
     }
-    private Vector3 TileToPosition(Vector2Int tilePos)
+    public static Vector3 TileToPosition(Vector2Int tilePos)
     {
         return new Vector3(tilePos.x + .5f, tilePos.y + .5f, 0);
     }

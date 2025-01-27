@@ -70,20 +70,22 @@ public class AttackShape
             new AttackTile(new Vector2Int(1, 0), 1), // right
             new AttackTile(new Vector2Int(1, -1), 1), // down-right
             new AttackTile(new Vector2Int(0, -1), 1), // down
-        }, 1, null, TileEffectKey.Claw) },
+        }, activationCount: 1, null, TileEffectKey.Claw) },
 
         { AttackKeys.XLightning, new AttackShape( Target.Self,
         new List<AttackTile>()
         {
             new AttackTile(new Vector2Int(0, 0), 1), // self
+
             new AttackTile(new Vector2Int(1, 1), 1), // up-right
             new AttackTile(new Vector2Int(1, -1), 1), // down-right
             new AttackTile(new Vector2Int(-1, -1), 1), // down-left
-            new AttackTile(new Vector2Int(-2, 2), 1), // up-left
+            new AttackTile(new Vector2Int(-1, 1), 1), // up-left
+
             new AttackTile(new Vector2Int(2, 2), 1), // up-right
             new AttackTile(new Vector2Int(2, -2), 1), // down-right
             new AttackTile(new Vector2Int(-2, -2), 1), // down-left
             new AttackTile(new Vector2Int(-2, 2), 1), // up-left
-        }, 1, null, TileEffectKey.Lightning) },
+        }, activationCount: 1, null, TileEffectKey.Lightning) },
     };
 }
