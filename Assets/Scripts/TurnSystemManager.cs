@@ -39,6 +39,8 @@ public class TurnSystemManager : MonoBehaviour
     private GameObject player; //variable to store the player object
     private List<GameObject> enemies; //variable to store the list of enemy objects
 
+    private TileManager tileManager; //variable to store the tile manager object
+
 
 
     /*
@@ -50,10 +52,18 @@ public class TurnSystemManager : MonoBehaviour
     */
     void Start()
     {
-        currentPhase = TurnPhase.EnemyIntent; //initialize the current phase to the Enemy Intent Phase
+        currentPhase = TurnPhase.EnemyActionPriority; //initialize the current phase to the Enemy Intent Phase
 
         //need to figure out a way to get reference of all the enemies that will be participating in combat
         enemies = new List<GameObject>(); //initialize the list of enemy objects
+
+        tileManager = FindObjectOfType<TileManager>(); //get the tile manager object
+
+        player = GameObject.FindGameObjectWithTag("Player");
+
+        enemies.AddRange(GameObject.FindGameObjectsWithTag("Enemy")); //get all the enemy objects in the scene
+
+        StartCombat(player, enemies); //start the combat system
     }
 
     /*
@@ -65,7 +75,7 @@ public class TurnSystemManager : MonoBehaviour
     */
     void Update()
     {
-        
+        //Debug.Log("Current Phase: " + currentPhase);
     }
 
     /*
@@ -112,7 +122,7 @@ public class TurnSystemManager : MonoBehaviour
                     //This is where the enemy will determine their next move
 
                     yield return StartCoroutine(EnemyActionPhase());
-                    currentPhase = TurnPhase.EnemyActionPriority; //move to the Enemy Action Priority Phase
+                    currentPhase = TurnPhase.EnemyIntent; //move to the Enemy Action Priority Phase
                     break;
             }
         }
@@ -158,11 +168,76 @@ private IEnumerator EnemyActionPriorityPhase()
     */
     private IEnumerator PlayerActionPhase()
     {
+        //This currently works in the test environment, writing out pseudocode related to the player action phase below
         //Logic for the player to determine their action
         //This is where the player will determine their next move
 
         Debug.Log("Player Action Phase");
-        yield return new WaitForSeconds(2f); //simulate the player thinking about their next move
+        player.GetComponent<DemoPlayer>().enabled = true;
+        bool playerAction = false;
+
+        //check to see if key was pressed or action was initiated
+
+        //Thought process
+        Vector3 initialPlayerPosition = player.transform.position; //get the initial player position
+
+        while (!playerAction)
+        {
+            if(initialPlayerPosition != player.transform.position)
+            {
+                //lock the player from using mousebuttondown(0)
+                //player has moved
+                //disable the player script
+                player.GetComponent<DemoPlayer>().enabled = false;
+                playerAction = true;
+                ///yield return new WaitForSeconds(0.5f);
+            }
+            else if(Input.GetMouseButtonDown(0))
+            {
+                //player has initiated an action
+                //disable the player script
+                player.GetComponent<DemoPlayer>().enabled = false;
+                playerAction = true;
+                //yield return new WaitForSeconds(0.5f);
+            }
+            yield return null; // wait for the next frame
+        }
+            yield return new WaitForSeconds(0.5f);
+        // yield return new WaitForSeconds(2f); //simulate the player thinking about their next move
+
+
+        //pseudocode
+        //SO essentially it will run the same as the above
+        //while looping going indefinetly until player does an action
+        //Player once moved will end their turn
+        //OR
+        //Player once initiated an action will end their turn
+        //So it might look like this
+
+        /*
+            isPlayerTurn = true;
+            Vector3 initialPlayerPosition = player.transform.position; //get the initial player position
+
+
+            while(isPlayerTurn)
+            {
+                //first instance checks if player has moved, not difficult to check that
+                if(initialPlayerPosition != player.transform.position)
+                {
+                    //player has moved
+                    isPlayerTurn = false;
+                }
+                //second instance checks if player has initiated an action
+                //need to figure out how to properly check if the player has initiated an action
+                //but thats all that is needed for this system.
+                else if(Input.GetMouseButtonDown(0))
+                {
+                    //player has initiated an action
+                    isPlayerTurn = false;
+                }
+                yield return null; // wait for the next frame
+            }
+        */
     }
 
     /*
