@@ -1,5 +1,7 @@
 /*
 Class: TurnSystemManager
+Developer: Emanuel Juracic
+First Version: 1/26/2025
 Description: This class will manage the turn system for the game. 
              It will handle the order of turns for the player and the enemies. Additionally will handle the 
              logic for the player and enemy actions.
@@ -8,38 +10,32 @@ Description: This class will manage the turn system for the game.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using static AttackShapeBuilder;
 
 public class TurnSystemManager : MonoBehaviour
 {
-    //Here are my goals for the turn system manager:
-
-    //Enemy Intent Phase
-    //Player Action Phase
-    //Enemy Action Phase
-    //Enemy Action Priority
-
-    //Have logic related to
-    //Units can ONLY move or Attack. Can't do both.
-
-    //using an enum to contain different phases of the turn-based combat system
+    //Turn Phase Enum
+    //Contains different stages of the turn-based combat system
     private enum TurnPhase
     {
-        EnemyActionPriority, //Enemy Action Priority
         EnemyIntent,    //Enemy Intent Phase
         PlayerAction,   //Player Action Phase
         EnemyAction    //Enemy Action Phase
     }
 
+    //Variables
     private TurnPhase currentPhase; //variable to store the current phase of the turn-based combat system
     private bool isCombatActive; //variable to store if the combat is active
-
-    private bool isPlayerTurn; //variable to store if it is the player's turn
-    private bool isEnemyTurn; //variable to store if it is the enemy's turn
 
     private GameObject player; //variable to store the player object
     private List<GameObject> enemies; //variable to store the list of enemy objects
 
     private TileManager tileManager; //variable to store the tile manager object
+    private CharacterInfo playerInfo; //variable to store the player info
+
+    private List<MoveAction> plannedEnemyMoves = new List<MoveAction>();    // List of enemy moves
+    private List<AttackShape> plannedEnemyAttacks = new List<AttackShape>();    // List of enemy attacks
 
 
 
@@ -52,30 +48,23 @@ public class TurnSystemManager : MonoBehaviour
     */
     void Start()
     {
-        currentPhase = TurnPhase.EnemyActionPriority; //initialize the current phase to the Enemy Intent Phase
+        currentPhase = TurnPhase.EnemyIntent; //initialize the current phase to the Enemy Intent Phase
 
         //need to figure out a way to get reference of all the enemies that will be participating in combat
         enemies = new List<GameObject>(); //initialize the list of enemy objects
 
         tileManager = FindObjectOfType<TileManager>(); //get the tile manager object
 
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag("Player");    // Find the player object
+
+        playerInfo = player.GetComponent<CharacterInfo>();  // Get the player info
+
+        Debug.Log("MORTAL KOMBAT");
 
         enemies.AddRange(GameObject.FindGameObjectsWithTag("Enemy")); //get all the enemy objects in the scene
 
         StartCombat(player, enemies); //start the combat system
-    }
 
-    /*
-        FUNCTION : Update()
-        DESCRIPTION : This function is called once per frame. 
-                      It will check the current phase of the turn-based combat system and run the appropriate phase.
-        PARAMETERS : NONE
-        RETURNS : NONE
-    */
-    void Update()
-    {
-        //Debug.Log("Current Phase: " + currentPhase);
     }
 
     /*
@@ -89,17 +78,8 @@ public class TurnSystemManager : MonoBehaviour
     {
         while (isCombatActive)
         {
-            CheckCombatState();
             switch (currentPhase)
             {
-                case TurnPhase.EnemyActionPriority:
-                    //Enemy Action Priority Phase
-                    //Logic for the enemy to determine their action priority
-                    //This is where the enemy will determine their action priority
-
-                    yield return StartCoroutine(EnemyActionPriorityPhase());
-                    currentPhase = TurnPhase.EnemyIntent; //move back to the Enemy Intent Phase
-                    break;
                 case TurnPhase.EnemyIntent:
                     //Enemy Intent Phase
                     //Logic for the enemy to determine their intent
@@ -125,22 +105,11 @@ public class TurnSystemManager : MonoBehaviour
                     currentPhase = TurnPhase.EnemyIntent; //move to the Enemy Action Priority Phase
                     break;
             }
+            EnemyRefresh(); // Refresh the enemy queue
+            CheckCombatState(); // Check the state of the combat system
         }
     }
 
-private IEnumerator EnemyActionPriorityPhase()
-    {
-        //Logic for the enemy to determine their action priority
-        //This is where the enemy will determine their action priority
-
-        Debug.Log("Enemy Action Priority Phase");
-        yield return new WaitForSeconds(2f); //simulate the enemy thinking about their next move
-
-        //Thought process for the enemy to determine their action priority
-        //use a priority queue or a sorted list to manage who goes first
-        //possibly to determine who is the closest to the player and have them go first?
-        //unless stats can be involved to determine who goes first
-    }
 
     /*
         FUNCTION : EnemyIntentPhase()
@@ -151,11 +120,67 @@ private IEnumerator EnemyActionPriorityPhase()
     */
     private IEnumerator EnemyIntentPhase()
     {
-        //Logic for the enemy to determine their intent
-        //This is where the enemy will determine their next move
+        // Logic for the enemy to determine their intent
+        // This is where the enemy will determine their next move
 
+        // Clear previous planned moves and attacks
+        plannedEnemyMoves.Clear();
+        plannedEnemyAttacks.Clear();
+
+        // Log the start of the enemy intent phase
         Debug.Log("Enemy Intent Phase");
-        yield return new WaitForSeconds(2f); //simulate the enemy thinking about their next move
+
+        // Refresh enemy states (e.g., update their status, reset flags, etc.)
+        EnemyRefresh();
+
+        // Get the player's current position
+        Vector3 playerPosition = player.transform.position; // Assuming you have a reference to the player
+
+        // Iterate through each enemy to determine their actions
+        foreach (GameObject enemy in enemies)
+        {
+            // Get the enemy's current position
+            Vector3 enemyPosition = enemy.transform.position;
+
+            // Determine the direction from the enemy to the player
+            Direction attackDirection = GetDirectionToPlayer(enemyPosition, playerPosition);
+
+            // Convert enemy's position to tile coordinates
+            Vector2Int enemyTilePosition = new Vector2Int(Mathf.FloorToInt(enemyPosition.x), Mathf.FloorToInt(enemyPosition.y));
+
+            // Check if the enemy is adjacent to the player (within attack range)
+            if (Vector2Int.Distance(enemyTilePosition, new Vector2Int(Mathf.FloorToInt(playerPosition.x), Mathf.FloorToInt(playerPosition.y))) <= 1.5f) // Adjust range as needed
+            {
+                // If in range, plan an attack
+                // Create an attack shape based on the direction and enemy's position
+                AttackShape attack = AttackShapeBuilder.AttackAt(
+                    AttackShape.AttackDictionary[AttackShape.AttackKeys.Cleave],
+                    attackDirection,
+                    enemyTilePosition
+                );
+                // Add the planned attack to the list
+                plannedEnemyAttacks.Add(attack);
+            }
+            else
+            {
+                // If not in range, plan to move toward the player
+                // Determine the target tile to move toward the player
+                Vector2Int targetTile = MoveToward(new Vector2Int(Mathf.FloorToInt(playerPosition.x), Mathf.FloorToInt(playerPosition.y)), enemyTilePosition); // Basic movement logic
+
+                // Create a move action with the current and target positions
+                MoveAction move = new MoveAction
+                {
+                    MoveFrom = enemyTilePosition,
+                    MoveTo = targetTile,
+                    Character = enemy.GetComponent<CharacterInfo>()
+                };
+                // Add the planned move to the list
+                plannedEnemyMoves.Add(move);
+            }
+        }
+
+        // End the coroutine
+        yield return null;
     }
 
     /*
@@ -168,6 +193,8 @@ private IEnumerator EnemyActionPriorityPhase()
     */
     private IEnumerator PlayerActionPhase()
     {
+        //The below will get refactored when the player gets fleshed out
+
         //This currently works in the test environment, writing out pseudocode related to the player action phase below
         //Logic for the player to determine their action
         //This is where the player will determine their next move
@@ -203,41 +230,6 @@ private IEnumerator EnemyActionPriorityPhase()
             yield return null; // wait for the next frame
         }
             yield return new WaitForSeconds(0.5f);
-        // yield return new WaitForSeconds(2f); //simulate the player thinking about their next move
-
-
-        //pseudocode
-        //SO essentially it will run the same as the above
-        //while looping going indefinetly until player does an action
-        //Player once moved will end their turn
-        //OR
-        //Player once initiated an action will end their turn
-        //So it might look like this
-
-        /*
-            isPlayerTurn = true;
-            Vector3 initialPlayerPosition = player.transform.position; //get the initial player position
-
-
-            while(isPlayerTurn)
-            {
-                //first instance checks if player has moved, not difficult to check that
-                if(initialPlayerPosition != player.transform.position)
-                {
-                    //player has moved
-                    isPlayerTurn = false;
-                }
-                //second instance checks if player has initiated an action
-                //need to figure out how to properly check if the player has initiated an action
-                //but thats all that is needed for this system.
-                else if(Input.GetMouseButtonDown(0))
-                {
-                    //player has initiated an action
-                    isPlayerTurn = false;
-                }
-                yield return null; // wait for the next frame
-            }
-        */
     }
 
     /*
@@ -247,14 +239,72 @@ private IEnumerator EnemyActionPriorityPhase()
         PARAMETERS : NONE
         RETURNS : NONE
     */
-    private IEnumerator EnemyActionPhase()
-    {
-        //Logic for the enemy to determine their action
-        //This is where the enemy will determine their next move
+private IEnumerator EnemyActionPhase()
+{
+    Debug.Log("Enemy Action Phase");
 
-        Debug.Log("Enemy Action Phase");
-        yield return new WaitForSeconds(2f); //simulate the enemy thinking about their next move
+    // Create a set to keep track of occupied positions
+    HashSet<Vector2Int> occupiedPositions = new HashSet<Vector2Int>();
+
+    // Initialize occupied positions with current enemy positions
+    foreach (GameObject enemy in enemies)
+    {
+        // Add the current enemy position to the set
+        Vector2Int currentPosition = new Vector2Int(Mathf.FloorToInt(enemy.transform.position.x), Mathf.FloorToInt(enemy.transform.position.y));
+        occupiedPositions.Add(currentPosition);
     }
+
+    // Move enemies first
+    foreach (MoveAction move in plannedEnemyMoves)
+    {
+        // Find the enemy object based on the character info
+        GameObject enemy = enemies.FirstOrDefault(e => e.GetComponent<CharacterInfo>() == move.Character);
+        // Check if the enemy exists and the target position is unoccupied
+        if (enemy != null)
+        {
+            Vector2Int targetPosition = move.MoveTo;
+
+            // Check if the target position is unoccupied
+            if (!occupiedPositions.Contains(targetPosition))
+            {
+                // Move the enemy to the target position
+                enemy.transform.position = new Vector3(targetPosition.x, enemy.transform.position.y, targetPosition.y);
+                occupiedPositions.Add(targetPosition);
+                yield return null; // Wait for the next frame
+            }
+            else
+            {
+                // Debug.Log($"Target position {targetPosition} is occupied. Skipping move for {enemy.name}");
+            }
+        }
+    }
+
+    // Execute attacks
+    foreach (AttackShape attack in plannedEnemyAttacks)
+    {
+        // Convert the attack start position to a Vector2Int
+        Vector2Int attackPosition = new Vector2Int(Mathf.FloorToInt(attack.StartPosition.x), Mathf.FloorToInt(attack.StartPosition.y));
+        
+        // Check if the attack position is unoccupied
+        if (!occupiedPositions.Contains(attackPosition))
+        {
+            TileManager.Instance.AddPlayerAttack(attack); // Apply attack to tiles
+            occupiedPositions.Add(attackPosition);
+        }
+        else
+        {
+            //Debug.Log($"Attack position {attackPosition} is already occupied. Skipping attack.");
+        }
+    }
+
+    TileManager.Instance.EndTurn(); // Signal end of turn
+    yield return null; // Wait for the next frame
+
+
+    //vincent can give enemies on a priority, so the AI type can give a preferred turn order.
+    //so enemies can decide what they do in that order and execute in that order
+}
+
 
     /*
         FUNCTION : StartCombat()
@@ -266,6 +316,7 @@ private IEnumerator EnemyActionPriorityPhase()
     */
     public void StartCombat(GameObject playerRef, List<GameObject> enemiesRef)
     {
+        // Set the player and enemy objects
         player = playerRef;
         enemies = enemiesRef;
         isCombatActive = true;
@@ -288,17 +339,133 @@ private IEnumerator EnemyActionPriorityPhase()
         enemies.Clear();
     }
 
+    /*
+        FUNCTION : CheckCombatState
+        DESCRIPTION : This function will check the state of the combat system. 
+                      It will check if the player or all enemies are dead and stop the combat if either is true.
+        PARAMETERS : NONE
+        RETURNS : NONE
+    */
     public void CheckCombatState()
     {
+        // Check if all enemies' HP are 0 or less
+        
+        bool allEnemiesDead = true;
         if (isCombatActive)
         {
             //Check if the player is dead or all enemies are dead
-            if (player == null || enemies.Count == 0)
+            if (player == null)
             {
                 //stop combat if either the player or all enemies are dead
                 StopCombat();
+                Debug.Log("Player is dead");
                 return;
             }
+        }
+
+        // Check if the player's HP is 0 or less
+        CharacterInfo playerInfo = player.GetComponent<CharacterInfo>();
+        if (playerInfo.HP <= 0)
+        {
+            Debug.Log("Player is dead");
+            StopCombat();
+            return;
+        }
+
+        foreach (GameObject enemy in enemies)
+        {
+            CharacterInfo enemyInfo = enemy.GetComponent<CharacterInfo>();
+            if (enemyInfo.HP > 0)
+            {
+                allEnemiesDead = false;
+                break;
+            }
+        }
+
+        if (allEnemiesDead)
+        {
+            Debug.Log("All enemies are dead");
+            StopCombat();
+        }
+    }
+
+    /*
+        FUNCTION : EnemyRefresh()
+        DESCRIPTION : This function will refresh the enemy queue. 
+                      It will remove any null or destroyed enemies from the queue.
+        PARAMETERS : NONE
+        RETURNS : NONE
+    */
+    public void EnemyRefresh()
+    {
+        // Refresh the enemy queue, removing any null or destroyed enemies
+        enemies.RemoveAll(enemy => enemy == null || enemy.GetComponent<CharacterInfo>().HP <= 0);
+    }
+
+    /*
+        FUNCTION : MoveToward
+        DESCRIPTION : This function will move the enemy toward the player. 
+                      It will determine the direction to move and return the new position.
+                      Very basic and won't be used for final implementation
+                      Mainly for testing purposes
+        PARAMETERS : Vector2Int targetPosition - the target position to move toward
+                      Vector2Int currentPosition - the current position of the enemy
+        RETURNS : pos - the new position of the enemy
+                 newPosition - the original new position if unoccupied
+    */
+    private Vector2Int MoveToward(Vector2Int targetPosition, Vector2Int currentPosition)
+    {
+        Vector2Int direction = targetPosition - currentPosition;
+        direction.x = Mathf.Clamp(direction.x, -1, 1); // Ensure one step at a time
+        direction.y = Mathf.Clamp(direction.y, -1, 1);
+
+        Vector2Int newPosition = currentPosition + direction; // New position
+
+        // Check if the new position is occupied
+        if (enemies.Any(enemy => new Vector2Int(Mathf.FloorToInt(enemy.transform.position.x), Mathf.FloorToInt(enemy.transform.position.y)) == newPosition))
+        {
+            // If occupied, try to find an alternative position
+            List<Vector2Int> possiblePositions = new List<Vector2Int>
+            {
+                currentPosition + new Vector2Int(1, 0),
+                currentPosition + new Vector2Int(-1, 0),
+                currentPosition + new Vector2Int(0, 1),
+                currentPosition + new Vector2Int(0, -1)
+            };
+
+            foreach (var pos in possiblePositions)
+            {
+                if (!enemies.Any(enemy => new Vector2Int(Mathf.FloorToInt(enemy.transform.position.x), Mathf.FloorToInt(enemy.transform.position.y)) == pos))
+                {
+                    return pos; // Return the first unoccupied position
+                }
+            }
+        }
+
+        return newPosition; // Return the original new position if unoccupied
+    }
+
+    /*
+        FUNCTION : GetDirectionToPlayer
+        DESCRIPTION : This function will determine the direction from the enemy to the player. 
+                      It will calculate the direction vector and return the direction.
+                      Very basic and won't be used for final implementation
+                      Mainly for testing purposes
+        PARAMETERS : Vector3 enemyPosition - the position of the enemy
+                      Vector3 playerPosition - the position of the player
+        RETURNS : NONE
+    */
+    private Direction GetDirectionToPlayer(Vector3 enemyPosition, Vector3 playerPosition)
+    {
+        Vector3 directionVector = (playerPosition - enemyPosition).normalized;
+
+        if (Mathf.Abs(directionVector.x) > Mathf.Abs(directionVector.y))
+        {
+            return directionVector.x > 0 ? Direction.Right : Direction.Left;
+        }
+        else
+        {
+            return directionVector.y > 0 ? Direction.Up : Direction.Down;
         }
     }
 }
