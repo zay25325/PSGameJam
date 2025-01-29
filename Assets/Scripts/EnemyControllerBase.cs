@@ -74,7 +74,10 @@ public class EnemyControllerBase:MonoBehaviour {
             // y goes from min to max, while x+y is never greater than the max move range, which will cover all squares
             for(int y = -moveRange+Mathf.Abs(x);Mathf.Abs(y)+Mathf.Abs(x) <= moveRange;y++) {
                 // ignore the very center tile
-                if(!(x == 0 && y == 0)) output.Add(new Vector2Int(x,y) + start);
+                
+                //we could avoid moving to a square we are already on, but that creates other problems.
+                //if(!(x == 0 && y == 0)) output.Add(new Vector2Int(x,y) + start);
+                output.Add(new Vector2Int(x,y) + start);
                 //Debug.Log($"Registering {x},{y} as a valid movement tile");
             }
         }
@@ -137,29 +140,44 @@ public class EnemyControllerBase:MonoBehaviour {
     // stupid linear distance check, may not be very good
     // gets the closest available move to the target
     // for enemy advancing behaviour
-    public Vector2Int GetMoveClosest(Vector2Int start, Vector2Int target, int moves) {
-        Vector2Int closest = start;
+    public Vector2Int GetMoveClosest(Vector2Int target, Vector2Int[] moves) {
 
-        foreach(Vector2Int position in GetValidMoves(moves, false)) {
-            if(Vector2.SqrMagnitude(position - target) < Vector2.SqrMagnitude(closest - target)) {
-                closest = position;
+        Vector2Int closest = new Vector2Int(99999,99999); //some absurdly far away value
+
+        foreach(var move in moves) {
+            if(Vector2.SqrMagnitude(move - target) < Vector2.SqrMagnitude(closest - target)) {
+                closest = move;
             }
         }
 
         return closest;
     }
-    //
-    // Same as above, but for enemy retreat behaviour
-    public Vector2Int GetMoveFarthest(Vector2Int start, Vector2Int target, int moves) {
-        Vector2Int farthest = start;
 
-        foreach(Vector2Int position in GetValidMoves(moves, false)) {
-            if(Vector2.SqrMagnitude(position - target) > Vector2.SqrMagnitude(farthest - target)) {
-                farthest = position;
+    // gets the position farthest from the target from a list of moves
+    //
+    public Vector2Int GetMoveFarthest(Vector2Int target, Vector2Int[] moves) {
+        Vector2Int farthest = target;
+
+        foreach(var move in moves) {
+            if(Vector2.SqrMagnitude(move - target) > Vector2.SqrMagnitude(farthest - target)) {
+                farthest = move;
             }
         }
 
         return farthest;
+    }
+    
+    // from a list of positions, filters out positions that have a line of sight to a target
+    //
+    public Vector2Int[] GetMovesWithLOSTo(Vector2Int target, Vector2Int[] moves, int range) {
+
+         List<Vector2Int> output = new List<Vector2Int> { };
+
+        foreach(Vector2Int position in moves) {
+            if(LineOfSight(position, target, range)) output.Add(position); 
+        }
+
+        return output.ToArray();
     }
 
     // check if theres a wall in the way
@@ -198,10 +216,11 @@ public class EnemyControllerBase:MonoBehaviour {
     //
     private void OnDrawGizmosSelected() {
         
-        var playerpos = TileManager.Instance.GetPlayerCharacter().transform.position;
 
         //only draw these in playmode because otherwise we DROWN in nullreference errors lol
         if( Application.isPlaying) {
+
+            var playerpos = TileManager.Instance.GetPlayerCharacter().transform.position;
             // show all moves
             Gizmos.color = new Color(0f,0f,1f,0.5f);
             if(this.ValidMoves != null) {
@@ -214,9 +233,8 @@ public class EnemyControllerBase:MonoBehaviour {
             Gizmos.color = new Color(1f,0f,0f,0.5f);
             Gizmos.DrawCube(
                 TileManager.TileToPosition(GetMoveClosest(
-                        TilePosition(),
                         TileManager.PositionToTile(playerpos),
-                        this.info.Speed)),
+                        GetValidMoves(this.info.Speed, false))),
                 Vector3.one
             );
 
@@ -224,9 +242,8 @@ public class EnemyControllerBase:MonoBehaviour {
             Gizmos.color = new Color(1f,1f,0f,0.5f);
             Gizmos.DrawCube(
                 TileManager.TileToPosition(GetMoveFarthest(
-                        TilePosition(),
                         TileManager.PositionToTile(playerpos),
-                        this.info.Speed)),
+                        GetValidMoves(this.info.Speed, false))),
                 Vector3.one
             );
 
@@ -239,6 +256,22 @@ public class EnemyControllerBase:MonoBehaviour {
                 Gizmos.color = new Color(1f,1f,0f,0.9f);
             }
             Gizmos.DrawRay(TileManager.TileToPosition(this.TilePosition()),(playerpos-TileManager.TileToPosition(this.TilePosition())).normalized*range);
+
+            //show the farthest move with line of sight
+            Gizmos.color = new Color(0f,1f,1f,0.5f);
+            Gizmos.DrawCube(
+                TileManager.TileToPosition(
+                    GetMoveFarthest(
+                        TileManager.PositionToTile(playerpos),
+                        GetMovesWithLOSTo(
+                            TileManager.PositionToTile(playerpos),
+                            GetValidMoves(this.info.Speed, false),
+                            range
+                        )
+                    )
+                ),
+                Vector3.one
+            );
         }
     }
 }
