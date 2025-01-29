@@ -8,43 +8,41 @@ Programmer: Vincent Marshall
 First Version: 1/28/2025
 */
 
-public class EnemyControllerBase:MonoBehaviour {
-    [SerializeField] TileManager board = TileManager.Instance;
+public abstract class EnemyControllerBase:MonoBehaviour {
 
-    [SerializeField] CharacterInfo info;
+    [SerializeField] protected CharacterInfo info;
 
-    [System.NonSerialized] private Vector2Int[] ValidMoves = { };
+    [System.NonSerialized] protected Vector2Int[] ValidMoves = {};
 
-    // This is the enemy's intended target, either for a move or an attack
-    public Vector2Int TargetTile;
+    public enum IntentType {
+        Move,
+        Attack
+    }
 
-    // public IntentType = Move/Attack;
-    // public Intended Attack = AttackShape;
+    // This is the enemy's intended target, and whether they are going to move or attack
+    public Vector2Int targetTile;
+    public IntentType intentType;
+    public AttackShape preparedAttack;
 
     // Start is called before the first frame update
     void Start() {
         this.info = this.gameObject.GetComponent<CharacterInfo>();
-        this.Think();
-    }
-
-    // Update is called once per frame
-    void Update() {
-
     }
 
     // Implement this for each enemy type
-    public void Think() {
-        this.ValidMoves = GetValidMoves(this.info.Speed,false);
-    }
+    // will decide if it wants to move or attack
+    public abstract IntentType GetIntent();
+
+    // the enemy will decide where it wants to 
 
     // Thie function is in charge of getting all possible movement actions that we can take
     // if a tile is targeted by a move action, or occupied by a character or obstacle, the position is considered invalid.
     // if avoiddamage is checked, then it will also deem tiles targeted by an attack as invalid
-    public Vector2Int[] GetValidMoves(int moveRange,bool avoiddamage) {
+    public Vector2Int[] GetValidMoves(int moveRange, bool avoiddamage) {
 
         List<Vector2Int> output = new();
 
-        foreach(Vector2Int position in GetAllMoves(this.TilePosition(),moveRange)) {
+        foreach(Vector2Int position in GetAllMoves(this.GetPosition(),moveRange)) {
             if(TileManager.Instance.IsTileOccupied(position)) continue; //skip tiles with characters on them.
 
             //this might be expensive, but we need to make sure enemy moves don't overlap
@@ -53,7 +51,7 @@ public class EnemyControllerBase:MonoBehaviour {
             }
 
             //check if there is an open path to their desired position
-            if(GetPathFromTo(this.TilePosition(),position,moveRange) == false) continue;
+            if(GetPathFromTo(this.GetPosition(),position,moveRange) == false) continue;
 
             if(avoiddamage) {
                 // TODO: check attack ranges.
@@ -86,7 +84,7 @@ public class EnemyControllerBase:MonoBehaviour {
     }
 
     //returns my position as a vec2
-    private Vector2Int TilePosition() {
+    public Vector2Int GetPosition() {
         return TileManager.PositionToTile(this.transform.position);
     }
 
@@ -253,86 +251,85 @@ public class EnemyControllerBase:MonoBehaviour {
     //
     private void OnDrawGizmosSelected() {
         
-        var Green = new Color(0f,1f,0f,0.5f);; 
-        var Blue = new Color(0f,0f,1f,0.5f);
-        var Red = new Color(1f,0f,0f,0.5f);
-        var Cyan =  new Color(1f,1f,0f,0.5f);
-        var Yellow = new Color(1f,1f,0f,0.5f);
+        //var Green = new Color(0f,1f,0f,0.5f);; 
+        //var Blue = new Color(0f,0f,1f,0.5f);
+        //var Red = new Color(1f,0f,0f,0.5f);
+        //var Cyan =  new Color(1f,1f,0f,0.5f);
+        //var Yellow = new Color(1f,1f,0f,0.5f);
+
+        ////only draw these in playmode because otherwise we DROWN in nullreference errors lol
+        //if( Application.isPlaying) {
+
+        //    var playerpos = TileManager.Instance.GetPlayerCharacter().transform.position;
+        //    // show all moves
+        //    Gizmos.color = Blue;
+        //    if(this.ValidMoves != null) {
+        //        foreach(var position in GetValidMoves(this.info.Speed, false)) {
+        //            Gizmos.DrawCube(TileManager.TileToPosition(position), Vector3.one*0.5f);
+        //        }
+        //    }
+
+        //    // show move closer
+        //    Gizmos.color = Red;
+        //    Gizmos.DrawCube(
+        //        TileManager.TileToPosition(GetMoveClosest(
+        //                TileManager.PositionToTile(playerpos),
+        //                GetValidMoves(this.info.Speed, false))),
+        //        Vector3.one
+        //    );
+
+        //    //show move farther
+        //    Gizmos.color = Yellow;
+        //    Gizmos.DrawCube(
+        //        TileManager.TileToPosition(GetMoveFarthest(
+        //                TileManager.PositionToTile(playerpos),
+        //                GetValidMoves(this.info.Speed, false))),
+        //        Vector3.one
+        //    );
+
+        //    int range = 6;
+
+        //    // show line of sight to player
+        //    if(LineOfSight(this.GetPosition(), TileManager.PositionToTile(playerpos), range)) {
+        //        Gizmos.color = Cyan;
+        //    } else {
+        //        Gizmos.color = Yellow;
+        //    }
+        //    Gizmos.DrawRay(TileManager.TileToPosition(this.GetPosition()),(playerpos-TileManager.TileToPosition(this.GetPosition())).normalized*range);
+
+        //    //show the farthest move with line of sight
+        //    Gizmos.color = new Color(0f,1f,1f,0.5f);
+        //    Gizmos.DrawCube(
+        //        TileManager.TileToPosition(
+        //            GetMoveFarthest(
+        //                TileManager.PositionToTile(playerpos),
+        //                GetMovesWithLOSTo(
+        //                    TileManager.PositionToTile(playerpos),
+        //                    GetValidMoves(this.info.Speed, false),
+        //                    range
+        //                )
+        //            )
+        //        ),
+        //        Vector3.one
+        //    );
+
+        //    // check if the cleave attack will connect
+        //    if(CheckAttack(this.GetPosition(), TileManager.PositionToTile(playerpos), AttackShape.AttackDictionary[AttackShape.AttackKeys.Cleave])) {
+        //        Gizmos.color = Green;
+        //    } else {
+        //        Gizmos.color = Yellow;
+        //    }
+        //    // draw attack hitbox in direction of player
+        //    foreach(var tile in AttackShapeBuilder.AttackAt(
+        //        AttackShape.AttackDictionary[AttackShape.AttackKeys.Cleave],
+        //        AttackShapeBuilder.VecToDir[GetOrthoDir(this.GetPosition(), TileManager.PositionToTile(playerpos))],
+        //        this.GetPosition()
+        //        ).AttackTiles )
+        //    {
+        //        Gizmos.DrawCube(TileManager.TileToPosition(tile.Position), Vector3.one);
+        //    }
 
 
-        //only draw these in playmode because otherwise we DROWN in nullreference errors lol
-        if( Application.isPlaying) {
-
-            var playerpos = TileManager.Instance.GetPlayerCharacter().transform.position;
-            // show all moves
-            Gizmos.color = Blue;
-            if(this.ValidMoves != null) {
-                foreach(var position in GetValidMoves(this.info.Speed, false)) {
-                    Gizmos.DrawCube(TileManager.TileToPosition(position), Vector3.one*0.5f);
-                }
-            }
-
-            // show move closer
-            Gizmos.color = Red;
-            Gizmos.DrawCube(
-                TileManager.TileToPosition(GetMoveClosest(
-                        TileManager.PositionToTile(playerpos),
-                        GetValidMoves(this.info.Speed, false))),
-                Vector3.one
-            );
-
-            //show move farther
-            Gizmos.color = Yellow;
-            Gizmos.DrawCube(
-                TileManager.TileToPosition(GetMoveFarthest(
-                        TileManager.PositionToTile(playerpos),
-                        GetValidMoves(this.info.Speed, false))),
-                Vector3.one
-            );
-
-            int range = 6;
-
-            // show line of sight to player
-            if(LineOfSight(this.TilePosition(), TileManager.PositionToTile(playerpos), range)) {
-                Gizmos.color = Cyan;
-            } else {
-                Gizmos.color = Yellow;
-            }
-            Gizmos.DrawRay(TileManager.TileToPosition(this.TilePosition()),(playerpos-TileManager.TileToPosition(this.TilePosition())).normalized*range);
-
-            //show the farthest move with line of sight
-            Gizmos.color = new Color(0f,1f,1f,0.5f);
-            Gizmos.DrawCube(
-                TileManager.TileToPosition(
-                    GetMoveFarthest(
-                        TileManager.PositionToTile(playerpos),
-                        GetMovesWithLOSTo(
-                            TileManager.PositionToTile(playerpos),
-                            GetValidMoves(this.info.Speed, false),
-                            range
-                        )
-                    )
-                ),
-                Vector3.one
-            );
-
-            // check if the cleave attack will connect
-            if(CheckAttack(this.TilePosition(), TileManager.PositionToTile(playerpos), AttackShape.AttackDictionary[AttackShape.AttackKeys.Cleave])) {
-                Gizmos.color = Green;
-            } else {
-                Gizmos.color = Yellow;
-            }
-            // draw attack hitbox in direction of player
-            foreach(var tile in AttackShapeBuilder.AttackAt(
-                AttackShape.AttackDictionary[AttackShape.AttackKeys.Cleave],
-                AttackShapeBuilder.VecToDir[GetOrthoDir(this.TilePosition(), TileManager.PositionToTile(playerpos))],
-                this.TilePosition()
-                ).AttackTiles )
-            {
-                Gizmos.DrawCube(TileManager.TileToPosition(tile.Position), Vector3.one);
-            }
-
-
-        }
+        //}
     }
 }
