@@ -10,6 +10,8 @@ First Version: 1/29/2025
     This class derives from the enemycontroller
     It is a basic intent script that will try to move towards the player
     It will try to attack the player as soon as it gets close to them
+
+   
 */
 
 
@@ -27,8 +29,8 @@ public class AggressiveEnemy : EnemyControllerBase
         // choose the first one of our attacks that is in range
         foreach(AttackShape.AttackKeys key in this.info.Attacks) {
             var shape = AttackShape.AttackDictionary[key];
-            if(CheckAttack(this.GetPosition(), playerPos, shape)) {
-                validAttack = shape;
+            if(CheckAttack(this.GetPosition(), playerPos, shape, out validAttack)) {
+                this.preparedAttack = validAttack;
                 canAttack = true;
                 break;
             }

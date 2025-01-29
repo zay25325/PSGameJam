@@ -202,7 +202,6 @@ public abstract class EnemyControllerBase:MonoBehaviour {
     // gets a unit vector in direction of target
     // clamped to one of 4 cardinal directions. prefers x over y 
     // used for getting the "best" starting direction
-    //
     public static Vector2Int GetOrthoDir(Vector2Int start, Vector2Int target) {
         Vector2Int move;
         int movex = Mathf.Clamp(target.x-start.x,-1,1);
@@ -219,12 +218,21 @@ public abstract class EnemyControllerBase:MonoBehaviour {
     //
     // this function takes an attack and sees if it will connects with a target cell
     //
-    public bool CheckAttack(Vector2Int start, Vector2Int target, AttackShape attack) {
+    public bool CheckAttack(Vector2Int start, Vector2Int target, AttackShape attack, out AttackShape validAttack) {
+        
+        validAttack = null;    
+
         switch(attack.TargetType) {
 
             //simple line of sight check
             case AttackShape.Target.Ranged:
-                return(LineOfSight(start, target, 100)); //placeholder range of basically infinite
+                //placeholder range of basically infinite
+                if(LineOfSight(start, target, 100)) {
+                    validAttack = AttackShapeBuilder.AttackAt(attack, AttackShapeBuilder.VecToDir[GetOrthoDir(start, target)], target);
+                    return true;
+                } else {
+                    return false;
+                }
 
             // check all 4 directions, starting with the "best" one
             case AttackShape.Target.Touch:
@@ -233,9 +241,12 @@ public abstract class EnemyControllerBase:MonoBehaviour {
                 // try each direction, check each target cell
                 for(int i = 0; i<4;i++) {
                     foreach(var tile in AttackShapeBuilder.AttackAt(attack, AttackShapeBuilder.VecToDir[move], start).AttackTiles) {
-                        if(tile.Position == target) return true;
+                        if(tile.Position == target) {
+                            validAttack = AttackShapeBuilder.AttackAt(attack, AttackShapeBuilder.VecToDir[GetOrthoDir(start, target)], start);
+                            return true;
+                        }
                     }
-                    //rotate counterclockwise until we get a hit
+                    // rotate counterclockwise until we get a hit
                     Vector2 a = Vector2.Perpendicular(new(move.x,move.y));
                     move = new Vector2Int((int)a.x,(int)a.y);
                 }
