@@ -246,7 +246,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   contractJSONFile: {fileID: 4900000, guid: 9264b47778320a8409002c7615b8ee04, type: 3}
-  uiDocument: {fileID: 1371119363}
 --- !u!114 &1371119363
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,5 +1,16 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor-extension-mode="False">
     <ui:VisualElement name="contract-list" style="flex-grow: 1;">
-        <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 60px;" />
+        <ui:VisualElement name="ContractsDisplay" style="flex-grow: 1;">
+            <ui:Label text="Available Contracts" style="font-size: 24px; -unity-font-style: bold; color: rgb(255, 255, 255); margin: 10px;" />
+            <ui:VisualElement name="contract-container" style="flex-grow: 1; padding: 10px;">
+                <ui:VisualElement name="contract-card" class="contract-card" style="background-color: rgba(40, 40, 40, 0.9); padding: 15px; margin: 5px; border-radius: 5px;">
+                    <ui:Label name="contract-title" text="title" style="font-size: 18px; -unity-font-style: bold; color: rgb(255, 215, 0);" />
+                    <ui:Label name="contract-description" text="description" style="color: rgb(200, 200, 200); margin: 5px 0;" />
+                    <ui:Label name="contract-experience" text="exp" style="color: rgb(180, 180, 180);" />
+                    <ui:Label name="contract-difficulty" text="difficulty" style="color: rgb(180, 180, 180);" />
+                    <ui:Button text="Button" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
