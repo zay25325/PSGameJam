@@ -18,10 +18,10 @@ public class DemoTileEffects : MonoBehaviour
 
     private void Start()
     {
-        effectList = new List<TileEffectKey>(TileEffectLibrary.Instance.TileEffects.Keys);
+        effectList = new List<TileEffectKey>(TileEffectLibrary.Instance.TileAnimations.Keys);
         if (effectList.Count > 0)
         {
-            GameObject.Instantiate(TileEffectLibrary.Instance.TileEffects[effectList[0]], transform);
+            GameObject.Instantiate(TileEffectLibrary.Instance.TileAnimations[effectList[0]], transform);
         }
     }
 
@@ -35,7 +35,7 @@ public class DemoTileEffects : MonoBehaviour
             effect++;
             if (effect < effectList.Count)
             {
-                GameObject.Instantiate(TileEffectLibrary.Instance.TileEffects[effectList[effect]], transform);
+                GameObject.Instantiate(TileEffectLibrary.Instance.TileAnimations[effectList[effect]], transform);
             }
         }
     }
