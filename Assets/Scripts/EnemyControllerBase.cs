@@ -105,17 +105,7 @@ public class EnemyControllerBase:MonoBehaviour {
         }
 
         // try to move towards the target at first
-        Vector2Int move;
-
-        int movex = Mathf.Clamp(start.x-target.x,-1,1);
-        int movey = Mathf.Clamp(start.y-target.y,-1,1);
-
-        // pick one direction to go
-        if(movex != 0) {
-            move = new Vector2Int(movex,0);
-        } else {
-            move = new Vector2Int(0,movey);
-        }
+        Vector2Int move = GetOrthoDir(start, target);
 
         for(int i = 0;i < 4;i++) {
             // try each direction
@@ -210,19 +200,79 @@ public class EnemyControllerBase:MonoBehaviour {
         return false;
     }
 
+    //
+    // gets a unit vector in direction of target
+    // clamped to one of 4 cardinal directions. prefers x over y 
+    // used for getting the "best" starting direction
+    //
+    public static Vector2Int GetOrthoDir(Vector2Int start, Vector2Int target) {
+        Vector2Int move;
+        int movex = Mathf.Clamp(target.x-start.x,-1,1);
+        int movey = Mathf.Clamp(target.y-start.y,-1,1);
+        if(Mathf.Abs(movex) >= Mathf.Abs(movey)) {
+            move = new Vector2Int(movex,0);
+        } else {
+            move = new Vector2Int(0,movey);
+        }
+        return move;
+    }
+
+
+    //
+    // this function takes an attack and sees if it will connects with a target cell
+    //
+    public bool CheckAttack(Vector2Int start, Vector2Int target, AttackShape attack) {
+        switch(attack.TargetType) {
+
+            //simple line of sight check
+            case AttackShape.Target.Ranged:
+                return(LineOfSight(start, target, 100)); //placeholder range of basically infinite
+
+            // check one direction
+            case AttackShape.Target.Self:
+                foreach(var tile in AttackShapeBuilder.AttackAt(attack, AttackShapeBuilder.Direction.Right, start).AttackTiles) {
+                    if(tile.Position == target) return true;
+                }
+                return false;
+
+            // check all 4 directions, starting with the "best" one
+            case AttackShape.Target.Touch:
+                 Vector2Int move = GetOrthoDir(start, target);
+
+                // try each direction, check each target cell
+                for(int i = 0; i<4;i++) {
+                    foreach(var tile in AttackShapeBuilder.AttackAt(attack, AttackShapeBuilder.VecToDir[move], start).AttackTiles) {
+                        if(tile.Position == target) return true;
+                    }
+                    //rotate counterclockwise until we get a hit
+                    Vector2 a = Vector2.Perpendicular(new(move.x,move.y));
+                    move = new Vector2Int((int)a.x,(int)a.y);
+                }
+                return false;
+
+            default: return false;
+        }
+    }
+
 
     //
     // ======== DEBUG VISUALS ========
     //
     private void OnDrawGizmosSelected() {
         
+        var Green = new Color(0f,1f,0f,0.5f);; 
+        var Blue = new Color(0f,0f,1f,0.5f);
+        var Red = new Color(1f,0f,0f,0.5f);
+        var Cyan =  new Color(1f,1f,0f,0.5f);
+        var Yellow = new Color(1f,1f,0f,0.5f);
+
 
         //only draw these in playmode because otherwise we DROWN in nullreference errors lol
         if( Application.isPlaying) {
 
             var playerpos = TileManager.Instance.GetPlayerCharacter().transform.position;
             // show all moves
-            Gizmos.color = new Color(0f,0f,1f,0.5f);
+            Gizmos.color = Blue;
             if(this.ValidMoves != null) {
                 foreach(var position in GetValidMoves(this.info.Speed, false)) {
                     Gizmos.DrawCube(TileManager.TileToPosition(position), Vector3.one*0.5f);
@@ -230,7 +280,7 @@ public class EnemyControllerBase:MonoBehaviour {
             }
 
             // show move closer
-            Gizmos.color = new Color(1f,0f,0f,0.5f);
+            Gizmos.color = Red;
             Gizmos.DrawCube(
                 TileManager.TileToPosition(GetMoveClosest(
                         TileManager.PositionToTile(playerpos),
@@ -239,7 +289,7 @@ public class EnemyControllerBase:MonoBehaviour {
             );
 
             //show move farther
-            Gizmos.color = new Color(1f,1f,0f,0.5f);
+            Gizmos.color = Yellow;
             Gizmos.DrawCube(
                 TileManager.TileToPosition(GetMoveFarthest(
                         TileManager.PositionToTile(playerpos),
@@ -251,9 +301,9 @@ public class EnemyControllerBase:MonoBehaviour {
 
             // show line of sight to player
             if(LineOfSight(this.TilePosition(), TileManager.PositionToTile(playerpos), range)) {
-                Gizmos.color = new Color(0f,1f,1f,0.9f);
+                Gizmos.color = Cyan;
             } else {
-                Gizmos.color = new Color(1f,1f,0f,0.9f);
+                Gizmos.color = Yellow;
             }
             Gizmos.DrawRay(TileManager.TileToPosition(this.TilePosition()),(playerpos-TileManager.TileToPosition(this.TilePosition())).normalized*range);
 
@@ -272,6 +322,24 @@ public class EnemyControllerBase:MonoBehaviour {
                 ),
                 Vector3.one
             );
+
+            // check if the cleave attack will connect
+            if(CheckAttack(this.TilePosition(), TileManager.PositionToTile(playerpos), AttackShape.AttackDictionary[AttackShape.AttackKeys.Cleave])) {
+                Gizmos.color = Green;
+            } else {
+                Gizmos.color = Yellow;
+            }
+            // draw attack hitbox in direction of player
+            foreach(var tile in AttackShapeBuilder.AttackAt(
+                AttackShape.AttackDictionary[AttackShape.AttackKeys.Cleave],
+                AttackShapeBuilder.VecToDir[GetOrthoDir(this.TilePosition(), TileManager.PositionToTile(playerpos))],
+                this.TilePosition()
+                ).AttackTiles )
+            {
+                Gizmos.DrawCube(TileManager.TileToPosition(tile.Position), Vector3.one);
+            }
+
+
         }
     }
 }
