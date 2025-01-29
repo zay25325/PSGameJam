@@ -26,6 +26,7 @@ public class AttackShape
     public int ActivationCount;
     public TileEffectKey TileAnimation;
     public AttackShape ChainAttack;
+    public CharacterInfo Caster;
 
     public AttackShape(Target targetType, List<AttackTile> tiles, int activationCount, AttackShape chainAttack, TileEffectKey tileAnimation)
     {
@@ -50,6 +51,7 @@ public class AttackShape
         ActivationCount = cloneSource.ActivationCount;
         TileAnimation = cloneSource.TileAnimation;
         ChainAttack = cloneSource.ChainAttack;
+        Caster = cloneSource.Caster;
     }
 
 

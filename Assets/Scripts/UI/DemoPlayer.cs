@@ -64,15 +64,25 @@ public class DemoPlayer : MonoBehaviour
             List<AttackShape> ChainAttacks = new List<AttackShape>();
             for (int i = 0; i < activeAttacks.Count; i++)
             {
-                ChainAttacks.Add(AttackShape.AttackDictionary[activeAttacks[i].attack]);
-
+                ChainAttacks.Add(new AttackShape(AttackShape.AttackDictionary[activeAttacks[i].attack]));
+                ChainAttacks[i].Caster = character;
                 if (i != 0)
                 {
                     ChainAttacks[i - 1].ChainAttack = ChainAttacks[i];
                 }
             }
 
-            TileManager.Instance.AddPlayerAttack(ChainAttacks[0], direction, character.transform.position);
+            Vector3 position;
+            if (ChainAttacks[0].TargetType == Target.Ranged)
+            {
+                position = mousePos;
+            }
+            else
+            {
+                position = character.transform.position;
+            }
+
+            TileManager.Instance.AddPlayerAttack(ChainAttacks[0], direction, position);
             TileManager.Instance.EndTurn();
         }
     }

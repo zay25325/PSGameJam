@@ -113,6 +113,7 @@ GameObject:
   - component: {fileID: 3485550871168179860}
   - component: {fileID: 3485550871168179863}
   - component: {fileID: 3485550871168179862}
+  - component: {fileID: 6583910017425375912}
   m_Layer: 0
   m_Name: TempCharacter
   m_TagString: Untagged
@@ -221,6 +222,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpBar: {fileID: 3485550870969193842}
   character: {fileID: 3485550871168179863}
+--- !u!61 &6583910017425375912
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3485550871168179866}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1001 &1783986607946566491
 PrefabInstance:
   m_ObjectHideFlags: 0
