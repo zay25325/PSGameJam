@@ -1,57 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEditor;
 using static AttackShapeBuilder;
+using static AttackShape;
 
 public class DemoPlayer : MonoBehaviour
 {
     [SerializeField] private GameObject moveTileGO;
     List<GameObject> moveTiles = new List<GameObject>(); // for large numbers of the same object it is better to enable/disable then to create/delete them
     [SerializeField] CharacterInfo character;
-    int index = 0;
+
+    [SerializeField] GameObject combatButtonPrefab;
+    [SerializeField] Transform permHolder;
+    [SerializeField] Transform tempHolder;
+
+    [SerializeField] Toggle moveToggle;
+    List<CombatButton> permCombatButtons = new List<CombatButton>();
+    List<CombatButton> tempCombatButtons = new List<CombatButton>();
+    List<AttackShape.AttackKeys> tempAttacks = new List<AttackShape.AttackKeys>();
+    List<CombatButton> activeAttacks = new List<CombatButton>();
+
+
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        foreach(AttackKeys attack in character.Attacks)
+        {
+            GameObject combatButtonGO = GameObject.Instantiate(combatButtonPrefab, permHolder);
+            CombatButton combatButton = combatButtonGO.GetComponent<CombatButton>();
+            combatButton.Initialize(attack, false, this);
+            permCombatButtons.Add(combatButton);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ClickedWorldSpace()
     {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            transform.position += new Vector3(0, 1);
-            TileManager.Instance.EndTurn();
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            transform.position += new Vector3(0, -1);
-            TileManager.Instance.EndTurn();
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            transform.position += new Vector3(1, 0);
-            TileManager.Instance.EndTurn();
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            transform.position += new Vector3(-1, 0);
-            TileManager.Instance.EndTurn();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-            index = 0;
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-            index = 1;
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-            index = 2;
-
-        if (Input.GetMouseButtonDown(0))
+        if (activeAttacks.Count > 0)
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3 relativePos = mousePos - transform.position;
+            Vector3 relativePos = mousePos - character.transform.position;
 
             Direction direction;
             if (Mathf.Abs(relativePos.x) > Mathf.Abs(relativePos.y))
@@ -70,10 +61,67 @@ public class DemoPlayer : MonoBehaviour
             }
 
             //Debug.Log(direction);
-            AttackShape attack = AttackShape.AttackDictionary[AttackShape.AttackKeys.Cleave];
-            attack.ChainAttack = AttackShape.AttackDictionary[AttackShape.AttackKeys.XLightning];
-            TileManager.Instance.AddPlayerAttack(attack, direction, transform.position);
+            List<AttackShape> ChainAttacks = new List<AttackShape>();
+            for (int i = 0; i < activeAttacks.Count; i++)
+            {
+                ChainAttacks.Add(AttackShape.AttackDictionary[activeAttacks[i].attack]);
+
+                if (i != 0)
+                {
+                    ChainAttacks[i - 1].ChainAttack = ChainAttacks[i];
+                }
+            }
+
+            TileManager.Instance.AddPlayerAttack(ChainAttacks[0], direction, character.transform.position);
             TileManager.Instance.EndTurn();
+        }
+    }
+
+    public void MoveTileSelected(Vector3 moveTo)
+    {
+        MoveAction move = new MoveAction(character.transform.position, moveTo, character);
+
+        TileManager.Instance.AddPlayerMove(move);
+        TileManager.Instance.EndTurn();
+        PlaceMoveTiles();
+    }
+
+    public void ClickedCombatButton(CombatButton button, bool isOn)
+    {
+        if (isOn)
+        {
+            activeAttacks.Add(button);
+        }
+        else
+        {
+            if (activeAttacks.Contains(button))
+            {
+                activeAttacks.Remove(button);
+            }
+        }
+
+        ClearMoveTiles();
+    }
+
+    private void ClearCombatButtons()
+    {
+        foreach (CombatButton button in activeAttacks)
+        {
+            button.Deactivate();
+        }
+        activeAttacks.Clear();
+    }
+
+    public void ClickedMoveButton(bool isOn)
+    {
+        if (isOn)
+        {
+            ClearCombatButtons();
+            PlaceMoveTiles();
+        }
+        else
+        {
+            ClearMoveTiles();
         }
     }
 
@@ -137,14 +185,25 @@ public class DemoPlayer : MonoBehaviour
         }
     }
 
+    private void ClearMoveTiles()
+    {
+        foreach (GameObject tile in moveTiles)
+        {
+            tile.SetActive(false);
+        }
+        moveToggle.isOn = false;
+    }
+
     private GameObject CreateMoveTile()
     {
-        GameObject moveTile = GameObject.Instantiate(moveTileGO, transform);
-        moveTile.GetComponent<PlayerMoveTile>().character = character;
-        return moveTile;
+        GameObject moveTileObj = GameObject.Instantiate(moveTileGO, character.transform);
+        PlayerMoveTile moveTile = moveTileObj.GetComponent<PlayerMoveTile>();
+        moveTile.playerUI = this;
+        return moveTileObj;
     }
 
 }
+
 
 
 #if UNITY_EDITOR

@@ -111,7 +111,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3485550871168179861}
   - component: {fileID: 3485550871168179860}
-  - component: {fileID: 3485550871168179867}
   - component: {fileID: 3485550871168179863}
   - component: {fileID: 3485550871168179862}
   m_Layer: 0
@@ -189,20 +188,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3485550871168179867
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3485550871168179866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4322d8a91a9a60048a5e0db6b784c94d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveTileGO: {fileID: 9157116040052730811, guid: 8ca7403c5667d3940b7310ab0df43f0f, type: 3}
-  character: {fileID: 3485550871168179863}
 --- !u!114 &3485550871168179863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,7 +204,6 @@ MonoBehaviour:
   hp: 10
   speed: 3
   attacks: 
-  ai: {fileID: 0}
   OnHPChanged:
     m_PersistentCalls:
       m_Calls: []

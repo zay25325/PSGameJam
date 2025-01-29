@@ -106,7 +106,7 @@ public class TileManager : MonoBehaviour
         int timesActivated = 0;
         foreach (AttackTile tile in attack.AttackTiles)
         {
-            AnimateTile(TileEffectLibrary.Instance.TileEffects[attack.TileAnimation], tile);
+            AnimateTile(TileEffectLibrary.Instance.TileAnimations[attack.TileAnimation], tile);
             if (tileToCharacter.ContainsKey(tile.Position))
             {
                 tileToCharacter[tile.Position].HP -= tile.Damage;
