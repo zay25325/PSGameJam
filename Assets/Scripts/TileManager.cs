@@ -113,7 +113,21 @@ public class TileManager : MonoBehaviour
                 if (timesActivated < attack.ActivationCount && attack.ChainAttack != null)
                 {
                     timesActivated++;
-                    ProcessAttack(AttackShapeBuilder.AttackAt(attack.ChainAttack, attack.AttackDirection, tile.Position), tileToCharacter);
+
+                    Vector2Int? position;
+                    if (attack.ChainAttack.TargetType == AttackShape.Target.Ranged)
+                    {
+                        position = GetRangedTarget(tile.Position, attack.Caster, tileToCharacter[tile.Position]);
+                    }
+                    else
+                    {
+                        position = tile.Position;
+                    }
+
+                    if (position.HasValue) // a ranged attack could have zero targets
+                    {
+                        ProcessAttack(AttackShapeBuilder.AttackAt(attack.ChainAttack, attack.AttackDirection, position.Value), tileToCharacter);
+                    }
                 }
             }
         }
@@ -127,7 +141,7 @@ public class TileManager : MonoBehaviour
 
     public bool IsTileOccupied(Vector2Int pos)
     {
-        if (wallMap.HasTile((Vector3Int)pos))
+        if (wallMap.HasTile((Vector3Int)(pos - PositionToTile(transform.position))))
         {
             return true;
         }
@@ -150,5 +164,34 @@ public class TileManager : MonoBehaviour
     public static Vector3 TileToPosition(Vector2Int tilePos)
     {
         return new Vector3(tilePos.x + .5f, tilePos.y + .5f, 0);
+    }
+
+    private Vector2Int? GetRangedTarget(Vector2Int from, CharacterInfo caster, CharacterInfo source)
+    {
+        Vector2Int? closestTarget = null;
+        int distance = int.MaxValue;
+
+        foreach (CharacterInfo character in Characters)
+        {
+            if (character == caster || character == source)
+            {
+                continue;
+            }
+
+            Vector2 direction = (character.transform.position - TileToPosition(from)).normalized;
+            RaycastHit2D hit = Physics2D.Raycast((Vector2)TileToPosition(from) + direction, direction);
+            if (hit.collider.gameObject == character.gameObject)
+            {
+                // since we are using tiles treat diagonals as 2 not sqrt(2)
+                int colliderDistance = Mathf.RoundToInt(Mathf.Abs(character.transform.position.x - source.transform.position.x) + Mathf.Abs(character.transform.position.y - source.transform.position.y));
+                if (colliderDistance < distance)
+                {
+                    closestTarget = PositionToTile(character.transform.position);
+                    distance = colliderDistance;
+                }
+            }
+        }
+
+        return closestTarget;
     }
 }
