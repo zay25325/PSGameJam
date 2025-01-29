@@ -82,27 +82,6 @@ public class EnemyControllerBase:MonoBehaviour {
         return output.ToArray();
     }
 
-    private void OnDrawGizmos() {
-        
-        //only draw these in playmode because otherwise we DROWN in errors lol
-        if( Application.isPlaying) {
-            Gizmos.color = new Color(0f,0f,1f,0.5f);
-            if(this.ValidMoves != null) {
-                foreach(var position in GetValidMoves(this.info.Speed, false)) {
-                    Gizmos.DrawCube(TileManager.TileToPosition(position), Vector3.one*0.5f);
-                }
-            }
-            Gizmos.color = new Color(1f,0f,0f,0.5f);
-            Gizmos.DrawCube(
-                TileManager.TileToPosition(GetMoveClosest(
-                        TilePosition(),
-                        TileManager.PositionToTile(TileManager.Instance.GetPlayerCharacter().transform.position),
-                        this.info.Speed)),
-                Vector3.one
-            );
-        }
-    }
-
     //returns my position as a vec2
     private Vector2Int TilePosition() {
         return TileManager.PositionToTile(this.transform.position);
@@ -157,6 +136,7 @@ public class EnemyControllerBase:MonoBehaviour {
 
     // stupid linear distance check, may not be very good
     // gets the closest available move to the target
+    // for enemy advancing behaviour
     public Vector2Int GetMoveClosest(Vector2Int start, Vector2Int target, int moves) {
         Vector2Int closest = start;
 
@@ -167,5 +147,98 @@ public class EnemyControllerBase:MonoBehaviour {
         }
 
         return closest;
+    }
+    //
+    // Same as above, but for enemy retreat behaviour
+    public Vector2Int GetMoveFarthest(Vector2Int start, Vector2Int target, int moves) {
+        Vector2Int farthest = start;
+
+        foreach(Vector2Int position in GetValidMoves(moves, false)) {
+            if(Vector2.SqrMagnitude(position - target) > Vector2.SqrMagnitude(farthest - target)) {
+                farthest = position;
+            }
+        }
+
+        return farthest;
+    }
+
+    // check if theres a wall in the way
+    // 
+    public bool LineOfSight(Vector2Int start, Vector2Int target, int range) {
+        Vector3 beam = (TileManager.TileToPosition(target) - TileManager.TileToPosition(start));
+        Vector3 beamDir = beam.normalized;
+
+        // Basically
+        // take the direction from source to target
+        // for each step, check if there's a wall. if there is, los is blocked
+        // else, check for the target. if the tile position is the same, then that is a hit
+
+        if(range == -1) range = 100;
+
+        for(float i = 0; i < range; i+= 0.2f) {
+            
+            Vector2Int currentTile = TileManager.PositionToTile(TileManager.TileToPosition(start) + beamDir*i);
+
+            if(TileManager.Instance.IsTileOccupiedIgnoreCharacters(currentTile)) {
+                //blocked
+                return false;
+            } else if (currentTile == target) {
+                // the ray has reached its target
+                return true;
+            }
+        }
+
+        // the target is out of range
+        return false;
+    }
+
+
+    //
+    // ======== DEBUG VISUALS ========
+    //
+    private void OnDrawGizmosSelected() {
+        
+        var playerpos = TileManager.Instance.GetPlayerCharacter().transform.position;
+
+        //only draw these in playmode because otherwise we DROWN in nullreference errors lol
+        if( Application.isPlaying) {
+            // show all moves
+            Gizmos.color = new Color(0f,0f,1f,0.5f);
+            if(this.ValidMoves != null) {
+                foreach(var position in GetValidMoves(this.info.Speed, false)) {
+                    Gizmos.DrawCube(TileManager.TileToPosition(position), Vector3.one*0.5f);
+                }
+            }
+
+            // show move closer
+            Gizmos.color = new Color(1f,0f,0f,0.5f);
+            Gizmos.DrawCube(
+                TileManager.TileToPosition(GetMoveClosest(
+                        TilePosition(),
+                        TileManager.PositionToTile(playerpos),
+                        this.info.Speed)),
+                Vector3.one
+            );
+
+            //show move farther
+            Gizmos.color = new Color(1f,1f,0f,0.5f);
+            Gizmos.DrawCube(
+                TileManager.TileToPosition(GetMoveFarthest(
+                        TilePosition(),
+                        TileManager.PositionToTile(playerpos),
+                        this.info.Speed)),
+                Vector3.one
+            );
+
+            int range = 6;
+
+            // show line of sight to player
+            if(LineOfSight(this.TilePosition(), TileManager.PositionToTile(playerpos), range)) {
+                Gizmos.color = new Color(0f,1f,1f,0.9f);
+            } else {
+                Gizmos.color = new Color(1f,1f,0f,0.9f);
+            }
+            Gizmos.DrawRay(TileManager.TileToPosition(this.TilePosition()),(playerpos-TileManager.TileToPosition(this.TilePosition())).normalized*range);
+        }
     }
 }
