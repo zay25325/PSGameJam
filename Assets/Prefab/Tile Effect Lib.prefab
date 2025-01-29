@@ -55,6 +55,16 @@ MonoBehaviour:
   Orb: {fileID: 7406332369157749400, guid: 58f966d39e4ca794e8d2e49d7ab37af2, type: 3}
   SpinDark: {fileID: 4330920906162917084, guid: a796b06d7cafad441901fc6f857e8779, type: 3}
   SpiralPoison: {fileID: 6279865818993250096, guid: 1b30f2e52c052e641b60977de04310fd, type: 3}
+  wheelUI: {fileID: -1245748358, guid: 24b08da46e6c03c4fa0d732c3b95a482, type: 3}
+  ArcaneUI: {fileID: -1361802496, guid: 46ee2865b87b853408f1df180b69e88c, type: 3}
+  BoltFlameUI: {fileID: -797963571, guid: 639d3f3276be58546bf76029a6dd9e6b, type: 3}
+  ClawUI: {fileID: -1741062526, guid: bd233c75beb149944aef35cc47ca5e6d, type: 3}
+  FlameUI: {fileID: -1578429831, guid: 9adb6717fe4d3f041825955be5e875b3, type: 3}
+  FlamingGroundUI: {fileID: 169552832, guid: a1f7a18730c83594da69f2be3a0456fc, type: 3}
+  LightningUI: {fileID: -574063375, guid: 749338c9079d8e84cb69b3e3f19493e1, type: 3}
+  OrbUI: {fileID: -1514658413, guid: b1c7285cfe4e46c47b5be30da3306a88, type: 3}
+  SpinDarkUI: {fileID: -663934307, guid: 20c38d200969cf9408db94cde58b4e98, type: 3}
+  SpiralPoisonUI: {fileID: -704566794, guid: 01fea4c6e1bd44b47aa5edd57c9b5c3a, type: 3}
 --- !u!114 &781472387558508248
 MonoBehaviour:
   m_ObjectHideFlags: 0

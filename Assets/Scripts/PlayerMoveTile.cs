@@ -4,13 +4,10 @@ using UnityEngine;
 
 public class PlayerMoveTile : MonoBehaviour
 {
-    public CharacterInfo character;
+    public DemoPlayer playerUI;
 
     private void OnMouseDown()
     {
-        MoveAction move = new MoveAction(character.transform.position, transform.position, character);
-
-        TileManager.Instance.AddPlayerMove(move);
-        TileManager.Instance.EndTurn();
+        playerUI.MoveTileSelected(transform.position);
     }
 }

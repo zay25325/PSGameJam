@@ -15,7 +15,6 @@ public class AttackShape
 {
     public enum Target
     {
-        Self,
         Touch,
         Ranged
     }
@@ -27,6 +26,7 @@ public class AttackShape
     public int ActivationCount;
     public TileEffectKey TileAnimation;
     public AttackShape ChainAttack;
+    public CharacterInfo Caster;
 
     public AttackShape(Target targetType, List<AttackTile> tiles, int activationCount, AttackShape chainAttack, TileEffectKey tileAnimation)
     {
@@ -51,17 +51,23 @@ public class AttackShape
         ActivationCount = cloneSource.ActivationCount;
         TileAnimation = cloneSource.TileAnimation;
         ChainAttack = cloneSource.ChainAttack;
+        Caster = cloneSource.Caster;
     }
 
 
     public enum AttackKeys // string keys are evil
     {
         Cleave,
-        XLightning
+        XLightning,
+        FireBolt,
+        FlameSpray,
+        FlameBall,
+        LightningRay,
     }
 
     public static Dictionary<AttackKeys, AttackShape> AttackDictionary = new Dictionary<AttackKeys, AttackShape>()
     {
+        // cleave
         { AttackKeys.Cleave, new AttackShape( Target.Touch,
         new List<AttackTile>()
         {
@@ -72,7 +78,8 @@ public class AttackShape
             new AttackTile(new Vector2Int(0, -1), 1), // down
         }, activationCount: 1, null, TileEffectKey.Claw) },
 
-        { AttackKeys.XLightning, new AttackShape( Target.Self,
+        // XLightning
+        { AttackKeys.XLightning, new AttackShape( Target.Touch,
         new List<AttackTile>()
         {
             new AttackTile(new Vector2Int(0, 0), 1), // self
@@ -87,5 +94,37 @@ public class AttackShape
             new AttackTile(new Vector2Int(-2, -2), 1), // down-left
             new AttackTile(new Vector2Int(-2, 2), 1), // up-left
         }, activationCount: 1, null, TileEffectKey.Lightning) },
+        
+        // fire bolt
+        { AttackKeys.FireBolt, new AttackShape( Target.Ranged,
+        new List<AttackTile>()
+        {
+            new AttackTile(new Vector2Int(0, 0), 1), // target
+        }, activationCount: 1, null, TileEffectKey.BoltFire) },
+
+        // flame spray
+        { AttackKeys.FlameSpray, new AttackShape( Target.Touch,
+        new List<AttackTile>()
+        {
+            new AttackTile(new Vector2Int(1, 1), 1), // up-right
+            new AttackTile(new Vector2Int(1, 0), 1), // right
+            new AttackTile(new Vector2Int(1, -1), 1), // down-right
+
+            new AttackTile(new Vector2Int(2, 2), 1), // up-right
+            new AttackTile(new Vector2Int(2, 1), 1), // up-right
+            new AttackTile(new Vector2Int(2, 0), 1), // right
+            new AttackTile(new Vector2Int(2, -1), 1), // down-right
+            new AttackTile(new Vector2Int(2, -2), 1), // down-right
+        }, activationCount: 1, null, TileEffectKey.Flame) },
+
+        // LightningRay
+        { AttackKeys.LightningRay, new AttackShape( Target.Touch,
+        new List<AttackTile>()
+        {
+            new AttackTile(new Vector2Int(1, 0), 1), // right
+            new AttackTile(new Vector2Int(2, 0), 1), // right
+            new AttackTile(new Vector2Int(3, 0), 1), // right
+        }, activationCount: 1, null, TileEffectKey.Lightning) },
+
     };
 }

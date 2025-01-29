@@ -38,6 +38,7 @@ public static class AttackShapeBuilder
 
     private static void ToDirection(AttackShape attackShape, Direction direction)
     {
+        attackShape.AttackDirection = direction;
         switch (direction)
         {
             case Direction.Right:

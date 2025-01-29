@@ -26,8 +26,9 @@ public class TileEffectLibrary : MonoBehaviour
     }
 
     public static TileEffectLibrary Instance;
-    public Dictionary<TileEffectKey, GameObject> TileEffects;
 
+    public Dictionary<TileEffectKey, GameObject> TileAnimations;
+    [Header("Tile Animations")]
     [SerializeField] GameObject wheel;
     [SerializeField] GameObject Arcane;
     [SerializeField] GameObject BoltFlame;
@@ -39,13 +40,27 @@ public class TileEffectLibrary : MonoBehaviour
     [SerializeField] GameObject SpinDark;
     [SerializeField] GameObject SpiralPoison;
 
+
+    public Dictionary<TileEffectKey, Sprite> TileUIs;
+    [Header("UI")]
+    [SerializeField] Sprite wheelUI;
+    [SerializeField] Sprite ArcaneUI;
+    [SerializeField] Sprite BoltFlameUI;
+    [SerializeField] Sprite ClawUI;
+    [SerializeField] Sprite FlameUI;
+    [SerializeField] Sprite FlamingGroundUI;
+    [SerializeField] Sprite LightningUI;
+    [SerializeField] Sprite OrbUI;
+    [SerializeField] Sprite SpinDarkUI;
+    [SerializeField] Sprite SpiralPoisonUI;
+
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
             GameObject.DontDestroyOnLoad(gameObject);
-            TileEffects = new Dictionary<TileEffectKey, GameObject>()
+            TileAnimations = new Dictionary<TileEffectKey, GameObject>()
             {
                 {TileEffectKey.Wheel, wheel },
                 {TileEffectKey.Arcane, Arcane },
@@ -57,6 +72,20 @@ public class TileEffectLibrary : MonoBehaviour
                 {TileEffectKey.Orb, Orb },
                 {TileEffectKey.SpinDark, SpinDark },
                 {TileEffectKey.SpiralPoison, SpiralPoison },
+            };
+
+            TileUIs = new Dictionary<TileEffectKey, Sprite>()
+            {
+                {TileEffectKey.Wheel, wheelUI },
+                {TileEffectKey.Arcane, ArcaneUI },
+                {TileEffectKey.BoltFire, BoltFlameUI },
+                {TileEffectKey.Claw, ClawUI },
+                {TileEffectKey.Flame, FlameUI },
+                {TileEffectKey.FlamingGround, FlamingGroundUI },
+                {TileEffectKey.Lightning, LightningUI },
+                {TileEffectKey.Orb, OrbUI },
+                {TileEffectKey.SpinDark, SpinDarkUI },
+                {TileEffectKey.SpiralPoison, SpiralPoisonUI },
             };
         }
         else
