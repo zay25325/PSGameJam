@@ -161,4 +161,11 @@ public class TileManager : MonoBehaviour
     {
         return new Vector3(tilePos.x + .5f, tilePos.y + .5f, 0);
     }
+
+    public CharacterInfo GetPlayerCharacter() {
+        foreach(var character in this.Characters) {
+            if(character.tag == "Player") return character;
+        }
+        return null;
+    }
 }

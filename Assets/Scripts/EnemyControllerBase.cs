@@ -18,7 +18,8 @@ public class EnemyControllerBase:MonoBehaviour {
     // This is the enemy's intended target, either for a move or an attack
     public Vector2Int TargetTile;
 
-    public
+    // public IntentType = Move/Attack;
+    // public Intended Attack = AttackShape;
 
     // Start is called before the first frame update
     void Start() {
@@ -82,11 +83,23 @@ public class EnemyControllerBase:MonoBehaviour {
     }
 
     private void OnDrawGizmos() {
-        Gizmos.color = new Color(0f,0f,1f,0.5f);
-        if(this.ValidMoves != null) {
-            foreach(var position in ValidMoves) {
-                Gizmos.DrawCube(TileManager.TileToPosition(position),new Vector3(0.5f,0.5f,0));
+        
+        //only draw these in playmode because otherwise we DROWN in errors lol
+        if( Application.isPlaying) {
+            Gizmos.color = new Color(0f,0f,1f,0.5f);
+            if(this.ValidMoves != null) {
+                foreach(var position in GetValidMoves(this.info.Speed, false)) {
+                    Gizmos.DrawCube(TileManager.TileToPosition(position), Vector3.one*0.5f);
+                }
             }
+            Gizmos.color = new Color(1f,0f,0f,0.5f);
+            Gizmos.DrawCube(
+                TileManager.TileToPosition(GetMoveClosest(
+                        TilePosition(),
+                        TileManager.PositionToTile(TileManager.Instance.GetPlayerCharacter().transform.position),
+                        this.info.Speed)),
+                Vector3.one
+            );
         }
     }
 
@@ -140,5 +153,19 @@ public class EnemyControllerBase:MonoBehaviour {
         }
 
         return false;
+    }
+
+    // stupid linear distance check, may not be very good
+    // gets the closest available move to the target
+    public Vector2Int GetMoveClosest(Vector2Int start, Vector2Int target, int moves) {
+        Vector2Int closest = start;
+
+        foreach(Vector2Int position in GetValidMoves(moves, false)) {
+            if(Vector2.SqrMagnitude(position - target) < Vector2.SqrMagnitude(closest - target)) {
+                closest = position;
+            }
+        }
+
+        return closest;
     }
 }
