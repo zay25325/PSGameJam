@@ -199,14 +199,20 @@ public abstract class EnemyControllerBase:MonoBehaviour {
     }
 
     //
-    // gets a unit vector in direction of target
-    // clamped to one of 4 cardinal directions. prefers x over y 
+    // snaps a vector to the nearest of 4 unit vectors
     // used for getting the "best" starting direction
     public static Vector2Int GetOrthoDir(Vector2Int start, Vector2Int target) {
         Vector2Int move;
+        
         int movex = Mathf.Clamp(target.x-start.x,-1,1);
         int movey = Mathf.Clamp(target.y-start.y,-1,1);
-        if(Mathf.Abs(movex) >= Mathf.Abs(movey)) {
+
+        Vector2 diff = (target-start);
+        diff = diff.normalized;
+        float xness = Mathf.Abs(Vector2.Dot(diff, Vector2.right));
+        float yness = Mathf.Abs(Vector2.Dot(diff, Vector2.down));
+
+        if(xness > yness) {
             move = new Vector2Int(movex,0);
         } else {
             move = new Vector2Int(0,movey);
