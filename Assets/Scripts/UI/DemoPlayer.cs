@@ -72,19 +72,45 @@ public class DemoPlayer : MonoBehaviour
                 }
             }
 
-            Vector3 position;
+            // Get attack position (the source for melee attacks, the mouse pos for ranged attacks)
+            Vector3? position = null;
             if (ChainAttacks[0].TargetType == Target.Ranged)
             {
-                position = mousePos;
+                position = IsValidRangedTarget(mousePos);
             }
             else
             {
                 position = character.transform.position;
             }
 
-            TileManager.Instance.AddPlayerAttack(ChainAttacks[0], direction, position);
-            TileManager.Instance.EndTurn();
+            // if the position is valid
+            if (position.HasValue)
+            {
+                TileManager.Instance.AddPlayerAttack(ChainAttacks[0], direction, position.Value);
+                TileManager.Instance.EndTurn();
+            }
         }
+    }
+
+    private Vector3? IsValidRangedTarget(Vector3 mousePos)
+    {
+        // correct the position to X.5, Y.5 so attacking an enemy on a diagonal will not clip the wall 50% of the time
+        Vector3 tileCenter = TileManager.TileToPosition(TileManager.PositionToTile(mousePos));
+
+        Vector3? validPosition = null;
+        Vector2 direction = (tileCenter - character.transform.position).normalized;
+        float distance = Vector3.Distance(character.transform.position, tileCenter);
+        RaycastHit2D hit = Physics2D.Raycast((Vector2)(character.transform.position) + direction, direction, distance);
+        if (hit.collider == null)
+        {
+            validPosition = tileCenter;
+        }
+        else if (hit.collider.GetComponent<CharacterInfo>() != null)
+        {
+            validPosition = hit.collider.transform.position;
+        }
+
+        return validPosition;
     }
 
     public void MoveTileSelected(Vector3 moveTo)
