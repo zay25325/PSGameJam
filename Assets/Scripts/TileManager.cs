@@ -143,6 +143,16 @@ public class TileManager : MonoBehaviour
         return false;
     }
 
+    public bool IsTileOccupiedIgnoreCharacters(Vector2Int pos)
+    {
+        if (wallMap.HasTile((Vector3Int)pos))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     public static Vector2Int PositionToTile(Vector3 pos)
     {
         return new Vector2Int(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y));
