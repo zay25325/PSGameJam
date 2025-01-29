@@ -7,9 +7,9 @@ using UnityEngine.UIElements;
 [System.Serializable]
 public class Contract
 { // individual contract
-    public string title;
+    public string contractTitle;
     public string description;
-    public int experience;
+    public int expPoints;
     public string difficulty;
 }
 
@@ -60,7 +60,7 @@ public class Contracts : MonoBehaviour
         for (int i = 0; i < allContracts.contracts.Length; i++)
         {
             Contract randomContract = allContracts.contracts[randomIndex];
-            Debug.Log(randomContract.title);
+            Debug.Log(randomContract.contractTitle);
         }
         //Contract randomContract = allContracts.contracts[randomIndex];
         //Debug.Log(randomContract.title);
