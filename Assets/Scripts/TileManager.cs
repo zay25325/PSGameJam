@@ -157,6 +157,16 @@ public class TileManager : MonoBehaviour
         return false;
     }
 
+    public bool IsTileOccupiedIgnoreCharacters(Vector2Int pos)
+    {
+        if (wallMap.HasTile((Vector3Int)pos))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     public static Vector2Int PositionToTile(Vector3 pos)
     {
         return new Vector2Int(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y));
@@ -166,6 +176,15 @@ public class TileManager : MonoBehaviour
         return new Vector3(tilePos.x + .5f, tilePos.y + .5f, 0);
     }
 
+    public CharacterInfo GetPlayerCharacter()
+    {
+        foreach(var character in this.Characters)
+        {
+            if(character.tag == "Player") return character;
+        }
+        return null;
+    }
+    
     private Vector2Int? GetRangedTarget(Vector2Int from, CharacterInfo caster, CharacterInfo source)
     {
         Vector2Int? closestTarget = null;

@@ -20,6 +20,14 @@ public static class AttackShapeBuilder
         Up,
     }
 
+    // this is used in the enemy controller
+    [System.NonSerialized] public static readonly Dictionary<Vector2Int, Direction> VecToDir = new (){
+        {new Vector2Int(1,0), Direction.Right},
+        {new Vector2Int(0,-1),Direction.Down},
+        {new Vector2Int(-1,0),Direction.Left},
+        {new Vector2Int(0,1), Direction.Up} 
+    };
+
     public static AttackShape AttackAt(AttackShape attackShape, Direction direction, Vector2Int origin)
     {
         AttackShape attack = new AttackShape(attackShape);
