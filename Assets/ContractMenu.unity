@@ -245,8 +245,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45015b42cda17014db38f32f7efe4801, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  contractJSONFile: {fileID: 0}
-  uiDocument: {fileID: 0}
+  contractJSONFile: {fileID: 4900000, guid: 9264b47778320a8409002c7615b8ee04, type: 3}
+  uiDocument: {fileID: 1371119363}
 --- !u!114 &1371119363
 MonoBehaviour:
   m_ObjectHideFlags: 0

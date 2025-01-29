@@ -5,19 +5,37 @@
     {
       "contractTitle": "Contract 1",
       "description": "This is a description of contract 1",
-      "expPoints": 100,
+      "expPoints": 1000,
       "difficulty": "Easy"
     },
     {
       "contractTitle": "Contract 2",
       "description": "This is a description of contract 2",
-      "expPoints": 400,
+      "expPoints": 4000,
       "difficulty": "Medium"
     },
     {
       "contractTitle": "Contract 3",
       "description": "This is a description of contract 3",
       "expPoints": 8000,
+      "difficulty": "Hard"
+    },
+    {
+      "contractTitle": "Contract 4",
+      "description": "This is a description of contract 4",
+      "expPoints": 15000,
+      "difficulty": "Easy"
+    },
+    {
+      "contractTitle": "Contract 5",
+      "description": "This is a description of contract 5",
+      "expPoints": 20000,
+      "difficulty": "Medium"
+    },
+    {
+      "contractTitle": "Contract 6",
+      "description": "This is a description of contract 6",
+      "expPoints": 25000,
       "difficulty": "Hard"
     }
   ]

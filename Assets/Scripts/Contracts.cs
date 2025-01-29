@@ -60,7 +60,14 @@ public class Contracts : MonoBehaviour
         for (int i = 0; i < allContracts.contracts.Length; i++)
         {
             Contract randomContract = allContracts.contracts[randomIndex];
-            Debug.Log(randomContract.contractTitle);
+            for (int j = 0; j < 4; j++)
+            {
+                Debug.Log(randomContract.contractTitle);
+                Debug.Log(randomContract.description);
+                Debug.Log(randomContract.expPoints);
+                Debug.Log(randomContract.difficulty);
+            }
+            //Debug.Log(randomContract.contractTitle);
         }
         //Contract randomContract = allContracts.contracts[randomIndex];
         //Debug.Log(randomContract.title);
