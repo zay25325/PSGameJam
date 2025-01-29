@@ -228,13 +228,6 @@ public class EnemyControllerBase:MonoBehaviour {
             case AttackShape.Target.Ranged:
                 return(LineOfSight(start, target, 100)); //placeholder range of basically infinite
 
-            // check one direction
-            case AttackShape.Target.Self:
-                foreach(var tile in AttackShapeBuilder.AttackAt(attack, AttackShapeBuilder.Direction.Right, start).AttackTiles) {
-                    if(tile.Position == target) return true;
-                }
-                return false;
-
             // check all 4 directions, starting with the "best" one
             case AttackShape.Target.Touch:
                  Vector2Int move = GetOrthoDir(start, target);
