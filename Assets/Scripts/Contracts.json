@@ -1,0 +1,25 @@
+
+
+
+{
+  "contracts": [
+    {
+      "contractTitle": "Contract 1",
+      "description": "This is a description of contract 1",
+      "expPoints": 100,
+      "difficulty": "Easy"
+    },
+    {
+      "contractTitle": "Contract 2",
+      "description": "This is a description of contract 2",
+      "expPoints": 400,
+      "difficulty": "Medium"
+    },
+    {
+      "contractTitle": "Contract 3",
+      "description": "This is a description of contract 3",
+      "expPoints": 8000,
+      "difficulty": "Hard"
+    }
+  ]
+}
