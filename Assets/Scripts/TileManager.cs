@@ -127,7 +127,7 @@ public class TileManager : MonoBehaviour
 
     public bool IsTileOccupied(Vector2Int pos)
     {
-        if (wallMap.HasTile((Vector3Int)pos))
+        if (wallMap.HasTile((Vector3Int)(pos - PositionToTile(transform.position))))
         {
             return true;
         }
