@@ -57,8 +57,13 @@ public class Contracts : MonoBehaviour
     private void DisplayRandomContracts()
     {
         int randomIndex = Random.Range(0, allContracts.contracts.Length);
-        Contract randomContract = allContracts.contracts[randomIndex];
-        Debug.Log(randomContract.title);
+        for (int i = 0; i < allContracts.contracts.Length; i++)
+        {
+            Contract randomContract = allContracts.contracts[randomIndex];
+            Debug.Log(randomContract.title);
+        }
+        //Contract randomContract = allContracts.contracts[randomIndex];
+        //Debug.Log(randomContract.title);
     }
 
 
