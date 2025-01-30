@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -13,7 +16,7 @@ public class Contract
     public string difficulty;
 }
 
-[System.Serializable]
+[System.Serializable] // this can be reduced
 public class ContractList
 {// this is the list of contracts pulled from the JSON file
     public Contract[] contracts;
@@ -27,7 +30,7 @@ public class Contracts : MonoBehaviour
     private VisualElement root;
     private VisualElement contractListContainer;
     private ContractList allContracts;  // Changed from Contract to ContractList
-    
+
     void OnEnable()
     {
         root = GetComponent<UIDocument>().rootVisualElement;
@@ -40,11 +43,9 @@ public class Contracts : MonoBehaviour
             return;
         }
 
-        
         LoadContracts();
         DisplayRandomContracts();
     }
-
 
     //void Update()
     //{
@@ -64,19 +65,21 @@ public class Contracts : MonoBehaviour
 
     private void DisplayRandomContracts()
     {
+        int count = 1;
         for (int i = 0; i < allContracts.contracts.Length; i++)
         {
-            int randomIndex = Random.Range(0, allContracts.contracts.Length);
+            int randomIndex = UnityEngine.Random.Range(0, allContracts.contracts.Length);
             Contract randomContract = allContracts.contracts[randomIndex];
-            CreateContractCard(randomContract);
+            CreateContractCards(randomContract, count);
+            count++;
         }
         Debug.Log("Displayed random contracts");
-        //Contract randomContract = allContracts.contracts[randomIndex];
     }
 
-    private void CreateContractCard(Contract contract)
+
+    private void CreateContractCards(Contract contract, int count)
     {
-        VisualElement contractCard = root.Q("contract-card");
+        VisualElement contractCard = root.Q($"contract-card-{count}");
         if (contractCard == null)
         {
             Debug.LogError("Could not find contract-card template!");
@@ -84,40 +87,22 @@ public class Contracts : MonoBehaviour
         }
 
         Label contractTitle = contractCard.Q<Label>("contract-title");
-        contractTitle.text = contract.contractTitle;
-
         Label contractDescription = contractCard.Q<Label>("contract-description");
-        contractDescription.text = contract.description;
-
         Label contractExpPoints = contractCard.Q<Label>("contract-experience");
-        contractExpPoints.text = $"Experience: {contract.expPoints}";
-
         Label contractDifficulty = contractCard.Q<Label>("contract-difficulty");
-        contractDifficulty.text = contract.difficulty;
 
-        //this works :p
-        //VisualElement contractCard = new();
-        //contractCard.AddToClassList("contract-card");
+        if (contractTitle != null) 
+            contractTitle.text = contract.contractTitle;
 
-        //Label contractTitle = new(contract.contractTitle);
-        //contractTitle.AddToClassList("contract-title");
+        if (contractDescription != null)
+            contractDescription.text = contract.description;
 
-        //Label contractDescription = new(contract.description);
-        //contractDescription.AddToClassList("contract-description");
+        if (contractExpPoints != null)
+            contractExpPoints.text = $"Experience: {contract.expPoints}";
 
-        //Label contractExpPoints = new($"Experience: {contract.expPoints}");
-        //contractExpPoints.AddToClassList("contract-experience");
+        if (contractDifficulty != null)
+            contractDifficulty.text = contract.difficulty;
 
-        //Label contractDifficulty = new(contract.difficulty);
-        //contractDifficulty.AddToClassList("contract-difficulty");
-
-        //// add into the card itself
-        //contractCard.Add(contractTitle);
-        //contractCard.Add(contractDescription);
-        //contractCard.Add(contractExpPoints);
-        //contractCard.Add(contractDifficulty);
-
-        //// add the card into the container for display
-        //contractListContainer.Add(contractCard);
+        contractListContainer.Add(contractCard);
     }
 }
