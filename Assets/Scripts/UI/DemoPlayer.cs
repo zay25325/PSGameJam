@@ -220,7 +220,7 @@ public class DemoPlayer : MonoBehaviour
     {
         // create the needed number of move tiles.
         // the player's move speed is not likely to change mid battle
-        int requiredMoveTiles = character.Speed * ((1 + character.Speed) / 2) * 4; // n * ((1 + n) / 2) = 1+2+...+n, x4 for the 4 directions
+        int requiredMoveTiles = (int)(character.Speed * ((1 + character.Speed) / 2f) * 4f); // n * ((1 + n) / 2) = 1+2+...+n, x4 for the 4 directions
 
         if (moveTiles.Count < requiredMoveTiles)
         {
