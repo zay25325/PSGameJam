@@ -13,6 +13,7 @@ using UnityEngine;
 using System.Linq;
 using static AttackShapeBuilder;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class TurnSystemManager : MonoBehaviour
 {
@@ -66,10 +67,13 @@ public class TurnSystemManager : MonoBehaviour
         enemies.AddRange(GameObject.FindGameObjectsWithTag("Enemy")); //get all the enemy objects in the scene
 
         mainCanvas = GameObject.Find("Main Canvas");
+        
         mainCanvas.SetActive(false);
+
         StartCombat(player, enemies); //start the combat system
 
     }
+    
 
     /*
         FUNCTION : RunTurnSystem()
@@ -199,38 +203,14 @@ public class TurnSystemManager : MonoBehaviour
     Vector3 initialPlayerPosition = player.transform.position; //get the initial player position
 
     mainCanvas.SetActive(true);
-
-    bool movementButtonClicked = false;
     
     //attack
     Toggle selectedAttack = null;
-    Transform permAttacks = mainCanvas.transform.Find("Bottom Bar/PermAttacks");
     // Get all CombatButtons under PermAttacks
     List<Toggle> combatButtons = new List<Toggle>();
 
-    if (permAttacks != null)
-    {
-        foreach (Transform attackGroup in permAttacks) // Loop through attack groups
-        {
-            foreach (Transform combatButton in attackGroup) // Loop through CombatButtons
-            {
-                Toggle toggle = combatButton.GetComponent<Toggle>();
-                if (toggle != null)
-                    combatButtons.Add(toggle);
-            }
-        }
-    }
-    else
-    {
-        Debug.Log("PermAttacks not found");
-    }
-
-    if (mainCanvas == null)
-    {
-        Debug.Log("Main Canvas not found");
-        yield break;
-    }
-
+ 
+ 
     moveToggle = mainCanvas.transform.Find("Bottom Bar/MovementSection/MoveButton")?.GetComponent<Toggle>();
 
     // Get the DemoPlayer component from the MainCanvas
@@ -243,34 +223,54 @@ public class TurnSystemManager : MonoBehaviour
 
     demoPlayer.enabled = true;
 
+    // Get reference to objects with the tag "Attack"
+    GameObject[] attackObjects = GameObject.FindGameObjectsWithTag("Attack");
+    List<CombatButton> combatButtonsList = new List<CombatButton>();
+    foreach (GameObject obj in attackObjects)
+    {
+        CombatButton combatButton = obj.GetComponent<CombatButton>();
+        if (combatButton != null)
+        {
+            combatButtonsList.Add(combatButton);
+            Debug.Log("Added CombatButton: " + combatButton.name);
+        }
+        else
+        {
+            Debug.Log("No CombatButton found on: " + obj.name);
+        }
+    }
+
     while (!playerAction) // Keep running until player completes an action
     {
         // **Check if an attack button is selected**
-        foreach (Toggle toggle in combatButtons)
+        foreach (CombatButton combatButton in combatButtonsList)
         {
-            if (toggle.isOn)
+            if (combatButton.GetComponent<Toggle>().isOn)
             {
-                selectedAttack = toggle;
-                Debug.Log("Selected Attack: " + toggle.gameObject.name);
-                break;
+            selectedAttack = combatButton.GetComponent<Toggle>();
+            break;
             }
         }
 
-        // **If an attack is selected, check for mouse click**
-        if (selectedAttack != null)
+        if (Input.GetMouseButtonDown(0))
         {
-            if (Input.GetMouseButtonDown(0)) // Left-click
+            if (EventSystem.current.IsPointerOverGameObject())
             {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out RaycastHit hit))
+                GameObject selectedObj = EventSystem.current.currentSelectedGameObject;
+                if (selectedObj == null || selectedObj.GetComponent<Toggle>() == null)
                 {
-                    Debug.Log("Attack executed at: " + hit.point);
+                    demoPlayer.ClickedWorldSpace();  // Call the player action
                     playerAction = true;
-                    selectedAttack.isOn = false; // Reset attack button
+                    demoPlayer.enabled = false;
+
+                    // Turn off all toggles in the combatButtons list
+                    foreach (Toggle toggle in combatButtons)
+                    {
+                        toggle.isOn = false;
+                    }
                 }
             }
         }
-
         // **Check if movement button is active and player has moved**
         if (moveToggle != null && moveToggle.isOn)
         {
@@ -288,9 +288,14 @@ public class TurnSystemManager : MonoBehaviour
         yield return null; // Wait for the next frame
     }
 
+    if(selectedAttack != null)
+    {
+        selectedAttack.isOn = false; // Reset attack button
+    }
     // **Cleanup**
     mainCanvas.SetActive(false);
     Debug.Log("Turn Complete. Bye.");
+    yield return new WaitForSeconds(3); // Wait for 3 seconds
 }
 
     /*
@@ -300,71 +305,71 @@ public class TurnSystemManager : MonoBehaviour
         PARAMETERS : NONE
         RETURNS : NONE
     */
-private IEnumerator EnemyActionPhase()
-{
-    Debug.Log("Enemy Action Phase");
+    private IEnumerator EnemyActionPhase()
+    {
+        Debug.Log("Enemy Action Phase");
 
-    // // Create a set to keep track of occupied positions
-    // HashSet<Vector2Int> occupiedPositions = new HashSet<Vector2Int>();
+        // // Create a set to keep track of occupied positions
+        // HashSet<Vector2Int> occupiedPositions = new HashSet<Vector2Int>();
 
-    // // Initialize occupied positions with current enemy positions
-    // foreach (GameObject enemy in enemies)
-    // {
-    //     // Add the current enemy position to the set
-    //     Vector2Int currentPosition = new Vector2Int(Mathf.FloorToInt(enemy.transform.position.x), Mathf.FloorToInt(enemy.transform.position.y));
-    //     occupiedPositions.Add(currentPosition);
-    // }
+        // // Initialize occupied positions with current enemy positions
+        // foreach (GameObject enemy in enemies)
+        // {
+        //     // Add the current enemy position to the set
+        //     Vector2Int currentPosition = new Vector2Int(Mathf.FloorToInt(enemy.transform.position.x), Mathf.FloorToInt(enemy.transform.position.y));
+        //     occupiedPositions.Add(currentPosition);
+        // }
 
-    // // Move enemies first
-    // foreach (MoveAction move in plannedEnemyMoves)
-    // {
-    //     // Find the enemy object based on the character info
-    //     GameObject enemy = enemies.FirstOrDefault(e => e.GetComponent<CharacterInfo>() == move.Character);
-    //     // Check if the enemy exists and the target position is unoccupied
-    //     if (enemy != null)
-    //     {
-    //         Vector2Int targetPosition = move.MoveTo;
+        // // Move enemies first
+        // foreach (MoveAction move in plannedEnemyMoves)
+        // {
+        //     // Find the enemy object based on the character info
+        //     GameObject enemy = enemies.FirstOrDefault(e => e.GetComponent<CharacterInfo>() == move.Character);
+        //     // Check if the enemy exists and the target position is unoccupied
+        //     if (enemy != null)
+        //     {
+        //         Vector2Int targetPosition = move.MoveTo;
 
-    //         // Check if the target position is unoccupied
-    //         if (!occupiedPositions.Contains(targetPosition))
-    //         {
-    //             // Move the enemy to the target position
-    //             enemy.transform.position = new Vector3(targetPosition.x, enemy.transform.position.y, targetPosition.y);
-    //             occupiedPositions.Add(targetPosition);
-    //             yield return null; // Wait for the next frame
-    //         }
-    //         else
-    //         {
-    //             // Debug.Log($"Target position {targetPosition} is occupied. Skipping move for {enemy.name}");
-    //         }
-    //     }
-    // }
+        //         // Check if the target position is unoccupied
+        //         if (!occupiedPositions.Contains(targetPosition))
+        //         {
+        //             // Move the enemy to the target position
+        //             enemy.transform.position = new Vector3(targetPosition.x, enemy.transform.position.y, targetPosition.y);
+        //             occupiedPositions.Add(targetPosition);
+        //             yield return null; // Wait for the next frame
+        //         }
+        //         else
+        //         {
+        //             // Debug.Log($"Target position {targetPosition} is occupied. Skipping move for {enemy.name}");
+        //         }
+        //     }
+        // }
 
-    // // Execute attacks
-    // foreach (AttackShape attack in plannedEnemyAttacks)
-    // {
-    //     // Convert the attack start position to a Vector2Int
-    //     Vector2Int attackPosition = new Vector2Int(Mathf.FloorToInt(attack.StartPosition.x), Mathf.FloorToInt(attack.StartPosition.y));
-    //     Vector3 enemyPosition = new Vector3(attack.StartPosition.x, 0, attack.StartPosition.y);
-    //     Direction attackDirection = GetDirectionToPlayer(enemyPosition, player.transform.position);
-    //     // Check if the attack position is unoccupied
-    //     if (!occupiedPositions.Contains(attackPosition))
-    //     {
-    //         TileManager.Instance.AddPlayerAttack(attack, attackDirection, enemyPosition); // Apply attack to tiles
-    //         occupiedPositions.Add(attackPosition);
-    //     }
-    //     else
-    //     {
-    //         //Debug.Log($"Attack position {attackPosition} is already occupied. Skipping attack.");
-    //     }
-    // }
+        // // Execute attacks
+        // foreach (AttackShape attack in plannedEnemyAttacks)
+        // {
+        //     // Convert the attack start position to a Vector2Int
+        //     Vector2Int attackPosition = new Vector2Int(Mathf.FloorToInt(attack.StartPosition.x), Mathf.FloorToInt(attack.StartPosition.y));
+        //     Vector3 enemyPosition = new Vector3(attack.StartPosition.x, 0, attack.StartPosition.y);
+        //     Direction attackDirection = GetDirectionToPlayer(enemyPosition, player.transform.position);
+        //     // Check if the attack position is unoccupied
+        //     if (!occupiedPositions.Contains(attackPosition))
+        //     {
+        //         TileManager.Instance.AddPlayerAttack(attack, attackDirection, enemyPosition); // Apply attack to tiles
+        //         occupiedPositions.Add(attackPosition);
+        //     }
+        //     else
+        //     {
+        //         //Debug.Log($"Attack position {attackPosition} is already occupied. Skipping attack.");
+        //     }
+        // }
 
-    yield return new WaitForSeconds(3); // Wait for 3 seconds
+        yield return null; // Wait for 3 seconds
 
 
-    //vincent can give enemies on a priority, so the AI type can give a preferred turn order.
-    //so enemies can decide what they do in that order and execute in that order
-}
+        //vincent can give enemies on a priority, so the AI type can give a preferred turn order.
+        //so enemies can decide what they do in that order and execute in that order
+    }
 
 
     /*
