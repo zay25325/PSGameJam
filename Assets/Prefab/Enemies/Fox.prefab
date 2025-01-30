@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2896484688752349053}
   - component: {fileID: 8317266966370479260}
   m_Layer: 0
-  m_Name: BlasterEnemy 3
+  m_Name: Fox
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 11
-  m_Sprite: {fileID: -1166532914, guid: 1ee55f5268af59148b378273b6c8206c, type: 3}
+  m_Sprite: {fileID: -583337045, guid: ccee7eafc73ed8c44bfc4da30efe42b9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -101,10 +101,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb5950ce49ed08348b6770d1efe7b3dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 7
-  hp: 7
+  maxHP: 5
+  hp: 5
   speed: 5
-  attacks: 06000000
+  attacks: 05000000
   ai: {fileID: 8317266966370479260}
   OnHPChanged:
     m_PersistentCalls:
@@ -140,7 +140,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.1875, y: 1.1875}
+    oldSize: {x: 0.9375, y: 0.78125}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

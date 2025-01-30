@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6855969245554646591}
   - component: {fileID: 323121123456947553}
   m_Layer: 0
-  m_Name: BarbarianEnemy 3
+  m_Name: Walker
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,8 +78,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300000, guid: 9ab1e33a41c1e5d41833105cce416326, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 1895774103, guid: aa8c9eff200b8174ea9afca32b69c9bd, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -104,7 +104,7 @@ MonoBehaviour:
   maxHP: 10
   hp: 10
   speed: 5
-  attacks: 00000000
+  attacks: 01000000
   ai: {fileID: 323121123456947553}
   OnHPChanged:
     m_PersistentCalls:
@@ -140,7 +140,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.84375, y: 1.15625}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

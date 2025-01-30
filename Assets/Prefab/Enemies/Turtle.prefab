@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6855969245554646591}
   - component: {fileID: 323121123456947553}
   m_Layer: 0
-  m_Name: BarbarianEnemy 5
+  m_Name: Turtle
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 11
-  m_Sprite: {fileID: 1895774103, guid: aa8c9eff200b8174ea9afca32b69c9bd, type: 3}
+  m_Sprite: {fileID: -1481539686, guid: f41f9f6507bb50b4c94c4ec967f71004, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -101,10 +101,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb5950ce49ed08348b6770d1efe7b3dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 10
-  hp: 10
+  maxHP: 12
+  hp: 12
   speed: 5
-  attacks: 01000000
+  attacks: 03000000
   ai: {fileID: 323121123456947553}
   OnHPChanged:
     m_PersistentCalls:
@@ -140,7 +140,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.84375, y: 1.15625}
+    oldSize: {x: 1.34375, y: 0.90625}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
