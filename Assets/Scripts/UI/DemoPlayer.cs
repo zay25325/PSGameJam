@@ -64,17 +64,53 @@ public class DemoPlayer : MonoBehaviour
             List<AttackShape> ChainAttacks = new List<AttackShape>();
             for (int i = 0; i < activeAttacks.Count; i++)
             {
-                ChainAttacks.Add(AttackShape.AttackDictionary[activeAttacks[i].attack]);
-
+                ChainAttacks.Add(new AttackShape(AttackShape.AttackDictionary[activeAttacks[i].attack]));
+                ChainAttacks[i].Caster = character;
                 if (i != 0)
                 {
                     ChainAttacks[i - 1].ChainAttack = ChainAttacks[i];
                 }
             }
 
-            TileManager.Instance.AddPlayerAttack(ChainAttacks[0], direction, character.transform.position);
-            TileManager.Instance.EndTurn();
+            // Get attack position (the source for melee attacks, the mouse pos for ranged attacks)
+            Vector3? position = null;
+            if (ChainAttacks[0].TargetType == Target.Ranged)
+            {
+                position = IsValidRangedTarget(mousePos);
+            }
+            else
+            {
+                position = character.transform.position;
+            }
+
+            // if the position is valid
+            if (position.HasValue)
+            {
+                TileManager.Instance.AddPlayerAttack(ChainAttacks[0], direction, position.Value);
+                TileManager.Instance.EndTurn();
+            }
         }
+    }
+
+    private Vector3? IsValidRangedTarget(Vector3 mousePos)
+    {
+        // correct the position to X.5, Y.5 so attacking an enemy on a diagonal will not clip the wall 50% of the time
+        Vector3 tileCenter = TileManager.TileToPosition(TileManager.PositionToTile(mousePos));
+
+        Vector3? validPosition = null;
+        Vector2 direction = (tileCenter - character.transform.position).normalized;
+        float distance = Vector3.Distance(character.transform.position, tileCenter);
+        RaycastHit2D hit = Physics2D.Raycast((Vector2)(character.transform.position) + direction, direction, distance);
+        if (hit.collider == null)
+        {
+            validPosition = tileCenter;
+        }
+        else if (hit.collider.GetComponent<CharacterInfo>() != null)
+        {
+            validPosition = hit.collider.transform.position;
+        }
+
+        return validPosition;
     }
 
     public void MoveTileSelected(Vector3 moveTo)
