@@ -162,7 +162,7 @@ public class DemoPlayer : MonoBehaviour
         activeAttacks.Clear();
     }
 
-    private void CreateCombatButton(AttackKeys attack, bool isTemp)
+    public void CreateCombatButton(AttackKeys attack, bool isTemp)
     {
         GameObject combatButtonGO = GameObject.Instantiate(combatButtonPrefab, isTemp ? tempHolder : permHolder);
         CombatButton combatButton = combatButtonGO.GetComponent<CombatButton>();

@@ -519,11 +519,52 @@ public class TurnSystemManager : MonoBehaviour
     */
     public void EnemyRefresh()
     {
+        // using a variable to as true to make it cleaner
+        bool isTemp = true;
+
+        int maxTempAttacks = 5;
+        // get the DemoPlayer component from the MainCanvas
+        // this will help us get reference to create combat buttons for temp attacks
+        DemoPlayer getAttackFromDemoPlayer = mainCanvas.GetComponent<DemoPlayer>();
+
+        // to get reference the amount of combat buttons within temp attacks
+        // this is to ensure only up to the limit of 5 temp attacks can be created and used
+        // past 5 can't add, but below 5 can add
+        GameObject tempAttacks = mainCanvas.transform.Find("Bottom Bar/TempAttacks").gameObject;
+        
         // Refresh the enemy queue, removing any null or destroyed enemies
+        // adding attacks if possible
         for (int i = enemies.Count - 1; i >= 0; i--)
         {
+            // Check if the enemy is null or their HP is 0 or less
             if (enemies[i] == null || enemies[i].GetComponent<CharacterInfo>().HP <= 0)
             {
+                var enemyInfo = enemies[i].GetComponent<CharacterInfo>();   // Get the enemy info
+
+                // Check if the enemy has attacks
+                if (enemyInfo.Attacks != null && enemyInfo.Attacks.Count > 0)
+                {
+                    int toggleCount = 0;    //variable to count number of toggles available
+
+                    // Check if there are already 5 or more toggles in tempAttacks
+                    foreach (Transform child in tempAttacks.transform)
+                    {
+                        //increase toggle if child has a toggle component
+                        if (child.GetComponent<Toggle>() != null)
+                        {
+                            toggleCount++;
+                        }
+                    }
+
+                    //if less than 5, add the temp attack to the player arsenal
+                    if (toggleCount < maxTempAttacks)
+                    {
+                        // Select a random attack from the defeated enemy's attacks
+                        var randomAttack = enemyInfo.Attacks[Random.Range(0, enemyInfo.Attacks.Count)];
+                        getAttackFromDemoPlayer.CreateCombatButton(randomAttack, isTemp);
+                    }
+                }
+                // Remove the enemy from the list and scene
                 enemies[i].SetActive(false);
                 enemies.RemoveAt(i);
             }
