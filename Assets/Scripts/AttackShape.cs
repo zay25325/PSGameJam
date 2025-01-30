@@ -19,7 +19,7 @@ public class AttackShape
         Ranged
     }
 
-
+    public Vector2Int StartPosition { get; set; }
     public Target TargetType;
     public Direction AttackDirection;
     public List<AttackTile> AttackTiles;
