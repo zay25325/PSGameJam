@@ -41,6 +41,10 @@ public class TurnSystemManager : MonoBehaviour
 
     GameObject mainCanvas;
 
+    EnemyControllerBase enemyController;
+
+    private CharacterInfo enemyInfo;
+
 
     /*
         FUNCTION : Start()
@@ -128,6 +132,33 @@ public class TurnSystemManager : MonoBehaviour
     */
     private IEnumerator EnemyIntentPhase()
     {
+        //New
+    // Iterate through each enemy to determine their actions
+    // foreach (GameObject enemy in enemies)
+    // {
+    //     // Get the enemy's current position
+    //     Vector3 enemyPosition = enemy.transform.position;
+
+    //     // Get the derived EnemyControllerBase component
+    //     EnemyControllerBase enemyController = enemy.GetComponent<EnemyControllerBase>();
+        
+    //     if (enemyController != null)
+    //     {
+    //         // Assign the enemy's intent
+    //         enemyController.AssignIntent(playerPosition);
+    //     }
+    //     else
+    //     {
+    //         Debug.LogWarning("Enemy does not have a derived EnemyControllerBase component attached.");
+    //     }
+    // }
+
+
+
+        //New
+
+
+        //Old Demo
         // Logic for the enemy to determine their intent
         // This is where the enemy will determine their next move
 
@@ -185,6 +216,7 @@ public class TurnSystemManager : MonoBehaviour
 
         // End the coroutine
         yield return null;
+        //Old demo
     }
 
     /*
@@ -271,14 +303,27 @@ public class TurnSystemManager : MonoBehaviour
                 //change their mind
                 if (selectedObj == null || selectedObj.GetComponent<Toggle>() == null)
                 {
-                    demoPlayer.ClickedWorldSpace();  // Call the player action
-                    playerAction = true;    // Set player action to true
-                    demoPlayer.enabled = false; // Disable the DemoPlayer component
-
-                    // Turn off all toggles in the combatButtons list
-                    foreach (Toggle toggle in combatButtons)
+                    //if a selectedattack isOn then do this
+                    if (selectedAttack != null)
                     {
-                        toggle.isOn = false;
+                        // Get the attack button from the selected attack
+                        CombatButton attackButton = selectedAttack.GetComponent<CombatButton>();
+
+                        // Check if the attack button is not null
+                        if (attackButton != null)
+                        {
+                            // Add the attack button to the list of combat buttons
+                            //combatButtons.Add(selectedAttack);
+                            demoPlayer.ClickedWorldSpace();  // Call the player action
+                            playerAction = true;    // Set player action to true
+                            demoPlayer.enabled = false; // Disable the DemoPlayer component
+
+                            // Turn off all toggles in the combatButtons list
+                            foreach (Toggle toggle in combatButtons)
+                            {
+                                toggle.isOn = false;
+                            }
+                        }
                     }
                 }
             }
