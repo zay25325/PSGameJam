@@ -202,66 +202,78 @@ public class TurnSystemManager : MonoBehaviour
     Toggle moveToggle;
     Vector3 initialPlayerPosition = player.transform.position; //get the initial player position
 
-    mainCanvas.SetActive(true);
+    mainCanvas.SetActive(true); //Turning back on Canvas so player can interact with UI
     
-    //attack
-    Toggle selectedAttack = null;
-    // Get all CombatButtons under PermAttacks
-    List<Toggle> combatButtons = new List<Toggle>();
+    
+    Toggle selectedAttack = null;   // Selected attack button
+
+    List<Toggle> combatButtons = new List<Toggle>();    // List of combat buttons
 
  
- 
+    // Get the combat buttons from the MainCanvas
     moveToggle = mainCanvas.transform.Find("Bottom Bar/MovementSection/MoveButton")?.GetComponent<Toggle>();
 
     // Get the DemoPlayer component from the MainCanvas
     DemoPlayer demoPlayer = mainCanvas.GetComponent<DemoPlayer>();
+
+    // Check if the DemoPlayer component exists
     if (demoPlayer == null)
     {
         Debug.Log("DemoPlayer component not found on Main Canvas");
         yield break;
     }
 
+    // Enable the DemoPlayer component indicating combat can be initiated by the player
     demoPlayer.enabled = true;
 
     // Get reference to objects with the tag "Attack"
-    GameObject[] attackObjects = GameObject.FindGameObjectsWithTag("Attack");
-    List<CombatButton> combatButtonsList = new List<CombatButton>();
-    foreach (GameObject obj in attackObjects)
+    GameObject[] attackObjects = GameObject.FindGameObjectsWithTag("Attack");   // Get all objects with the tag "Attack"
+    List<CombatButton> combatButtonsList = new List<CombatButton>();    // List of CombatButton objects
+    
+    // Add CombatButton components to the list
+    foreach (GameObject obj in attackObjects)   
     {
         CombatButton combatButton = obj.GetComponent<CombatButton>();
         if (combatButton != null)
         {
             combatButtonsList.Add(combatButton);
-            Debug.Log("Added CombatButton: " + combatButton.name);
-        }
-        else
-        {
-            Debug.Log("No CombatButton found on: " + obj.name);
         }
     }
 
-    while (!playerAction) // Keep running until player completes an action
+    // Keep running until player completes an action
+    // Essentially the turn can only end with the player completes an action
+    while (!playerAction)
     {
-        // **Check if an attack button is selected**
+        // Loop through the list of combat buttons to check if an attack button is selected
         foreach (CombatButton combatButton in combatButtonsList)
         {
+            // Check if the combat button is selected
             if (combatButton.GetComponent<Toggle>().isOn)
             {
-            selectedAttack = combatButton.GetComponent<Toggle>();
-            break;
+                // Set the selected attack button
+                selectedAttack = combatButton.GetComponent<Toggle>();
+                break;
             }
         }
 
+        //Check if player has left clicked with their mouse
         if (Input.GetMouseButtonDown(0))
         {
+            // Check if the mouse is over a UI element
             if (EventSystem.current.IsPointerOverGameObject())
             {
+                // Check if the current selected game object is a toggle
                 GameObject selectedObj = EventSystem.current.currentSelectedGameObject;
+
+                // Check if the selected object is not a toggle
+                // This is so player can click anywhere after selecting an attack
+                //so the attack isn't conducted immedietly after first choice, player can
+                //change their mind
                 if (selectedObj == null || selectedObj.GetComponent<Toggle>() == null)
                 {
                     demoPlayer.ClickedWorldSpace();  // Call the player action
-                    playerAction = true;
-                    demoPlayer.enabled = false;
+                    playerAction = true;    // Set player action to true
+                    demoPlayer.enabled = false; // Disable the DemoPlayer component
 
                     // Turn off all toggles in the combatButtons list
                     foreach (Toggle toggle in combatButtons)
@@ -272,14 +284,15 @@ public class TurnSystemManager : MonoBehaviour
             }
         }
         // **Check if movement button is active and player has moved**
+        // This is to end the player's turn if they have moved
         if (moveToggle != null && moveToggle.isOn)
         {
             demoPlayer.enabled = true; // Enable player movement
 
             if (player.transform.position != initialPlayerPosition) // Detect movement
             {
-                demoPlayer.enabled = false;
-                playerAction = true;
+                demoPlayer.enabled = false; // Disable player interaction
+                playerAction = true;    // Set player action to true to end turn
                 moveToggle.isOn = false; // Reset move button
                 Debug.Log("Player moved. Ending turn.");
             }
@@ -288,14 +301,16 @@ public class TurnSystemManager : MonoBehaviour
         yield return null; // Wait for the next frame
     }
 
+    // **End of Player Action Phase**
+
+    //remove active slots
     if(selectedAttack != null)
     {
         selectedAttack.isOn = false; // Reset attack button
     }
-    // **Cleanup**
-    mainCanvas.SetActive(false);
-    Debug.Log("Turn Complete. Bye.");
-    yield return new WaitForSeconds(3); // Wait for 3 seconds
+
+    mainCanvas.SetActive(false);    // Turn off the MainCanvas
+    yield return null; 
 }
 
     /*
