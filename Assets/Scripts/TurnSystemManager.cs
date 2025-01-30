@@ -456,13 +456,7 @@ public class TurnSystemManager : MonoBehaviour
         }
         else if (aggressiveEnemy.intentType == AggressiveEnemy.IntentType.Attack)
         {
-            // Execute the attack logic
-            //aggressiveEnemy.ExecuteAttack();
-            
-            // Vector2Int targetTile = aggressiveEnemy.targetTile;
-            // Vector3 targetPosition = new Vector3(targetTile.x, enemy.transform.position.y, targetTile.y);
-            // enemy.transform.position = targetPosition;
-            //aggressiveEnemy.MoveTo(targetTile);
+            tileManager.AddShape(aggressiveEnemy.preparedAttack);
             Debug.Log("Aggressive Enemy is attacking + " + aggressiveEnemy.intentType);
         }
     }
@@ -491,110 +485,11 @@ public class TurnSystemManager : MonoBehaviour
         }
         else if (tacticalEnemy.intentType == TacticalEnemy.IntentType.Attack)
         {
-            // Execute the attack logic
-            //aggressiveEnemy.ExecuteAttack();
-            
-            // Vector2Int targetTile = aggressiveEnemy.targetTile;
-            // Vector3 targetPosition = new Vector3(targetTile.x, enemy.transform.position.y, targetTile.y);
-            // enemy.transform.position = targetPosition;
-            //aggressiveEnemy.MoveTo(targetTile);
+            tileManager.AddShape(tacticalEnemy.preparedAttack);
             Debug.Log("Aggressive Enemy is attacking + " + tacticalEnemy.intentType);
-        }
-
-
-        
+        }   
     }
-
-        // // Cycle through the aggressive enemy list and execute their intents
-        // foreach (GameObject enemy in aggressiveEnemies)
-        // {
-        //     AggressiveEnemy aggressiveEnemy = enemy.GetComponent<AggressiveEnemy>();
-        //     Debug.Log("Enemy Action Phase Aggressive Enemy Intent: " + aggressiveEnemy.intentType);
-
-        //     // Execute the intent based on the type
-        //     switch (aggressiveEnemy.intentType)
-        //     {
-        //     case AggressiveEnemy.IntentType.Attack:
-        //         // Execute attack logic
-        //         //aggressiveEnemy.ExecuteAttack();
-        //         break;
-        //     case AggressiveEnemy.IntentType.Move:
-        //         // Execute move logic
-        //         //aggressiveEnemy.ExecuteMove();
-        //         Vector2 targetTile = aggressiveEnemy.targetTile;
-        //         Vector3 targetPosition = new Vector3(targetTile.x, enemy.transform.position.y, targetTile.y);
-        //         enemy.transform.position = targetPosition;
-        //         //aggressiveEnemy.MoveTo(targetTile);
-        //         break;
-        //     default:
-        //         Debug.LogWarning("Unknown intent type for aggressive enemy.");
-        //         break;
-        //     }
-        // }
         yield return null;
-
-        //cycle through the aggressive enemy list
-
-        // // Create a set to keep track of occupied positions
-        // HashSet<Vector2Int> occupiedPositions = new HashSet<Vector2Int>();
-
-        // // Initialize occupied positions with current enemy positions
-        // foreach (GameObject enemy in enemies)
-        // {
-        //     // Add the current enemy position to the set
-        //     Vector2Int currentPosition = new Vector2Int(Mathf.FloorToInt(enemy.transform.position.x), Mathf.FloorToInt(enemy.transform.position.y));
-        //     occupiedPositions.Add(currentPosition);
-        // }
-
-        // // Move enemies first
-        // foreach (MoveAction move in plannedEnemyMoves)
-        // {
-        //     // Find the enemy object based on the character info
-        //     GameObject enemy = enemies.FirstOrDefault(e => e.GetComponent<CharacterInfo>() == move.Character);
-        //     // Check if the enemy exists and the target position is unoccupied
-        //     if (enemy != null)
-        //     {
-        //         Vector2Int targetPosition = move.MoveTo;
-
-        //         // Check if the target position is unoccupied
-        //         if (!occupiedPositions.Contains(targetPosition))
-        //         {
-        //             // Move the enemy to the target position
-        //             enemy.transform.position = new Vector3(targetPosition.x, enemy.transform.position.y, targetPosition.y);
-        //             occupiedPositions.Add(targetPosition);
-        //             yield return null; // Wait for the next frame
-        //         }
-        //         else
-        //         {
-        //             // Debug.Log($"Target position {targetPosition} is occupied. Skipping move for {enemy.name}");
-        //         }
-        //     }
-        // }
-
-        // // Execute attacks
-        // foreach (AttackShape attack in plannedEnemyAttacks)
-        // {
-        //     // Convert the attack start position to a Vector2Int
-        //     Vector2Int attackPosition = new Vector2Int(Mathf.FloorToInt(attack.StartPosition.x), Mathf.FloorToInt(attack.StartPosition.y));
-        //     Vector3 enemyPosition = new Vector3(attack.StartPosition.x, 0, attack.StartPosition.y);
-        //     Direction attackDirection = GetDirectionToPlayer(enemyPosition, player.transform.position);
-        //     // Check if the attack position is unoccupied
-        //     if (!occupiedPositions.Contains(attackPosition))
-        //     {
-        //         TileManager.Instance.AddPlayerAttack(attack, attackDirection, enemyPosition); // Apply attack to tiles
-        //         occupiedPositions.Add(attackPosition);
-        //     }
-        //     else
-        //     {
-        //         //Debug.Log($"Attack position {attackPosition} is already occupied. Skipping attack.");
-        //     }
-        // }
-
-        yield return null; // Wait for 3 seconds
-
-
-        //vincent can give enemies on a priority, so the AI type can give a preferred turn order.
-        //so enemies can decide what they do in that order and execute in that order
     }
 
 
