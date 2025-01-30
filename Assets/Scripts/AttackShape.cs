@@ -63,6 +63,7 @@ public class AttackShape
         FlameSpray,
         FlameBall,
         LightningRay,
+        ShrapnelBlast,
     }
 
     public static Dictionary<AttackKeys, AttackShape> AttackDictionary = new Dictionary<AttackKeys, AttackShape>()
@@ -124,6 +125,19 @@ public class AttackShape
             new AttackTile(new Vector2Int(1, 0), 1), // right
             new AttackTile(new Vector2Int(2, 0), 1), // right
             new AttackTile(new Vector2Int(3, 0), 1), // right
+        }, activationCount: 1, null, TileEffectKey.Lightning) },
+
+         // ShrapnelBlast
+        { AttackKeys.ShrapnelBlast, new AttackShape( Target.Ranged,
+        new List<AttackTile>()
+        {
+            new AttackTile(new Vector2Int(1, 1), 1), // rightup
+            new AttackTile(new Vector2Int(2, 2), 1), // rightup
+            new AttackTile(new Vector2Int(0, 0), 1), // right
+            new AttackTile(new Vector2Int(1, 0), 1), // right
+            new AttackTile(new Vector2Int(2, 0), 1), // right
+            new AttackTile(new Vector2Int(1, -1), 1), // rightdown
+            new AttackTile(new Vector2Int(2, -2), 1), // rightdown
         }, activationCount: 1, null, TileEffectKey.Lightning) },
 
     };

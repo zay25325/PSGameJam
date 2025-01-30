@@ -16,7 +16,9 @@ public class CharacterInfo : MonoBehaviour
     [SerializeField] int hp = 10;
     [SerializeField] int speed = 3;
     [SerializeField] List<AttackShape.AttackKeys> attacks = new List<AttackShape.AttackKeys>();
-    //[SerializeField] EnemyAI ai = null;
+
+    // player has null, since they don't have an attached enemy ai
+    [SerializeField] EnemyControllerBase ai = null;
 
 
     [HideInInspector] public UnityEvent OnHPChanged = new UnityEvent();

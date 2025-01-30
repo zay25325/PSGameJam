@@ -184,6 +184,9 @@ public class TileManager : MonoBehaviour
         }
         return null;
     }
+    public Vector2Int GetPlayerLocation() {
+        return TileManager.PositionToTile(TileManager.Instance.GetPlayerCharacter().transform.position);
+    }
     
     private Vector2Int? GetRangedTarget(Vector2Int from, CharacterInfo caster, CharacterInfo source)
     {
