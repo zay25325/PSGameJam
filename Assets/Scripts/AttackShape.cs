@@ -61,7 +61,7 @@ public class AttackShape
         XLightning,
         FireBolt,
         FlameSpray,
-        FlameBall,
+        FireBall,
         LightningRay,
     }
 
@@ -126,5 +126,28 @@ public class AttackShape
             new AttackTile(new Vector2Int(3, 0), 1), // right
         }, activationCount: 1, null, TileEffectKey.Lightning) },
 
+        // Fireball - Big hit everything attack which risks hitting you
+        { AttackKeys.FireBall, new AttackShape( Target.Touch,
+        new List<AttackTile>()
+        {
+            new AttackTile(new Vector2Int(0, 0), 1), // self
+            new AttackTile(new Vector2Int(1, 0), 1), // R
+            new AttackTile(new Vector2Int(1, -1), 1), // RD
+            new AttackTile(new Vector2Int(0, -1), 1), // D
+            new AttackTile(new Vector2Int(-1, -1), 1), // DL
+            new AttackTile(new Vector2Int(-1, 0), 1), // L
+            new AttackTile(new Vector2Int(-1, 1), 1), // UL
+            new AttackTile(new Vector2Int(0, 1), 1), // U
+            new AttackTile(new Vector2Int(1, 1), 1), // RU
+            
+            new AttackTile(new Vector2Int(2, 0), 1), // R
+            new AttackTile(new Vector2Int(2, -2), 1), // RD
+            new AttackTile(new Vector2Int(0, -2), 1), // D
+            new AttackTile(new Vector2Int(-2, -2), 1), // DL
+            new AttackTile(new Vector2Int(-2, 0), 1), // L
+            new AttackTile(new Vector2Int(-2, 2), 1), // UL
+            new AttackTile(new Vector2Int(0, 2), 1), // U
+            new AttackTile(new Vector2Int(2, 2), 1), // RU
+        }, activationCount: 1, null, TileEffectKey.FlamingGround) },
     };
 }
