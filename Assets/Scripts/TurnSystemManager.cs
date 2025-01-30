@@ -142,141 +142,44 @@ public class TurnSystemManager : MonoBehaviour
         // Separate enemies into their respective lists
         foreach (GameObject enemy in enemies)
         {
+            // Check if the enemy has an AggressiveEnemy or TacticalEnemy component
             if (enemy.GetComponent<AggressiveEnemy>() != null)
             {
+                // Add the enemy to the aggressiveEnemies list
                 aggressiveEnemies.Add(enemy);
             }
+            // Check if the enemy has a TacticalEnemy component
             else if (enemy.GetComponent<TacticalEnemy>() != null)
             {
+                // Add the enemy to the tacticalEnemies list
                 tacticalEnemies.Add(enemy);
-            }
-            else
-            {
-            Debug.LogWarning("Enemy does not have an AggressiveEnemy or TacticalEnemy component attached.");
             }
         }
 
         // Handle aggressive enemies
         foreach (GameObject enemy in aggressiveEnemies)
         {
+            // Get the AggressiveEnemy component from the enemy
             AggressiveEnemy aggressiveEnemy = enemy.GetComponent<AggressiveEnemy>();
+            // Get the intent of the aggressive enemy
             aggressiveEnemy.intentType = aggressiveEnemy.GetIntent();
+            // Add the aggressive enemy to the enemyControllers list
             enemyControllers.Add(aggressiveEnemy);
             Debug.Log("Aggressive Enemy Intent + " + aggressiveEnemy.intentType);
         }
-        // foreach (GameObject enemy in aggressiveEnemies)
-        // {
-        //     AggressiveEnemy aggressiveEnemy = enemy.GetComponent<AggressiveEnemy>();
-        //     Vector3 enemyPosition = enemy.transform.position;
-        //     Vector3 playerPosition = player.transform.position;
 
-        //     // Check if the enemy is near the player
-        //     //currently noticed that the enemy was not switching to attack
-        //     //so did my own condition check for that
-        //     if (Vector3.Distance(enemyPosition, playerPosition) <= 1.5f) // Adjust the distance threshold as needed
-        //     {
-        //         aggressiveEnemy.intentType = AggressiveEnemy.IntentType.Attack;
-        //     }
-        //     else
-        //     {
-        //         aggressiveEnemy.intentType = aggressiveEnemy.GetIntent();
-        //     }
-
-        //     enemyControllers.Add(aggressiveEnemy);
-        //     Debug.Log("Aggressive Enemy Intent + " + aggressiveEnemy.intentType);
-        // }
         // Handle tactical enemies
         foreach (GameObject enemy in tacticalEnemies)
         {
+            // Get the TacticalEnemy component from the enemy
             TacticalEnemy tacticalEnemy = enemy.GetComponent<TacticalEnemy>();
+            // Get the intent of the tactical enemy
             tacticalEnemy.GetIntent();
+            // Add the tactical enemy to the enemyControllers list
+            enemyControllers.Add(tacticalEnemy);
             Debug.Log("Tactical Enemy Intent" + tacticalEnemy.intentType);
         }
         yield return null;
-    // Iterate through each enemy to determine their actions
-    // foreach (GameObject enemy in enemies)
-    // {
-    //     // Get the enemy's current position
-    //     Vector3 enemyPosition = enemy.transform.position;
-
-    //     // Get the derived EnemyControllerBase component
-    //     EnemyControllerBase enemyController = enemy.GetComponent<EnemyControllerBase>();
-        
-    //     if (enemyController != null)
-    //     {
-    //         // Assign the enemy's intent
-    //         enemyController.AssignIntent(playerPosition);
-    //     }
-    //     else
-    //     {
-    //         Debug.LogWarning("Enemy does not have a derived EnemyControllerBase component attached.");
-    //     }
-    // }
-
-
-
-        //New
-
-
-        // //Old Demo
-        // // Logic for the enemy to determine their intent
-        // // This is where the enemy will determine their next move
-
-        // // Clear previous planned moves and attacks
-        // plannedEnemyMoves.Clear();
-        // plannedEnemyAttacks.Clear();
-
-        // // Log the start of the enemy intent phase
-        // Debug.Log("Enemy Intent Phase");
-
-        // // Refresh enemy states (e.g., update their status, reset flags, etc.)
-        // EnemyRefresh();
-
-        // // Get the player's current position
-        // Vector3 playerPosition = player.transform.position; // Assuming you have a reference to the player
-
-        // // Iterate through each enemy to determine their actions
-        // foreach (GameObject enemy in enemies)
-        // {
-        //     // Get the enemy's current position
-        //     Vector3 enemyPosition = enemy.transform.position;
-
-        //     // Determine the direction from the enemy to the player
-        //     Direction attackDirection = GetDirectionToPlayer(enemyPosition, playerPosition);
-
-        //     // Convert enemy's position to tile coordinates
-        //     Vector2Int enemyTilePosition = new Vector2Int(Mathf.FloorToInt(enemyPosition.x), Mathf.FloorToInt(enemyPosition.y));
-
-        //     // Check if the enemy is adjacent to the player (within attack range)
-        //     if (Vector2Int.Distance(enemyTilePosition, new Vector2Int(Mathf.FloorToInt(playerPosition.x), Mathf.FloorToInt(playerPosition.y))) <= 1.5f) // Adjust range as needed
-        //     {
-        //         // If in range, plan an attack
-        //         // Create an attack shape based on the direction and enemy's position
-        //         AttackShape attack = AttackShapeBuilder.AttackAt(
-        //             AttackShape.AttackDictionary[AttackShape.AttackKeys.Cleave],
-        //             attackDirection,
-        //             enemyTilePosition
-        //         );
-        //         // Add the planned attack to the list
-        //         plannedEnemyAttacks.Add(attack);
-        //     }
-        //     else
-        //     {
-        //         // If not in range, plan to move toward the player
-        //         // Determine the target tile to move toward the player
-        //         Vector2Int targetTile = MoveToward(new Vector2Int(Mathf.FloorToInt(playerPosition.x), Mathf.FloorToInt(playerPosition.y)), enemyTilePosition); // Basic movement logic
-
-        //         // Create a move action with the current and target positions
-        //         MoveAction move = new MoveAction(enemyPosition, new Vector3(targetTile.x, enemyPosition.y, targetTile.y), enemy.GetComponent<CharacterInfo>());
-
-        //         // Add the planned move to the list
-        //         plannedEnemyMoves.Add(move);
-        //     }
-        // }
-
-        // // End the coroutine
-        // yield return null;
-        // //Old demo
     }
 
     /*
@@ -432,59 +335,90 @@ public class TurnSystemManager : MonoBehaviour
     // Loop through aggressive enemies and transform their position based on their targetTile
     HashSet<Vector2Int> occupiedTiles = new HashSet<Vector2Int>();
 
+    // Loop through the enemyControllers list
     foreach (GameObject enemy in aggressiveEnemies)
     {
+        // Get the AggressiveEnemy component from the enemy
         AggressiveEnemy aggressiveEnemy = enemy.GetComponent<AggressiveEnemy>();
+
+        // Check if the intentType is Move
         if (aggressiveEnemy.intentType == AggressiveEnemy.IntentType.Move)
         {
+            // Get the targetTile from the aggressiveEnemy
             Vector2Int targetTile = aggressiveEnemy.targetTile;
 
             // Check if the targetTile is already occupied
             if (!occupiedTiles.Contains(targetTile))
             {
+                // Add the targetTile to the occupiedTiles list
                 occupiedTiles.Add(targetTile);
+                // Get the target position from the targetTile
                 Vector2 targetPosition = new Vector2(targetTile.x, targetTile.y);
+                // Get the new position from the targetPosition
                 Vector3 newPosition = TileManager.TileToPosition(new Vector2Int((int)targetPosition.x, (int)targetPosition.y));
+                // Set new position for the enemy
                 enemy.transform.position = newPosition;
                 Debug.Log($"Aggressive Enemy {enemy.name} moved to {newPosition}");
             }
+            // Otherwise for now have a log warning
+            //would need to look into having a different logic if tile is occupied
             else
             {
                 Debug.LogWarning($"Target tile {targetTile} is already occupied. Enemy {enemy.name} cannot move there.");
                 // Handle the case where the target tile is occupied (e.g., find an alternative tile or skip the move)
             }
         }
+        // Check if the intentType is Attack
         else if (aggressiveEnemy.intentType == AggressiveEnemy.IntentType.Attack)
         {
+            // Add the preparedAttack to the tileManager
+            // This will display the attack shape on the grid
+            // and conduct the attack
             tileManager.AddShape(aggressiveEnemy.preparedAttack);
             Debug.Log("Aggressive Enemy is attacking + " + aggressiveEnemy.intentType);
         }
     }
 
+    // Loop through tactical enemies and transform their position based on their targetTile
    foreach (GameObject enemy in tacticalEnemies)
     {
+        // Get the TacticalEnemy component from the enemy
         TacticalEnemy tacticalEnemy = enemy.GetComponent<TacticalEnemy>();
+        
+        // Check if the intentType is Move
         if (tacticalEnemy.intentType == TacticalEnemy.IntentType.Move)
         {
+            // Get the targetTile from the tacticalEnemy
             Vector2Int targetTile = tacticalEnemy.targetTile;
 
             // Check if the targetTile is already occupied
             if (!occupiedTiles.Contains(targetTile))
             {
+                // Add the targetTile to the occupiedTiles list
                 occupiedTiles.Add(targetTile);
+                // Get the target position from the targetTile
                 Vector2 targetPosition = new Vector2(targetTile.x, targetTile.y);
+                // Get the new position from the targetPosition
                 Vector3 newPosition = TileManager.TileToPosition(new Vector2Int((int)targetPosition.x, (int)targetPosition.y));
+                // Set new position for the enemy
                 enemy.transform.position = newPosition;
                 Debug.Log($"Aggressive Enemy {enemy.name} moved to {newPosition}");
             }
+            // Otherwise for now have a log warning
+            //would need to look into having a different logic if tile is occupied
             else
             {
                 Debug.LogWarning($"Target tile {targetTile} is already occupied. Enemy {enemy.name} cannot move there.");
                 // Handle the case where the target tile is occupied (e.g., find an alternative tile or skip the move)
             }
         }
+
+        // Check if the intentType is Attack
         else if (tacticalEnemy.intentType == TacticalEnemy.IntentType.Attack)
         {
+            // Add the preparedAttack to the tileManager
+            // This will display the attack shape on the grid
+            // And conduct the attack
             tileManager.AddShape(tacticalEnemy.preparedAttack);
             Debug.Log("Aggressive Enemy is attacking + " + tacticalEnemy.intentType);
         }   
@@ -593,73 +527,6 @@ public class TurnSystemManager : MonoBehaviour
                 enemies[i].SetActive(false);
                 enemies.RemoveAt(i);
             }
-        }
-    }
-
-    /*
-        FUNCTION : MoveToward
-        DESCRIPTION : This function will move the enemy toward the player. 
-                      It will determine the direction to move and return the new position.
-                      Very basic and won't be used for final implementation
-                      Mainly for testing purposes
-        PARAMETERS : Vector2Int targetPosition - the target position to move toward
-                      Vector2Int currentPosition - the current position of the enemy
-        RETURNS : pos - the new position of the enemy
-                 newPosition - the original new position if unoccupied
-    */
-    private Vector2Int MoveToward(Vector2Int targetPosition, Vector2Int currentPosition)
-    {
-        Vector2Int direction = targetPosition - currentPosition;
-        direction.x = Mathf.Clamp(direction.x, -1, 1); // Ensure one step at a time
-        direction.y = Mathf.Clamp(direction.y, -1, 1);
-
-        Vector2Int newPosition = currentPosition + direction; // New position
-
-        // Check if the new position is occupied
-        if (enemies.Any(enemy => new Vector2Int(Mathf.FloorToInt(enemy.transform.position.x), Mathf.FloorToInt(enemy.transform.position.y)) == newPosition))
-        {
-            // If occupied, try to find an alternative position
-            List<Vector2Int> possiblePositions = new List<Vector2Int>
-            {
-                currentPosition + new Vector2Int(1, 0),
-                currentPosition + new Vector2Int(-1, 0),
-                currentPosition + new Vector2Int(0, 1),
-                currentPosition + new Vector2Int(0, -1)
-            };
-
-            foreach (var pos in possiblePositions)
-            {
-                if (!enemies.Any(enemy => new Vector2Int(Mathf.FloorToInt(enemy.transform.position.x), Mathf.FloorToInt(enemy.transform.position.y)) == pos))
-                {
-                    return pos; // Return the first unoccupied position
-                }
-            }
-        }
-
-        return newPosition; // Return the original new position if unoccupied
-    }
-
-    /*
-        FUNCTION : GetDirectionToPlayer
-        DESCRIPTION : This function will determine the direction from the enemy to the player. 
-                      It will calculate the direction vector and return the direction.
-                      Very basic and won't be used for final implementation
-                      Mainly for testing purposes
-        PARAMETERS : Vector3 enemyPosition - the position of the enemy
-                      Vector3 playerPosition - the position of the player
-        RETURNS : NONE
-    */
-    private Direction GetDirectionToPlayer(Vector3 enemyPosition, Vector3 playerPosition)
-    {
-        Vector3 directionVector = (playerPosition - enemyPosition).normalized;
-
-        if (Mathf.Abs(directionVector.x) > Mathf.Abs(directionVector.y))
-        {
-            return directionVector.x > 0 ? Direction.Right : Direction.Left;
-        }
-        else
-        {
-            return directionVector.y > 0 ? Direction.Up : Direction.Down;
         }
     }
 }
