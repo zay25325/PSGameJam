@@ -164,13 +164,33 @@ public class TurnSystemManager : MonoBehaviour
             enemyControllers.Add(aggressiveEnemy);
             Debug.Log("Aggressive Enemy Intent + " + aggressiveEnemy.intentType);
         }
+        // foreach (GameObject enemy in aggressiveEnemies)
+        // {
+        //     AggressiveEnemy aggressiveEnemy = enemy.GetComponent<AggressiveEnemy>();
+        //     Vector3 enemyPosition = enemy.transform.position;
+        //     Vector3 playerPosition = player.transform.position;
 
+        //     // Check if the enemy is near the player
+        //     //currently noticed that the enemy was not switching to attack
+        //     //so did my own condition check for that
+        //     if (Vector3.Distance(enemyPosition, playerPosition) <= 1.5f) // Adjust the distance threshold as needed
+        //     {
+        //         aggressiveEnemy.intentType = AggressiveEnemy.IntentType.Attack;
+        //     }
+        //     else
+        //     {
+        //         aggressiveEnemy.intentType = aggressiveEnemy.GetIntent();
+        //     }
+
+        //     enemyControllers.Add(aggressiveEnemy);
+        //     Debug.Log("Aggressive Enemy Intent + " + aggressiveEnemy.intentType);
+        // }
         // Handle tactical enemies
         foreach (GameObject enemy in tacticalEnemies)
         {
             TacticalEnemy tacticalEnemy = enemy.GetComponent<TacticalEnemy>();
             tacticalEnemy.GetIntent();
-            Debug.Log("Tactical Enemy Intent");
+            Debug.Log("Tactical Enemy Intent" + tacticalEnemy.intentType);
         }
         yield return null;
     // Iterate through each enemy to determine their actions
@@ -434,6 +454,55 @@ public class TurnSystemManager : MonoBehaviour
                 // Handle the case where the target tile is occupied (e.g., find an alternative tile or skip the move)
             }
         }
+        else if (aggressiveEnemy.intentType == AggressiveEnemy.IntentType.Attack)
+        {
+            // Execute the attack logic
+            //aggressiveEnemy.ExecuteAttack();
+            
+            // Vector2Int targetTile = aggressiveEnemy.targetTile;
+            // Vector3 targetPosition = new Vector3(targetTile.x, enemy.transform.position.y, targetTile.y);
+            // enemy.transform.position = targetPosition;
+            //aggressiveEnemy.MoveTo(targetTile);
+            Debug.Log("Aggressive Enemy is attacking + " + aggressiveEnemy.intentType);
+        }
+    }
+
+   foreach (GameObject enemy in tacticalEnemies)
+    {
+        TacticalEnemy tacticalEnemy = enemy.GetComponent<TacticalEnemy>();
+        if (tacticalEnemy.intentType == TacticalEnemy.IntentType.Move)
+        {
+            Vector2Int targetTile = tacticalEnemy.targetTile;
+
+            // Check if the targetTile is already occupied
+            if (!occupiedTiles.Contains(targetTile))
+            {
+                occupiedTiles.Add(targetTile);
+                Vector2 targetPosition = new Vector2(targetTile.x, targetTile.y);
+                Vector3 newPosition = TileManager.TileToPosition(new Vector2Int((int)targetPosition.x, (int)targetPosition.y));
+                enemy.transform.position = newPosition;
+                Debug.Log($"Aggressive Enemy {enemy.name} moved to {newPosition}");
+            }
+            else
+            {
+                Debug.LogWarning($"Target tile {targetTile} is already occupied. Enemy {enemy.name} cannot move there.");
+                // Handle the case where the target tile is occupied (e.g., find an alternative tile or skip the move)
+            }
+        }
+        else if (tacticalEnemy.intentType == TacticalEnemy.IntentType.Attack)
+        {
+            // Execute the attack logic
+            //aggressiveEnemy.ExecuteAttack();
+            
+            // Vector2Int targetTile = aggressiveEnemy.targetTile;
+            // Vector3 targetPosition = new Vector3(targetTile.x, enemy.transform.position.y, targetTile.y);
+            // enemy.transform.position = targetPosition;
+            //aggressiveEnemy.MoveTo(targetTile);
+            Debug.Log("Aggressive Enemy is attacking + " + tacticalEnemy.intentType);
+        }
+
+
+        
     }
 
         // // Cycle through the aggressive enemy list and execute their intents
@@ -622,7 +691,14 @@ public class TurnSystemManager : MonoBehaviour
     public void EnemyRefresh()
     {
         // Refresh the enemy queue, removing any null or destroyed enemies
-        enemies.RemoveAll(enemy => enemy == null || enemy.GetComponent<CharacterInfo>().HP <= 0);
+        for (int i = enemies.Count - 1; i >= 0; i--)
+        {
+            if (enemies[i] == null || enemies[i].GetComponent<CharacterInfo>().HP <= 0)
+            {
+                enemies[i].SetActive(false);
+                enemies.RemoveAt(i);
+            }
+        }
     }
 
     /*
