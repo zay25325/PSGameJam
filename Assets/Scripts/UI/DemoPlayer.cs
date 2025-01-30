@@ -19,10 +19,10 @@ public class DemoPlayer : MonoBehaviour
     [SerializeField] Toggle moveToggle;
     List<CombatButton> permCombatButtons = new List<CombatButton>();
     List<CombatButton> tempCombatButtons = new List<CombatButton>();
-    List<AttackShape.AttackKeys> tempAttacks = new List<AttackShape.AttackKeys>();
     List<CombatButton> activeAttacks = new List<CombatButton>();
 
-
+    int maxTempAttacks = 5;
+    int maxChainLimit = 3;
 
 
     // Start is called before the first frame update
@@ -30,12 +30,17 @@ public class DemoPlayer : MonoBehaviour
     {
         foreach(AttackKeys attack in character.Attacks)
         {
-            GameObject combatButtonGO = GameObject.Instantiate(combatButtonPrefab, permHolder);
-            CombatButton combatButton = combatButtonGO.GetComponent<CombatButton>();
-            combatButton.Initialize(attack, false, this);
-            permCombatButtons.Add(combatButton);
+            CreateCombatButton(attack, false);
         }
+
+        //Demo
+        CreateCombatButton(AttackKeys.XLightning, true);
+        CreateCombatButton(AttackKeys.FlameSpray, true);
+        CreateCombatButton(AttackKeys.FireBall, true);
     }
+
+
+    // ============================== Attacks ============================== //
 
     public void ClickedWorldSpace()
     {
@@ -88,6 +93,17 @@ public class DemoPlayer : MonoBehaviour
             {
                 TileManager.Instance.AddPlayerAttack(ChainAttacks[0], direction, position.Value);
                 TileManager.Instance.EndTurn();
+                
+                for (int i = activeAttacks.Count-1; i >= 0; i--)
+                {
+                    if (activeAttacks[i].isTempAttack)
+                    {
+                        RemoveCombatButton(activeAttacks[i]);
+                    }
+                }
+
+                ClearCombatButtons();
+
             }
         }
     }
@@ -113,20 +129,18 @@ public class DemoPlayer : MonoBehaviour
         return validPosition;
     }
 
-    public void MoveTileSelected(Vector3 moveTo)
-    {
-        MoveAction move = new MoveAction(character.transform.position, moveTo, character);
-
-        TileManager.Instance.AddPlayerMove(move);
-        TileManager.Instance.EndTurn();
-        PlaceMoveTiles();
-    }
-
     public void ClickedCombatButton(CombatButton button, bool isOn)
     {
         if (isOn)
         {
-            activeAttacks.Add(button);
+            if (activeAttacks.Count < maxChainLimit)
+            {
+                activeAttacks.Add(button);
+            }
+            else
+            {
+                button.Deactivate();
+            }
         }
         else
         {
@@ -148,6 +162,38 @@ public class DemoPlayer : MonoBehaviour
         activeAttacks.Clear();
     }
 
+    private void CreateCombatButton(AttackKeys attack, bool isTemp)
+    {
+        GameObject combatButtonGO = GameObject.Instantiate(combatButtonPrefab, isTemp ? tempHolder : permHolder);
+        CombatButton combatButton = combatButtonGO.GetComponent<CombatButton>();
+        combatButton.Initialize(attack, isTemp, this);
+
+        if (isTemp)
+        {
+            tempCombatButtons.Add(combatButton);
+        }
+        else
+        {
+            permCombatButtons.Add(combatButton);
+        }
+    }
+
+    private void RemoveCombatButton(CombatButton button)
+    {
+        if (button.isTempAttack)
+        {
+            tempCombatButtons.Remove(button);
+        }
+        else
+        {
+            permCombatButtons.Remove(button);
+        }
+
+        GameObject.Destroy(button.gameObject);
+    }
+
+    // ============================== Movement ============================== //
+
     public void ClickedMoveButton(bool isOn)
     {
         if (isOn)
@@ -161,11 +207,20 @@ public class DemoPlayer : MonoBehaviour
         }
     }
 
+    public void MoveTileSelected(Vector3 moveTo)
+    {
+        MoveAction move = new MoveAction(character.transform.position, moveTo, character);
+
+        TileManager.Instance.AddPlayerMove(move);
+        TileManager.Instance.EndTurn();
+        PlaceMoveTiles();
+    }
+
     public void PlaceMoveTiles() // public for the editor
     {
         // create the needed number of move tiles.
         // the player's move speed is not likely to change mid battle
-        int requiredMoveTiles = character.Speed * ((1 + character.Speed) / 2) * 4; // n * ((1 + n) / 2) = 1+2+...+n, x4 for the 4 directions
+        int requiredMoveTiles = (int)(character.Speed * ((1 + character.Speed) / 2f) * 4f); // n * ((1 + n) / 2) = 1+2+...+n, x4 for the 4 directions
 
         if (moveTiles.Count < requiredMoveTiles)
         {
