@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -1758,8 +1758,8 @@ TextureImporter:
       Monster4Pack_44: -998180958
       Monster4Pack_35: 1363530526
       Monster4Pack_51: 1873472123
-      Monster4Pack_72: 770077282
-      Monster4Pack_61: 46987681
+      Monster4Pack_42: -1831289822
+      Monster4Pack_54: 666584576
       Monster4Pack_73: -668602012
       Monster4Pack_64: -1796155243
       Monster4Pack_29: -1925826747
@@ -1828,9 +1828,9 @@ TextureImporter:
       Monster4Pack_8: 911498320
       Monster4Pack_69: 1944332724
       Monster4Pack_2: 1080608772
-      Monster4Pack_54: 666584576
       Monster4Pack_57: -90904761
-      Monster4Pack_42: -1831289822
+      Monster4Pack_61: 46987681
+      Monster4Pack_72: 770077282
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

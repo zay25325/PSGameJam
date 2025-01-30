@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -810,7 +810,7 @@ TextureImporter:
     nameFileIdTable:
       Monster1Pack_6: 1428989490
       Monster1Pack_10: -1445978548
-      Monster1Pack_31: 1750607110
+      Monster1Pack_3: 537679722
       Monster1Pack_11: 749952134
       Monster1Pack_20: -483540347
       Monster1Pack_5: 1278373849
@@ -839,8 +839,8 @@ TextureImporter:
       Monster1Pack_17: -1243573466
       Monster1Pack_14: 1072171311
       Monster1Pack_18: 438226199
-      Monster1Pack_3: 537679722
       Monster1Pack_7: -1441520246
+      Monster1Pack_31: 1750607110
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
