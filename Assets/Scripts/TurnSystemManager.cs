@@ -139,45 +139,69 @@ public class TurnSystemManager : MonoBehaviour
     {
         //New
 
-        // Separate enemies into their respective lists
+    // Separate enemies into their respective lists
         foreach (GameObject enemy in enemies)
         {
-            // Check if the enemy has an AggressiveEnemy or TacticalEnemy component
-            if (enemy.GetComponent<AggressiveEnemy>() != null)
+            // Check if the enemy is active
+            if (enemy.activeSelf)
             {
-                // Add the enemy to the aggressiveEnemies list
-                aggressiveEnemies.Add(enemy);
-            }
-            // Check if the enemy has a TacticalEnemy component
-            else if (enemy.GetComponent<TacticalEnemy>() != null)
-            {
-                // Add the enemy to the tacticalEnemies list
-                tacticalEnemies.Add(enemy);
+                // Check if the enemy has an AggressiveEnemy or TacticalEnemy component
+                if (enemy.GetComponent<AggressiveEnemy>() != null)
+                {
+                    // Add the enemy to the aggressiveEnemies list if not already present
+                    if (!aggressiveEnemies.Contains(enemy))
+                    {
+                        aggressiveEnemies.Add(enemy);
+                    }
+                }
+                // Check if the enemy has a TacticalEnemy component
+                else if (enemy.GetComponent<TacticalEnemy>() != null)
+                {
+                    // Add the enemy to the tacticalEnemies list if not already present
+                    if (!tacticalEnemies.Contains(enemy))
+                    {
+                        tacticalEnemies.Add(enemy);
+                    }
+                }
             }
         }
 
         // Handle aggressive enemies
         foreach (GameObject enemy in aggressiveEnemies)
         {
-            // Get the AggressiveEnemy component from the enemy
-            AggressiveEnemy aggressiveEnemy = enemy.GetComponent<AggressiveEnemy>();
-            // Get the intent of the aggressive enemy
-            aggressiveEnemy.intentType = aggressiveEnemy.GetIntent();
-            // Add the aggressive enemy to the enemyControllers list
-            enemyControllers.Add(aggressiveEnemy);
-            Debug.Log("Aggressive Enemy Intent + " + aggressiveEnemy.intentType);
+            // Check if the enemy is active
+            if (enemy.activeSelf)
+            {
+                // Get the AggressiveEnemy component from the enemy
+                AggressiveEnemy aggressiveEnemy = enemy.GetComponent<AggressiveEnemy>();
+                // Get the intent of the aggressive enemy
+                aggressiveEnemy.intentType = aggressiveEnemy.GetIntent();
+                // Add the aggressive enemy to the enemyControllers list if not already present
+                if (!enemyControllers.Contains(aggressiveEnemy))
+                {
+                    enemyControllers.Add(aggressiveEnemy);
+                }
+                Debug.Log("Aggressive Enemy Intent + " + aggressiveEnemy.intentType);
+            }
         }
 
         // Handle tactical enemies
         foreach (GameObject enemy in tacticalEnemies)
         {
-            // Get the TacticalEnemy component from the enemy
-            TacticalEnemy tacticalEnemy = enemy.GetComponent<TacticalEnemy>();
-            // Get the intent of the tactical enemy
-            tacticalEnemy.GetIntent();
-            // Add the tactical enemy to the enemyControllers list
-            enemyControllers.Add(tacticalEnemy);
-            Debug.Log("Tactical Enemy Intent" + tacticalEnemy.intentType);
+            // Check if the enemy is active
+            if (enemy.activeSelf)
+            {
+                // Get the TacticalEnemy component from the enemy
+                TacticalEnemy tacticalEnemy = enemy.GetComponent<TacticalEnemy>();
+                // Get the intent of the tactical enemy
+                tacticalEnemy.GetIntent();
+                // Add the tactical enemy to the enemyControllers list if not already present
+                if (!enemyControllers.Contains(tacticalEnemy))
+                {
+                    enemyControllers.Add(tacticalEnemy);
+                }
+                Debug.Log("Tactical Enemy Intent" + tacticalEnemy.intentType);
+            }
         }
         yield return null;
     }
@@ -347,25 +371,47 @@ public class TurnSystemManager : MonoBehaviour
             // Get the targetTile from the aggressiveEnemy
             Vector2Int targetTile = aggressiveEnemy.targetTile;
 
+            // Store the original position of the enemy
+            Vector2 originalPosition = enemy.transform.position;
+
             // Check if the targetTile is already occupied
-            if (!occupiedTiles.Contains(targetTile))
+            if (!tileManager.IsTileOccupied(targetTile))
             {
-                // Add the targetTile to the occupiedTiles list
-                occupiedTiles.Add(targetTile);
+                //tile is not occupied so move forward
                 // Get the target position from the targetTile
-                Vector2 targetPosition = new Vector2(targetTile.x, targetTile.y);
-                // Get the new position from the targetPosition
-                Vector3 newPosition = TileManager.TileToPosition(new Vector2Int((int)targetPosition.x, (int)targetPosition.y));
-                // Set new position for the enemy
+                Vector3 newPosition = TileManager.TileToPosition(targetTile);
                 enemy.transform.position = newPosition;
-                Debug.Log($"Aggressive Enemy {enemy.name} moved to {newPosition}");
+                Debug.Log("AG: Moved");
             }
             // Otherwise for now have a log warning
             //would need to look into having a different logic if tile is occupied
             else
             {
-                Debug.LogWarning($"Target tile {targetTile} is already occupied. Enemy {enemy.name} cannot move there.");
-                // Handle the case where the target tile is occupied (e.g., find an alternative tile or skip the move)
+                List<Vector2Int> directions = new List<Vector2Int>
+                {
+                    new Vector2Int(0, 1),  // Up
+                    new Vector2Int(0, -1), // Down
+                    new Vector2Int(-1, 0), // Left
+                    new Vector2Int(1, 0)   // Right
+                };
+                directions = directions.OrderBy(d => Random.value).ToList();
+
+                // Try to find a free tile in the shuffled directions
+                bool moved = false;
+                foreach (Vector2Int direction in directions)
+                {
+                    Vector2Int newTargetTile = aggressiveEnemy.targetTile + direction;
+                    if (!occupiedTiles.Contains(newTargetTile) && !tileManager.IsTileOccupied(newTargetTile))
+                    {
+                        occupiedTiles.Add(newTargetTile);
+                        Vector2 targetPosition = new Vector2(newTargetTile.x, newTargetTile.y);
+                        Vector3 newPosition = TileManager.TileToPosition(new Vector2Int((int)targetPosition.x, (int)targetPosition.y));
+                        enemy.transform.position = newPosition;
+                        Debug.Log("AG: Not Moved");
+                        moved = true;
+                        break;
+                    }
+                }
             }
         }
         // Check if the intentType is Attack
@@ -391,25 +437,46 @@ public class TurnSystemManager : MonoBehaviour
             // Get the targetTile from the tacticalEnemy
             Vector2Int targetTile = tacticalEnemy.targetTile;
 
+            // Store the original position of the enemy
+            Vector2 originalPosition = enemy.transform.position;
+
             // Check if the targetTile is already occupied
-            if (!occupiedTiles.Contains(targetTile))
+            if (!tileManager.IsTileOccupied(targetTile))
             {
-                // Add the targetTile to the occupiedTiles list
-                occupiedTiles.Add(targetTile);
-                // Get the target position from the targetTile
-                Vector2 targetPosition = new Vector2(targetTile.x, targetTile.y);
-                // Get the new position from the targetPosition
-                Vector3 newPosition = TileManager.TileToPosition(new Vector2Int((int)targetPosition.x, (int)targetPosition.y));
-                // Set new position for the enemy
+                Vector3 newPosition = TileManager.TileToPosition(targetTile);
                 enemy.transform.position = newPosition;
-                Debug.Log($"Aggressive Enemy {enemy.name} moved to {newPosition}");
+                Debug.Log("TE: Moved");
             }
             // Otherwise for now have a log warning
             //would need to look into having a different logic if tile is occupied
             else
             {
-                Debug.LogWarning($"Target tile {targetTile} is already occupied. Enemy {enemy.name} cannot move there.");
-                // Handle the case where the target tile is occupied (e.g., find an alternative tile or skip the move)
+                // Shuffle the directions randomly
+                List<Vector2Int> directions = new List<Vector2Int>
+                {
+                    new Vector2Int(0, 1),  // Up
+                    new Vector2Int(0, -1), // Down
+                    new Vector2Int(-1, 0), // Left
+                    new Vector2Int(1, 0)   // Right
+                };
+                directions = directions.OrderBy(d => Random.value).ToList();
+
+                // Try to find a free tile in the shuffled directions
+                bool moved = false;
+                foreach (Vector2Int direction in directions)
+                {
+                    Vector2Int newTargetTile = tacticalEnemy.targetTile + direction;
+                    if (!occupiedTiles.Contains(newTargetTile) && !tileManager.IsTileOccupied(newTargetTile))
+                    {
+                        occupiedTiles.Add(newTargetTile);
+                        Vector2 targetPosition = new Vector2(newTargetTile.x, newTargetTile.y);
+                        Vector3 newPosition = TileManager.TileToPosition(new Vector2Int((int)targetPosition.x, (int)targetPosition.y));
+                        enemy.transform.position = newPosition;
+                        Debug.Log("TE: Not Move");
+                        moved = true;
+                        break;
+                    }
+                }
             }
         }
 
@@ -420,7 +487,7 @@ public class TurnSystemManager : MonoBehaviour
             // This will display the attack shape on the grid
             // And conduct the attack
             tileManager.AddShape(tacticalEnemy.preparedAttack);
-            Debug.Log("Aggressive Enemy is attacking + " + tacticalEnemy.intentType);
+            Debug.Log("Tactical Enemy is attacking + " + tacticalEnemy.intentType);
         }   
     }
         yield return null;
