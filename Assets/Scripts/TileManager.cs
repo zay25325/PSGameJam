@@ -23,6 +23,8 @@ public class TileManager : MonoBehaviour
 
     public static TileManager Instance;
 
+    public bool notifyPlayerTurnEnd = false;
+
     void Awake()
     {
         Instance = this;
@@ -88,6 +90,12 @@ public class TileManager : MonoBehaviour
         }
 
         ClearShapes();
+
+        notifyPlayerTurnEnd = true;
+    }
+
+    public void EndTurnCallback() {
+        notifyPlayerTurnEnd = false;
     }
 
     public void AddPlayerAttack(AttackShape attack, Direction direction, Vector3 position)

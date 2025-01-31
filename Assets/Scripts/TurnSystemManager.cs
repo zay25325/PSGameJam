@@ -317,17 +317,9 @@ public class TurnSystemManager : MonoBehaviour
         }
         // **Check if movement button is active and player has moved**
         // This is to end the player's turn if they have moved
-        if (moveToggle != null && moveToggle.isOn)
-        {
-            demoPlayer.enabled = true; // Enable player movement
-
-            if (player.transform.position != initialPlayerPosition) // Detect movement
-            {
-                demoPlayer.enabled = false; // Disable player interaction
-                playerAction = true;    // Set player action to true to end turn
-                moveToggle.isOn = false; // Reset move button
-                Debug.Log("Player moved. Ending turn.");
-            }
+        if (tileManager.notifyPlayerTurnEnd) {
+            TileManager.Instance.EndTurnCallback();
+            playerAction = true;
         }
 
         yield return null; // Wait for the next frame
