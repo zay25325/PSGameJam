@@ -537,29 +537,23 @@ public class TurnSystemManager : MonoBehaviour
     public void CheckCombatState()
     {
         // Check if all enemies' HP are 0 or less
+        SaveDataManager saveDataManager = FindObjectOfType<SaveDataManager>();
+        CharacterInfo playerInfo = player.GetComponent<CharacterInfo>();
         
         bool allEnemiesDead = true;
         if (isCombatActive)
         {
             //Check if the player is dead or all enemies are dead
-            if (player == null)
+            if (player == null || playerInfo.HP <= 0)
             {
                 //stop combat if either the player or all enemies are dead
                 StopCombat();
+                saveDataManager.SelectedContract = null;
+                UnityEngine.SceneManagement.SceneManager.LoadScene("ContractSelection");
                 Debug.Log("Player is dead");
                 return;
             }
         }
-
-        // Check if the player's HP is 0 or less
-        CharacterInfo playerInfo = player.GetComponent<CharacterInfo>();
-        if (playerInfo.HP <= 0)
-        {
-            Debug.Log("Player is dead");
-            StopCombat();
-            return;
-        }
-
         foreach (GameObject enemy in enemies)
         {
             CharacterInfo enemyInfo = enemy.GetComponent<CharacterInfo>();
