@@ -32,11 +32,6 @@ public class DemoPlayer : MonoBehaviour
         {
             CreateCombatButton(attack, false);
         }
-
-        //Demo
-        CreateCombatButton(AttackKeys.XLightning, true);
-        CreateCombatButton(AttackKeys.FlameSpray, true);
-        CreateCombatButton(AttackKeys.FireBall, true);
     }
 
 

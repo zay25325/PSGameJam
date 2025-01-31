@@ -101,10 +101,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb5950ce49ed08348b6770d1efe7b3dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 10
-  hp: 10
+  maxHP: 6
+  hp: 6
   speed: 3
-  attacks: 01000000
+  attacks: 05000000
   OnHPChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -161,6 +161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   info: {fileID: 3757373178599916032}
+  moveCooldown: 2
   currentCooldown: 0
   targetTile: {x: 0, y: 0}
   intentType: 0

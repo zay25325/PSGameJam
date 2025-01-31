@@ -25,7 +25,7 @@ public abstract class EnemyControllerBase:MonoBehaviour {
     [System.NonSerialized] protected Vector2Int[] ValidMoves = {};
 
     // customize this in the prefab
-    [SerializeField] readonly int moveCooldown = 2;
+    [SerializeField] int moveCooldown = 2;
 
     // read this out to display enemy cooldown? idk
     public int currentCooldown;
