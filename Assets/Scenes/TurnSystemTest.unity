@@ -220,6 +220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   info: {fileID: 199676875}
+  currentCooldown: 0
   targetTile: {x: 0, y: 0}
   intentType: 0
   minDistance: 4
@@ -544,6 +545,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   info: {fileID: 763233533}
+  currentCooldown: 0
   targetTile: {x: 0, y: 0}
   intentType: 0
 --- !u!114 &763233533 stripped
@@ -579,6 +581,10 @@ PrefabInstance:
     - target: {fileID: 3485550871168179860, guid: 75e81910c90a76746aa2f39b33f4898b, type: 3}
       propertyPath: m_Color.g
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3485550871168179861, guid: 75e81910c90a76746aa2f39b33f4898b, type: 3}
+      propertyPath: 
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3485550871168179861, guid: 75e81910c90a76746aa2f39b33f4898b, type: 3}
       propertyPath: m_RootOrder
@@ -618,11 +624,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3485550871168179861, guid: 75e81910c90a76746aa2f39b33f4898b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3485550871168179861, guid: 75e81910c90a76746aa2f39b33f4898b, type: 3}
-
-      propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3485550871168179863, guid: 75e81910c90a76746aa2f39b33f4898b, type: 3}
@@ -685,6 +686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   info: {fileID: 763233533}
+  currentCooldown: 0
   targetTile: {x: 0, y: 0}
   intentType: 0
 --- !u!1 &858986251 stripped
@@ -705,6 +707,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   info: {fileID: 763233533}
+  currentCooldown: 0
   targetTile: {x: 0, y: 0}
   intentType: 0
 --- !u!1001 &988190769
@@ -834,6 +837,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   info: {fileID: 763233533}
+  currentCooldown: 0
   targetTile: {x: 0, y: 0}
   intentType: 0
 --- !u!1 &1297597808
@@ -1007,6 +1011,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   info: {fileID: 763233533}
+  currentCooldown: 0
   targetTile: {x: 0, y: 0}
   intentType: 0
 --- !u!4 &1543065071 stripped
@@ -1265,27 +1270,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75e81910c90a76746aa2f39b33f4898b, type: 3}
---- !u!1 &1990404376 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3440572065374436317, guid: 27901bd7927c8d8498c30de9a5091f80, type: 3}
-  m_PrefabInstance: {fileID: 3440572065528860764}
-  m_PrefabAsset: {fileID: 0}
---- !u!19719996 &1990404380
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1990404376}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!1001 &2131525000
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -103,9 +103,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 12
   hp: 12
-  speed: 5
+  speed: 2
   attacks: 03000000
-  ai: {fileID: 323121123456947553}
   OnHPChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -162,6 +161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   info: {fileID: 3757373178599916032}
+  currentCooldown: 0
   targetTile: {x: 0, y: 0}
   intentType: 0
 --- !u!1 &3757373179888370493

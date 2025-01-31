@@ -79,7 +79,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1ad8d7e1f77fb5498ab6677433485ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  validScenes: 01000000
+  validScenes: 01000000020000000300000004000000
   contracts:
   - {fileID: 7209366365028050543}
   - {fileID: 7185488353884323714}
