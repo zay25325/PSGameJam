@@ -254,7 +254,7 @@ public class DemoPlayer : MonoBehaviour
 
         for(int i = 0;i < moveTiles.Count;i++) {
             if(i < requiredMoveTiles) {
-                if(EnemyControllerBase.GetPathFromTo(TileManager.PositionToTile(character.transform.position),TileManager.PositionToTile(moveTiles[i].transform.position),character.Speed)) // global pos, not local
+                if(EnemyControllerBase.GetPathFromTo(TileManager.PositionToTile(character.transform.position),TileManager.PositionToTile(moveTiles[i].transform.position),character.Speed) && !TileManager.Instance.IsTileOccupied(TileManager.PositionToTile(character.transform.position))) // global pos, not local
                 {
                     moveTiles[i].SetActive(true);
                 } else {
