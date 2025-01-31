@@ -48,3 +48,5 @@ MonoBehaviour:
   Speed: 2
   Attacks: 000000000200000005000000
   EnemyCount: 3
+  ContractsCompleted: 0
+  Money: 0

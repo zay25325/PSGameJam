@@ -20,6 +20,10 @@ public class SaveDataManager : MonoBehaviour
     public List<AttackKeys> Attacks;
 
     public int EnemyCount = 3;
+    public int ContractsCompleted = 0;
+    public int Money = 0;
+
+    public ContractData SelectedContract = null;
 
     private void Awake()
     {
@@ -32,5 +36,16 @@ public class SaveDataManager : MonoBehaviour
         {
             GameObject.Destroy(gameObject);
         }
+    }
+
+    public void AddContractRewards(ContractData contract)
+    {
+        HP += contract.HPIncrease;
+        Speed += contract.SpeedIncrease;
+        foreach (AttackKeys key in contract.NewAttacks)
+        {
+            Attacks.Add(key);
+        }
+        Money += contract.pay;
     }
 }
