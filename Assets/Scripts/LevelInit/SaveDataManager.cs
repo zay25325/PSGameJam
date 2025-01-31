@@ -25,6 +25,8 @@ public class SaveDataManager : MonoBehaviour
 
     public ContractData SelectedContract = null;
 
+    public bool HasReadIntro = false;
+
     private void Awake()
     {
         if (Instance == null)

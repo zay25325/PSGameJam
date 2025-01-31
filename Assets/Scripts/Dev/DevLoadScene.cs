@@ -5,8 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class DevLoadScene : MonoBehaviour
 {
-    public void LoadScene(int index)
+    [SerializeField] int index = 1;
+    public void LoadScene()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(index);
     }
 }
