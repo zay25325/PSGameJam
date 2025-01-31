@@ -10,6 +10,16 @@ First Version: 1/28/2025
 
 public abstract class EnemyControllerBase:MonoBehaviour {
 
+    public class intentStruct {
+        EnemyControllerBase.IntentType intentType;
+        Vector2Int intentTarget;
+
+        public intentStruct(EnemyControllerBase.IntentType intentType, Vector2Int intentTarget) {
+            this.intentTarget = intentTarget;
+            this.intentType = intentType;
+        }
+    }
+
     [SerializeField] protected CharacterInfo info;
 
     [System.NonSerialized] protected Vector2Int[] ValidMoves = {};
@@ -46,11 +56,13 @@ public abstract class EnemyControllerBase:MonoBehaviour {
         if(currentCooldown == 0) {
             currentCooldown = moveCooldown;
             return this.Think();
+            //return new intentStruct(this.intentType, this.targetTile);
         } else {
             currentCooldown --;
             this.intentType = IntentType.Move;
             this.targetTile = this.GetPosition();
             return this.intentType;
+            //return new intentStruct(this.intentType, this.targetTile);
         }
     }
 

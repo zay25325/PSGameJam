@@ -18,7 +18,7 @@ public class CharacterInfo : MonoBehaviour
     [SerializeField] List<AttackShape.AttackKeys> attacks = new List<AttackShape.AttackKeys>();
 
     // player has null, since they don't have an attached enemy ai
-    [SerializeField] EnemyControllerBase ai = null;
+    [SerializeField] public readonly EnemyControllerBase ai = null;
 
 
     [HideInInspector] public UnityEvent OnHPChanged = new UnityEvent();
