@@ -21,7 +21,7 @@ public class TacticalEnemy : EnemyControllerBase
     [SerializeField] private int minDistance = 4; //will retreat if player is this close
     [SerializeField] private int flankDistance = 2; // maximum distance we will shoot off target if player is obstructed
 
-    public override IntentType GetIntent() {
+    protected override IntentType Think() {
 
         bool canAttack = false;
         AttackShape validAttack = null;
