@@ -560,6 +560,7 @@ public class TurnSystemManager : MonoBehaviour
         {
             Debug.Log("All enemies are dead");
             StopCombat();
+            UnityEngine.SceneManagement.SceneManager.LoadScene("ContractSelection");
         }
     }
 
