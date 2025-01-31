@@ -96,7 +96,7 @@ public abstract class EnemyControllerBase:MonoBehaviour {
         return output.ToArray();
     }
 
-    public Vector2Int[] GetAllMoves(Vector2Int start,int moveRange) {
+    public static Vector2Int[] GetAllMoves(Vector2Int start,int moveRange) {
 
         List<Vector2Int> output = new List<Vector2Int> { };
 

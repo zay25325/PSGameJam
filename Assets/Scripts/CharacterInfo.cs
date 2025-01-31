@@ -21,6 +21,8 @@ public class CharacterInfo : MonoBehaviour
     [SerializeField] public readonly EnemyControllerBase ai = null;
 
 
+
+
     [HideInInspector] public UnityEvent OnHPChanged = new UnityEvent();
 
     public int MaxHP

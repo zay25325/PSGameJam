@@ -222,10 +222,8 @@ public class DemoPlayer : MonoBehaviour
         // the player's move speed is not likely to change mid battle
         int requiredMoveTiles = (int)(character.Speed * ((1 + character.Speed) / 2f) * 4f); // n * ((1 + n) / 2) = 1+2+...+n, x4 for the 4 directions
 
-        if (moveTiles.Count < requiredMoveTiles)
-        {
-            for (int i = moveTiles.Count; i < requiredMoveTiles; i++)
-            {
+        if(moveTiles.Count < requiredMoveTiles) {
+            for(int i = moveTiles.Count;i < requiredMoveTiles;i++) {
                 moveTiles.Add(CreateMoveTile());
             }
 
@@ -238,39 +236,31 @@ public class DemoPlayer : MonoBehaviour
             _ _ X _ _
             */
             int tileIndex = 0;
-            for (int x = -character.Speed; x <= character.Speed; x++)
-            {
+            for(int x = -character.Speed;x <= character.Speed;x++) {
                 int maxY = character.Speed - Mathf.Abs(x);
-                for (int y = maxY; y > 0; y--)
-                {
-                    moveTiles[tileIndex].transform.localPosition = new Vector3(x, y); // note these are local positions, not global.
-                    moveTiles[tileIndex + 1].transform.localPosition = new Vector3(x, -y);
+                for(int y = maxY;y > 0;y--) {
+                    moveTiles[tileIndex].transform.localPosition = new Vector3(x,y); // note these are local positions, not global.
+                    moveTiles[tileIndex + 1].transform.localPosition = new Vector3(x,-y);
                     tileIndex += 2;
                 }
 
-                if (x != 0) // do not have a move tile in the very center
+                if(x != 0) // do not have a move tile in the very center
                 {
-                    moveTiles[tileIndex].transform.localPosition = new Vector3(x, 0);
+                    moveTiles[tileIndex].transform.localPosition = new Vector3(x,0);
                     tileIndex++;
                 }
             }
         }
 
-        for (int i = 0; i < moveTiles.Count; i++)
-        {
-            if (i < requiredMoveTiles)
-            {
-                if (TileManager.Instance.IsTileOccupied(TileManager.PositionToTile(moveTiles[i].transform.position))) // global pos, not local
-                {
-                    moveTiles[i].SetActive(false);
-                }
-                else
+        for(int i = 0;i < moveTiles.Count;i++) {
+            if(i < requiredMoveTiles) {
+                if(EnemyControllerBase.GetPathFromTo(TileManager.PositionToTile(this.transform.position),TileManager.PositionToTile(moveTiles[i].transform.position),character.Speed)) // global pos, not local
                 {
                     moveTiles[i].SetActive(true);
+                } else {
+                    moveTiles[i].SetActive(false);
                 }
-            }
-            else
-            {
+            } else {
                 moveTiles[i].SetActive(false);
             }
         }
