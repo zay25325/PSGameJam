@@ -10,9 +10,25 @@ First Version: 1/28/2025
 
 public abstract class EnemyControllerBase:MonoBehaviour {
 
+    public class intentStruct {
+        EnemyControllerBase.IntentType intentType;
+        Vector2Int intentTarget;
+
+        public intentStruct(EnemyControllerBase.IntentType intentType, Vector2Int intentTarget) {
+            this.intentTarget = intentTarget;
+            this.intentType = intentType;
+        }
+    }
+
     [SerializeField] protected CharacterInfo info;
 
     [System.NonSerialized] protected Vector2Int[] ValidMoves = {};
+
+    // customize this in the prefab
+    [SerializeField] readonly int moveCooldown = 2;
+
+    // read this out to display enemy cooldown? idk
+    public int currentCooldown;
 
     public enum IntentType {
         Move,
@@ -27,11 +43,28 @@ public abstract class EnemyControllerBase:MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         this.info = this.gameObject.GetComponent<CharacterInfo>();
+        this.currentCooldown = Random.Range(0,moveCooldown);
     }
 
     // Implement this for each enemy type
     // will decide if it wants to move or attack
-    public abstract IntentType GetIntent();
+    // hack to only do something every x turns
+    // else we just do a move to the same spot (do nothing)
+    protected abstract IntentType Think();
+
+    public IntentType GetIntent() {
+        if(currentCooldown == 0) {
+            currentCooldown = moveCooldown;
+            return this.Think();
+            //return new intentStruct(this.intentType, this.targetTile);
+        } else {
+            currentCooldown --;
+            this.intentType = IntentType.Move;
+            this.targetTile = this.GetPosition();
+            return this.intentType;
+            //return new intentStruct(this.intentType, this.targetTile);
+        }
+    }
 
     // the enemy will decide where it wants to 
 
@@ -63,7 +96,7 @@ public abstract class EnemyControllerBase:MonoBehaviour {
         return output.ToArray();
     }
 
-    public Vector2Int[] GetAllMoves(Vector2Int start,int moveRange) {
+    public static Vector2Int[] GetAllMoves(Vector2Int start,int moveRange) {
 
         List<Vector2Int> output = new List<Vector2Int> { };
 

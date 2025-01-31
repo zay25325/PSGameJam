@@ -19,7 +19,7 @@ public class AggressiveEnemy : EnemyControllerBase
 {
     
 
-    public override IntentType GetIntent() {
+    protected override IntentType Think() {
 
         bool canAttack = false;
         AttackShape validAttack = null;

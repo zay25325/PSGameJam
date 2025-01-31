@@ -1,0 +1,1839 @@
+fileFormatVersion: 2
+guid: 1ee55f5268af59148b378273b6c8206c
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Monster4Pack_0
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 646
+        width: 40
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9ba6573f0c03134cb6e8ddad890ad77
+      internalID: 2117098098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_1
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 647
+        width: 39
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e15af9c542dc2e34bbdae107ab0980a8
+      internalID: 513175735
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_2
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 647
+        width: 45
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90dd3bc0b577114478626655991f89f6
+      internalID: 1080608772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_3
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 652
+        width: 39
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4171b8f837b65de41a0e05c8c496b493
+      internalID: 312798062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_4
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 589
+        width: 44
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0dea9d2d383a4a48a001fb36d86678c
+      internalID: -454823799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_5
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 591
+        width: 48
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06596aebf8acf3e4b91d082a481f263f
+      internalID: 1778864860
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_6
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 588
+        width: 53
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dfe0096bbbe12934db2fc35e4b59c631
+      internalID: 944391471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_7
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 597
+        width: 48
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ad7be0985a15214182c8573409af62e
+      internalID: -1442058036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_8
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 516
+        width: 39
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85dad004b899d7f4f9a4b4ef8fd8a9db
+      internalID: 911498320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_9
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 517
+        width: 38
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c1550ad57169b14ab7fd2df43d9f67d
+      internalID: -1166532914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_10
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 517
+        width: 35
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b442ee227c0f3df448a73902de25aaf7
+      internalID: 1897588113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_11
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 518
+        width: 34
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f10866944b712949aa7bd0b2dad1ac5
+      internalID: -81475378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_12
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 455
+        width: 37
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 108544ca43b550042a9ffd95e69cf9fe
+      internalID: -269790603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_13
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 456
+        width: 41
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f54fdf3ef55e4cf40bae131e87d7bb03
+      internalID: 446046020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_14
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 454
+        width: 41
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23a608547d12f0a489500edcad0a0e00
+      internalID: 2013184119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_15
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 453
+        width: 38
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96335a6b13c51624a8889f597a155c86
+      internalID: 778232097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_16
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 397
+        width: 39
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f86b63620b1890f46a59ae36ce85d520
+      internalID: 678529617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_17
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 397
+        width: 39
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1fcaabf5205968408a0f57177ce817a
+      internalID: 20004294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_18
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 436
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5a7108242058454eaf2ddf3a5f497c9
+      internalID: 1251683911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_19
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 400
+        width: 40
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe349dc092f303d47a04591b9d16aa65
+      internalID: -2068835784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_20
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 437
+        width: 13
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49b26c4f3b237184082e114fbe84bd76
+      internalID: 2128686884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_21
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 440
+        width: 5
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c2cd3290ee95be45a5e762e29a8b657
+      internalID: 788291705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_22
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 432
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 564a1ea7fd2e79a4ab0b7e2a51008bb8
+      internalID: 1867075129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_23
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 435
+        width: 8
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: efa65b423dd62f5429c2994698d8f045
+      internalID: 2015565134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_24
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 389
+        width: 35
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9673336e1c322dc4cb7263dea8e7914f
+      internalID: -1990895150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_25
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 377
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14d73a5bcba6bfa4f89ef1e92b0740da
+      internalID: -1246946376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_26
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 336
+        width: 40
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e695023da8429e4dbeaf25f17a08160
+      internalID: -1106210250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_27
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 371
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a3ded1d831a0ca4aa98e5f49869b6a4
+      internalID: 1552292982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_28
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 378
+        width: 6
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d70c12961456934eab20c40afb7a7e1
+      internalID: 1171326260
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_29
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 369
+        width: 5
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ed93fcacc922534da531a6ad8be43b7
+      internalID: -1925826747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_30
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 374
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 244bb33906ca247408d87a1ae03ffb9a
+      internalID: -1156709948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_31
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 336
+        width: 42
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 278d847fda28cb64abecf73716bdd9b5
+      internalID: -2094555156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_32
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 376
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6fcd001730ff72440934f664941441a1
+      internalID: 476011644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_33
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 374
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48091c2c46932eb4198756d3b207ba13
+      internalID: -2057252698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_34
+      rect:
+        serializedVersion: 2
+        x: 117
+        y: 371
+        width: 5
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75e88ff51d4ca9c4ea10ca98356e7ec8
+      internalID: 1813895423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_35
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 336
+        width: 44
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e3834a66dc1c284b8d74a45fa28f169
+      internalID: 1363530526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_36
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 377
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40d236b9ac09b9a4f95bd61f4f69144c
+      internalID: 952895057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_37
+      rect:
+        serializedVersion: 2
+        x: 182
+        y: 375
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3dc5d5d0c2e00fb40a544979326cc046
+      internalID: -929719856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_38
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 375
+        width: 4
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17a60d7fbc16301488009050d2c20580
+      internalID: 218851923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_39
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 337
+        width: 30
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1354f17b7b367b4b9d88d67a7d37a40
+      internalID: 429168138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_40
+      rect:
+        serializedVersion: 2
+        x: 227
+        y: 369
+        width: 24
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 101cf0a0678846c44b9209eaf7914fe1
+      internalID: 1660637424
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_41
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 369
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c621dbdecf9098438ca3be735965488
+      internalID: -101087308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_42
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 371
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8057a0873f197c04fa022b1a21c61a32
+      internalID: -1831289822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_43
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 360
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 313f213fc631b194b8324a22663ecf6d
+      internalID: -1523745246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_44
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 274
+        width: 27
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60719a1a263599d4bbf255f59f61a87d
+      internalID: -998180958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_45
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 275
+        width: 27
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84ccb29bb4f1ec745971abc45ae71322
+      internalID: 1436387279
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_46
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 274
+        width: 29
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df4a131489f44ff4f8e2c3ab28b37a9e
+      internalID: 637006680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_47
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 274
+        width: 33
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56d0df8c7fcf032438a4e3d53bc5a4f4
+      internalID: 605432330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_48
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 192
+        width: 33
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82437f6c5a2169b43ac3a305bf005d4b
+      internalID: 549480985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_49
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 192
+        width: 39
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b49e2be18938f7a468c7f71e26352a8e
+      internalID: 561288683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_50
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 192
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eca61279f9183a8469338c22f2fc56f6
+      internalID: -1344868536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_51
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 192
+        width: 44
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0c4e6fa81913564bb4467b3ba598402
+      internalID: 1873472123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_52
+      rect:
+        serializedVersion: 2
+        x: 214
+        y: 153
+        width: 24
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a6a6c26f7eaf444f8d9a634d6f3256c
+      internalID: 873800164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_53
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 128
+        width: 43
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1fb2e2b6abf4e2c48aa8b60e20a17c14
+      internalID: 1361711957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_54
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 128
+        width: 46
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d1d1a0395da20649889c6934dc85e2d
+      internalID: 666584576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_55
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 128
+        width: 39
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d639dec48f5ef0144a0777bfc226a07b
+      internalID: -1150544151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_56
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 90
+        width: 20
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e2b3ef8e1f92aa40a4e240838d77017
+      internalID: -1310245703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_57
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 101
+        width: 13
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57c405b831f0dc044bb86aed1b1780a4
+      internalID: -90904761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_58
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 89
+        width: 31
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a5a563a33f80334096c6ec270cec884
+      internalID: 268878837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_59
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 84
+        width: 22
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa750b2affe82b848a386c15f1570f52
+      internalID: -1675671870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_60
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 84
+        width: 23
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28518933f1de95444b93802c8cf75460
+      internalID: 389604409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_61
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 94
+        width: 7
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ed5bbe936efa29468d87557c8b55f7a
+      internalID: 46987681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_62
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 16
+        width: 29
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41f6a5211f880544b86ec3feee926f1d
+      internalID: 1367340508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_63
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 32
+        width: 5
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8861176c124104428a8d45dcb686ba4
+      internalID: 778950093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_64
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 37
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ee8c6fd3f06caf4ba2d2b91c5f39efb
+      internalID: -1796155243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_65
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 37
+        width: 14
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a2d1a9b6aa049b45ba364d2bf5a9532
+      internalID: 1571288365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_66
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 18
+        width: 11
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15ce398b8bf198044a9626249e440015
+      internalID: 279880552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_67
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 37
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36659acc88af5ca4f85390d765587fc3
+      internalID: 1706764298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_68
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 37
+        width: 8
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f753a0e59232b54aad3a008634f348e
+      internalID: 855921017
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_69
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 36
+        width: 5
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c5bcce0196c5ac48a649ee6a66504f2
+      internalID: 1944332724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_70
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 29
+        width: 12
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11d86973659e7854bbad623f6cf887e1
+      internalID: 2091705314
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_71
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 28
+        width: 4
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9ad2aaff00acc847a2a869b207eecab
+      internalID: 198186372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_72
+      rect:
+        serializedVersion: 2
+        x: 141
+        y: 30
+        width: 12
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a1054ab9388a554d822a112aca06b1a
+      internalID: 770077282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_73
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 13
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e98ebf655c704b40882be3e4e14cdab
+      internalID: -668602012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_74
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 17
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39c9a92e044dd9746b5aade494d1701a
+      internalID: -209581680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_75
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 15
+        width: 5
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0183d9ffad1d8314798715a1724296d0
+      internalID: 31830198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_76
+      rect:
+        serializedVersion: 2
+        x: 156
+        y: 13
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4558dd2f1a127254bbadab9e34f094b0
+      internalID: 1321584273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monster4Pack_77
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 19
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56c9616642954ec468551dba75b87502
+      internalID: -1348775476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Monster4Pack_55: -1150544151
+      Monster4Pack_21: 788291705
+      Monster4Pack_44: -998180958
+      Monster4Pack_35: 1363530526
+      Monster4Pack_51: 1873472123
+      Monster4Pack_42: -1831289822
+      Monster4Pack_54: 666584576
+      Monster4Pack_73: -668602012
+      Monster4Pack_64: -1796155243
+      Monster4Pack_29: -1925826747
+      Monster4Pack_43: -1523745246
+      Monster4Pack_65: 1571288365
+      Monster4Pack_11: -81475378
+      Monster4Pack_67: 1706764298
+      Monster4Pack_59: -1675671870
+      Monster4Pack_0: 2117098098
+      Monster4Pack_5: 1778864860
+      Monster4Pack_75: 31830198
+      Monster4Pack_74: -209581680
+      Monster4Pack_76: 1321584273
+      Monster4Pack_56: -1310245703
+      Monster4Pack_27: 1552292982
+      Monster4Pack_39: 429168138
+      Monster4Pack_41: -101087308
+      Monster4Pack_46: 637006680
+      Monster4Pack_9: -1166532914
+      Monster4Pack_15: 778232097
+      Monster4Pack_34: 1813895423
+      Monster4Pack_38: 218851923
+      Monster4Pack_66: 279880552
+      Monster4Pack_6: 944391471
+      Monster4Pack_1: 513175735
+      Monster4Pack_36: 952895057
+      Monster4Pack_33: -2057252698
+      Monster4Pack_32: 476011644
+      Monster4Pack_48: 549480985
+      Monster4Pack_12: -269790603
+      Monster4Pack_31: -2094555156
+      Monster4Pack_45: 1436387279
+      Monster4Pack_13: 446046020
+      Monster4Pack_77: -1348775476
+      Monster4Pack_7: -1442058036
+      Monster4Pack_25: -1246946376
+      Monster4Pack_53: 1361711957
+      Monster4Pack_68: 855921017
+      Monster4Pack_58: 268878837
+      Monster4Pack_16: 678529617
+      Monster4Pack_3: 312798062
+      Monster4Pack_23: 2015565134
+      Monster4Pack_60: 389604409
+      Monster4Pack_62: 1367340508
+      Monster4Pack_20: 2128686884
+      Monster4Pack_71: 198186372
+      Monster4Pack_50: -1344868536
+      Monster4Pack_10: 1897588113
+      Monster4Pack_47: 605432330
+      Monster4Pack_37: -929719856
+      Monster4Pack_49: 561288683
+      Monster4Pack_4: -454823799
+      Monster4Pack_70: 2091705314
+      Monster4Pack_17: 20004294
+      Monster4Pack_26: -1106210250
+      Monster4Pack_30: -1156709948
+      Monster4Pack_18: 1251683911
+      Monster4Pack_52: 873800164
+      Monster4Pack_40: 1660637424
+      Monster4Pack_63: 778950093
+      Monster4Pack_19: -2068835784
+      Monster4Pack_24: -1990895150
+      Monster4Pack_14: 2013184119
+      Monster4Pack_22: 1867075129
+      Monster4Pack_28: 1171326260
+      Monster4Pack_8: 911498320
+      Monster4Pack_69: 1944332724
+      Monster4Pack_2: 1080608772
+      Monster4Pack_57: -90904761
+      Monster4Pack_61: 46987681
+      Monster4Pack_72: 770077282
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
