@@ -60,6 +60,7 @@ public class TurnSystemManager : MonoBehaviour
     */
     void Start()
     {
+        Debug.Log("Turn Start");
         currentPhase = TurnPhase.EnemyIntent; //initialize the current phase to the Enemy Intent Phase
 
         //need to figure out a way to get reference of all the enemies that will be participating in combat

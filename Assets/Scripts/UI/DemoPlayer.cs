@@ -28,10 +28,13 @@ public class DemoPlayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        foreach(AttackKeys attack in character.Attacks)
+        Debug.Log("DemoPlayer Start");
+        foreach (AttackKeys attack in character.Attacks)
         {
             CreateCombatButton(attack, false);
         }
+
+        Debug.Log("DemoPlayer end");
     }
 
 
